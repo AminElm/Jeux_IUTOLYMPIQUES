@@ -1,34 +1,69 @@
 import java.util.List;
 import java.util.ArrayList;
-
-public class Equipe{
-    // private Pays p = null;
-    private String nomEquipe;
-    private List<Athlete> lesAthletes;
-    //private List<Epreuve> lesEpreuves;
+import java.util.Collections;
 
 
+public class Equipe {
+    private String nomEquipe; // Le nom de l'équipe
+    private List<Athlete> lesAthletes; // La liste des athlètes de l'équipe
+
+    /**
+     * Constructeur de la classe Equipe.
+     * @param nomEquipe Le nom de l'équipe.
+     */
     public Equipe(String nomEquipe) {
         this.nomEquipe = nomEquipe;
         this.lesAthletes = new ArrayList<>();
     }
 
-    // public Pays getPays(){
-    //     return this.p
-    // }
+    /**
+     * Obtient le nom de l'équipe.
+     * @return Le nom de l'équipe.
+     */
+    public String getNom() {
+        return this.nomEquipe;
+    }
 
-    public List<Athlete> getAthletes(){
+    /**
+     * Définit le nom de l'équipe.
+     * @param newNomEquipe Le nouveau nom de l'équipe.
+     */
+    public void setNom(String newNomEquipe) {
+        this.nomEquipe = newNomEquipe;
+    }
+
+    /**
+     * Obtient la liste des athlètes de l'équipe.
+     * @return La liste des athlètes de l'équipe.
+     */
+    public List<Athlete> getAthletes() {
         return this.lesAthletes;
     }
 
-    // public List<Epreuve> getEpreuves(){
-    //     return this.lesEpreuves;
-    // }
+    /**
+     * Ajoute un athlète à l'équipe si l'athlète n'est pas déjà présent dans l'équipe.
+     * @param ath L'athlète à ajouter.
+     */
+    public void ajouteAthlete(Athlete ath) {
+        if (!(this.lesAthletes.contains(ath))) {
+            this.lesAthletes.add(ath);
+        }
+    }
 
+    /**
+     * Trie la liste des athlètes de l'équipe en utilisant l'ordre naturel défini dans la classe Athlete.
+     */
+    public void trierListe() {
+        Collections.sort(this.lesAthletes);
+    }
+
+    /**
+     * Obtient l'athlète le plus fort de l'équipe en fonction de la force.
+     * @return L'athlète le plus fort.
+     */
     public Athlete plusFort() {
         Athlete athletePlusFort = null;
-        // utilisation de la valeur minimale pour un entier en java pour initialiser le maximum
-        int maxForce = Integer.MIN_VALUE;        
+        int maxForce = Integer.MIN_VALUE;
         for (Athlete a : this.lesAthletes) {
             if (a.getForce() > maxForce) {
                 maxForce = a.getForce();
@@ -38,9 +73,12 @@ public class Equipe{
         return athletePlusFort;
     }
 
+    /**
+     * Obtient l'athlète le plus endurant de l'équipe en fonction de l'endurance.
+     * @return L'athlète le plus endurant.
+     */
     public Athlete plusEndurant() {
         Athlete athletePlusEndurant = null;
-        // utilisation de la valeur minimale pour un entier en java pour initialiser le maximum
         int maxEndurance = Integer.MIN_VALUE;
         for (Athlete a : this.lesAthletes) {
             if (a.getEndurance() > maxEndurance) {
@@ -51,9 +89,12 @@ public class Equipe{
         return athletePlusEndurant;
     }
 
+    /**
+     * Obtient l'athlète le plus agile de l'équipe en fonction de l'agilité.
+     * @return L'athlète le plus agile.
+     */
     public Athlete plusAgile() {
         Athlete athletePlusAgile = null;
-        // utilisation de la valeur minimale pour un entier en java pour initialiser le maximum
         int maxAgilite = Integer.MIN_VALUE;
         for (Athlete a : this.lesAthletes) {
             if (a.getAgilite() > maxAgilite) {
@@ -62,5 +103,5 @@ public class Equipe{
             }
         }
         return athletePlusAgile;
-    }    
+    }
 }

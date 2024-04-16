@@ -1,4 +1,4 @@
-public class Athlete{
+public class Athlete implements Comparable<Athlete>{
     private String nom;
     private String prenom;
     private String sexe;
@@ -33,6 +33,14 @@ public class Athlete{
      */
     public String getNom() {
         return this.nom;
+    }
+
+    /**
+     * Modifie le nom d'un athlète
+     * @param newNomAthlete Le nouveau nom à assigner à l'athlète.
+    */
+    public void setNom(String newNomAthlete){
+        this.nom = newNomAthlete;
     }
 
     /**
@@ -113,6 +121,31 @@ public class Athlete{
      */
     @Override
     public String toString() {
-        return "L'athlète " + getNationalite() + " " + getPrenom() + " " + getNom() + ", de sexe " + getSexe() + " est doté d'une force de " + getForce() + ", d'une agilité de " + getAgilite() + " et d'une endurance de " + getEndurance() + ".";
+        return "L'athlète " + this.nationalite + " " + this.prenom + " " + this.nom + ", de sexe " + this.sexe + " est doté d'une force de " + this.force + ", d'une agilité de " + this.agilite + " et d'une endurance de " + this.endurance + ".";
     }
+
+
+    /**
+     * Redéfinition de la méthode equals pour utiliser les méthodes contains, indexOf etc...
+     */
+    @Override
+    public boolean equals(Object objet){
+        if(objet == null){return false;}
+
+        if(objet==this){return true;}
+
+        if(!(objet instanceof Athlete)){return false;}
+
+        Athlete tmp = (Athlete) objet;
+        return tmp.getNom().equals(this.nom) && tmp.getPrenom().equals(this.prenom);
+    }
+
+    /**
+     * Redéfinition de l'ordre naturel de tri comme étant la somme de la force, de l'agilité et de l'endurance d'un athlète
+     */
+    @Override
+    public int compareTo(Athlete ath){
+        return (this.force + this.agilite + this.endurance) - (ath.getForce() + ath.getAgilite() + ath.getEndurance());
+    }
+
 }
