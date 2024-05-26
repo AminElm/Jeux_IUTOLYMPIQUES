@@ -3,8 +3,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 
-public class Equipe {
+public class Equipe implements Participant{
     private String nomEquipe; // Le nom de l'équipe
+    private List<Epreuve> lesEpreuves; // Les épreuves auxquelles participe l'équipe
     private List<Athlete> lesAthletes; // La liste des athlètes de l'équipe
 
     /**
@@ -20,6 +21,7 @@ public class Equipe {
      * Obtient le nom de l'équipe.
      * @return Le nom de l'équipe.
      */
+    @Override
     public String getNom() {
         return this.nomEquipe;
     }
@@ -28,6 +30,7 @@ public class Equipe {
      * Définit le nom de l'équipe.
      * @param newNomEquipe Le nouveau nom de l'équipe.
      */
+    @Override
     public void setNom(String newNomEquipe) {
         this.nomEquipe = newNomEquipe;
     }
@@ -48,6 +51,10 @@ public class Equipe {
         if (!(this.lesAthletes.contains(ath))) {
             this.lesAthletes.add(ath);
         }
+    }
+
+    public List<Epreuve> getEpreuves() {
+        return this.lesEpreuves;
     }
 
     /**
@@ -104,4 +111,42 @@ public class Equipe {
         }
         return athletePlusAgile;
     }
+
+    @Override
+    public double participer(){
+        return 1;
+    }
+
+    /**
+     * Retourne une représentation textuelle de l'équipe.
+     * @return Une chaîne de caractères représentant l'équipe et ses athlètes.
+     */
+    @Override
+    public String toString() {
+        String result = "Les athlètes de cette équipe sont : [";
+        for (int i = 0; i < lesAthletes.size(); i++) {
+            result += lesAthletes.get(i).toString();
+            if (i < lesAthletes.size() - 1) {
+                result += ", ";
+            }
+        }
+        result += "]";
+        return result;
+    }
+
+    /**
+     * Redéfinition de la méthode equals pour utiliser les méthodes contains, indexOf etc...
+     */
+    @Override
+    public boolean equals(Object objet){
+        if(objet == null){return false;}
+
+        if(objet==this){return true;}
+
+        if(!(objet instanceof Equipe)){return false;}
+
+        Equipe tmp = (Equipe) objet;
+        return tmp.getNom().equals(this.nomEquipe);
+    }
+
 }

@@ -1,4 +1,4 @@
-public class Athlete implements Comparable<Athlete>{
+public class Athlete implements Comparable<Athlete>, Participant{
     private String nom;
     private String prenom;
     private String sexe;
@@ -113,6 +113,11 @@ public class Athlete implements Comparable<Athlete>{
      */
     public void setEndurance(int endurance) {
         this.endurance = endurance;
+    }
+
+    @Override
+    public double participer(){
+        return 1;
     }
 
     /**

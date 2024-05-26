@@ -1,5 +1,5 @@
 public interface Participant {
     public String getNom();
     public double participer();
-    public void setNom();
+    public void setNom(String nom);
 }
