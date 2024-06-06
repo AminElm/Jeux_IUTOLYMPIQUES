@@ -1,42 +1,41 @@
 import java.util.ArrayList;
 import java.util.List;
-
-
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class Resultat {
     private List<Equipe> equipes;
     private List<Integer> scores;
 
-    public Resultat(){
+    public Resultat() {
         equipes = new ArrayList<>();
         scores = new ArrayList<>();
     }
 
-    public void ajouteEquipe(String nomEquipe, int score){
+    public void ajouteEquipe(String nomEquipe, int score) {
         Equipe equi = new Equipe(nomEquipe);
         equipes.add(equi);
         scores.add(score);
     }
-    
 
-    public List<Equipe> afficheEquipe(){
+    public List<Equipe> afficheEquipe() {
         return equipes;
     }
 
-    public List<Integer> afficheScore(){
+    public List<Integer> afficheScore() {
         return scores;
     }
 
-    public Equipe meilleurEquipe(){
-        if(equipes.isEmpty() || scores.isEmpty()){
+    public Equipe meilleurEquipe() {
+        if (equipes.isEmpty() || scores.isEmpty()) {
             return null;
         }
 
         int meilleurScore = scores.get(0);
         Equipe meilleurEquipe = equipes.get(0);
 
-        for(int i = 1; i < scores.size(); i++){
-            if(meilleurScore < scores.get(i)){
+        for (int i = 1; i < scores.size(); i++) {
+            if (meilleurScore < scores.get(i)) {
                 meilleurScore = scores.get(i);
                 meilleurEquipe = equipes.get(i);
             }
@@ -44,16 +43,16 @@ public class Resultat {
         return meilleurEquipe;
     }
 
-    public Equipe pireEquipe(){
-        if(equipes.isEmpty() || scores.isEmpty()){
+    public Equipe pireEquipe() {
+        if (equipes.isEmpty() || scores.isEmpty()) {
             return null;
         }
 
         int pireScore = scores.get(0);
         Equipe pireEquipe = equipes.get(0);
 
-        for(int i = 1; i < scores.size(); i++){
-            if(pireScore > scores.get(i)){
+        for (int i = 1; i < scores.size(); i++) {
+            if (pireScore > scores.get(i)) {
                 pireScore = scores.get(i);
                 pireEquipe = equipes.get(i);
             }
@@ -61,31 +60,23 @@ public class Resultat {
         return pireEquipe;
     }
 
-
     public void trierEquipesParScores() {
-        
-        List<Equipe> equipesTrier = new ArrayList<>(equipes);
-        List<Integer> scoresTrier = new ArrayList<>(scores);
-    
-        for (int i = 0; i < scoresTrier.size()-1; i++) {
-            for (int j = i + 1; j < scoresTrier.size(); j++) {
-                if (scoresTrier.get(i) < scoresTrier.get(j)) {
-                    int score = scoresTrier.get(i);
-                    scoresTrier.set(i, scoresTrier.get(j));
-                    scoresTrier.set(j, score);
-    
-                    Equipe equipe = equipesTrier.get(i);
-                    equipesTrier.set(i, equipesTrier.get(j));
-                    equipesTrier.set(j, equipe);
-                }
-            }
-        }
-    
-        equipes = equipesTrier;
-        scores = scoresTrier;
-    }
-    
+        List<Integer> indices = IntStream.range(0, scores.size())
+                .boxed()
+                .sorted((i, j) -> scores.get(j) - scores.get(i))
+                .collect(Collectors.toList());
 
+        List<Equipe> equipesTrie = new ArrayList<>();
+        List<Integer> scoresTrie = new ArrayList<>();
+
+        for (Integer index : indices) {
+            equipesTrie.add(equipes.get(index));
+            scoresTrie.add(scores.get(index));
+        }
+
+        equipes = equipesTrie;
+        scores = scoresTrie;
+    }
 
     public Equipe rechercheEquipeParNom(String nom) {
         for (Equipe equipe : equipes) {
@@ -95,22 +86,15 @@ public class Resultat {
         }
         return null;
     }
-    
 
-
-
-    public boolean equipeExiste(String nom) {
+    public String equipeExiste(String nom) {
         for (Equipe equipe : equipes) {
             if (equipe.getNom().equalsIgnoreCase(nom)) {
-                return true;
+                return "L'equipe est bien dans la liste des résultats";
             }
         }
-        return false;
+        return "L'equipe n'est pas dans la liste des résultats";
     }
-    
-
-    
-
 
     public void supprimerEquipe(String nomEquipe) {
         for (int i = 0; i < equipes.size(); i++) {
@@ -119,25 +103,16 @@ public class Resultat {
                 scores.remove(i);
             }
         }
-
+        System.out.println("l'équipe "+nomEquipe+" à été supprimé");
     }
-    
-    
-
-
 
     @Override
     public String toString() {
-        try {
-            StringBuilder result = new StringBuilder();
-            for (int i = 0; i < equipes.size(); i++) {
-                result.append(equipes.get(i)).append(": ").append(scores.get(i)).append("\n");
-            }
-            return result.toString();
-        } catch (Exception e) {
-            return "Erreur: " + e.getMessage();
+        StringBuilder result = new StringBuilder();
+        for (int i = 0; i < equipes.size(); i++) {
+            result.append(equipes.get(i).getNom()).append(": ").append(scores.get(i)).append("\n");
         }
+        return result.toString();
     }
-    
     
 }
