@@ -3,29 +3,51 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+/**
+ * Cette classe représente les résultats d'une épreuve sportive, comprenant les équipes participantes et leurs scores.
+ */
 public class Resultat {
-    private List<Equipe> equipes;
-    private List<Integer> scores;
+    private List<Equipe> equipes; // Liste des équipes participantes
+    private List<Integer> scores; // Liste des scores des équipes
 
+    /**
+     * Constructeur par défaut de la classe Resultat
+     */
     public Resultat() {
         equipes = new ArrayList<>();
         scores = new ArrayList<>();
     }
 
-    public void ajouteEquipe(String nomEquipe, int score) {
-        Equipe equi = new Equipe(nomEquipe);
-        equipes.add(equi);
+    /**
+     * Ajoute une équipe et son score aux résultats
+     * @param equipe L'équipe à ajouter
+     * @param score Le score de l'équipe
+     */
+    public void ajouteEquipe(Equipe equipe, int score) {
+        equipes.add(equipe);
         scores.add(score);
     }
 
+    /**
+     * Renvoie la liste des équipes participantes
+     * @return La liste des équipes
+     */
     public List<Equipe> afficheEquipe() {
         return equipes;
     }
 
+    /**
+     * Renvoie la liste des scores des équipes
+     * @return La liste des scores
+     */
     public List<Integer> afficheScore() {
         return scores;
     }
 
+    /**
+     * Détermine la meilleure équipe en fonction de son score
+     * @return La meilleure équipe
+     */
     public Equipe meilleurEquipe() {
         if (equipes.isEmpty() || scores.isEmpty()) {
             return null;
@@ -43,6 +65,10 @@ public class Resultat {
         return meilleurEquipe;
     }
 
+    /**
+     * Détermine la pire équipe en fonction de son score
+     * @return La pire équipe
+     */
     public Equipe pireEquipe() {
         if (equipes.isEmpty() || scores.isEmpty()) {
             return null;
@@ -60,6 +86,9 @@ public class Resultat {
         return pireEquipe;
     }
 
+    /**
+     * Trie les équipes par scores dans l'ordre décroissant
+     */
     public void trierEquipesParScores() {
         List<Integer> indices = IntStream.range(0, scores.size())
                 .boxed()
@@ -78,6 +107,11 @@ public class Resultat {
         scores = scoresTrie;
     }
 
+    /**
+     * Recherche une équipe par son nom dans les résultats
+     * @param nom Le nom de l'équipe à rechercher
+     * @return L'équipe correspondante ou null si non trouvée
+     */
     public Equipe rechercheEquipeParNom(String nom) {
         for (Equipe equipe : equipes) {
             if (equipe.getNom().equalsIgnoreCase(nom)) {
@@ -87,6 +121,11 @@ public class Resultat {
         return null;
     }
 
+    /**
+     * Vérifie si une équipe existe dans les résultats
+     * @param nom Le nom de l'équipe à vérifier
+     * @return Un message indiquant si l'équipe existe ou non
+     */
     public String equipeExiste(String nom) {
         for (Equipe equipe : equipes) {
             if (equipe.getNom().equalsIgnoreCase(nom)) {
@@ -96,6 +135,10 @@ public class Resultat {
         return "L'equipe n'est pas dans la liste des résultats";
     }
 
+    /**
+     * Supprime une équipe des résultats par son nom
+     * @param nomEquipe Le nom de l'équipe à supprimer
+     */
     public void supprimerEquipe(String nomEquipe) {
         for (int i = 0; i < equipes.size(); i++) {
             if (equipes.get(i).getNom().equalsIgnoreCase(nomEquipe)) {

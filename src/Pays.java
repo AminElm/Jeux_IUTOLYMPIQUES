@@ -6,16 +6,29 @@ public class Pays {
     private List<Equipe> lesEquipes;
     private int nbAthletesPays;
 
+    /**
+     * Constructeur de la classe Pays.
+     * @param nom Le nom du pays
+     * @param nbAthletesPays Le nombre total d'athlètes du pays
+     */
     public Pays(String nom, int nbAthletesPays) {
         this.nom = nom;
         this.lesEquipes = new ArrayList<>();
         this.nbAthletesPays = nbAthletesPays;
     }
     
+    /**
+     * getter du nom du pays
+     * @return Le nom du pays.
+     */
     public String getNom() {
         return this.nom;
     }
     
+    /**
+     * getter de la liste des équipes du pays
+     * @return La liste des équipes.
+     */
     public List<Equipe> getEquipes() {
         return this.lesEquipes;
     }

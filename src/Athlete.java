@@ -1,11 +1,18 @@
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 public class Athlete implements Comparable<Athlete>, Participant{
     private String nom;
-    private String prenom;
-    private String sexe;
-    private String nationalite;
+    private final String prenom;
+    private final String sexe;
+    private final String nationalite;
     private int force;
     private int agilite;
     private int endurance;
+    private List<Epreuve> lesEpreuves;
 
     /** 
      * Constructeur de la classe Athlète. 
@@ -25,6 +32,7 @@ public class Athlete implements Comparable<Athlete>, Participant{
         this.force = force;
         this.agilite = agilite;
         this.endurance = endurance;
+        this.lesEpreuves = new ArrayList<>();
     }
 
     /**
@@ -115,9 +123,26 @@ public class Athlete implements Comparable<Athlete>, Participant{
         this.endurance = endurance;
     }
 
+    // private double calculerScore(Epreuve ep){
+    //     if(ep.getTypeEpreuve().equals("athletisme")){
+    //         return ((force + agilite + endurance) * ;
+    //     }
+    // }
+        
+    // /**
+    // * Simule la participation d'un athlète à une épreuve
+    // * @return 
+    // */
     @Override
     public double participer(){
         return 1;
+    //     Map<Epreuve, Double> scores = new HashMap<>();
+    //     for(Epreuve ep : lesEpreuves){
+    //         double scoreAthlete = calculerScore(ep);
+    //         scores.put(ep, scoreAthlete);
+    //         ep.enregistrerResultat(this, scoreAthlete);
+    //     }
+    //     return classement(scoreAthlete);
     }
 
     /**

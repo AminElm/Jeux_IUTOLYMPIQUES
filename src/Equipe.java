@@ -15,6 +15,7 @@ public class Equipe implements Participant{
     public Equipe(String nomEquipe) {
         this.nomEquipe = nomEquipe;
         this.lesAthletes = new ArrayList<>();
+        this.lesEpreuves = new ArrayList<>();
     }
 
     /**
@@ -114,7 +115,11 @@ public class Equipe implements Participant{
 
     @Override
     public double participer(){
-        return 1;
+        double scoreEquipe = 0;
+        for(Athlete ath : lesAthletes){
+            scoreEquipe += ath.participer();
+        }
+        return scoreEquipe;
     }
 
     /**
