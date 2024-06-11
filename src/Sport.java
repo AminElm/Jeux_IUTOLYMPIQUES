@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 import java.util.List;
 
-public class Sport{
+public abstract class Sport{
     protected List<Epreuve> epreuves;
     protected String nom;
     private double coeffForce;
@@ -30,7 +30,6 @@ public class Sport{
     public double getCoeffForce(){
         return this.coeffForce;
     }
-    
     /**
      * getter pour le coeff d'agilité
      * @return le coeff d'agilité
