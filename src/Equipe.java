@@ -137,7 +137,7 @@ public class Equipe implements Participant{
      */
     @Override
     public String toString() {
-        return "équipe " + this.nomEquipe;
+        return "" + this.nomEquipe;
     }
 
     /**
