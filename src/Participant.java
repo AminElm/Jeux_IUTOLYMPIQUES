@@ -14,7 +14,7 @@ public interface Participant {
      * Simule la participation d'un participant à une epreuve
      * @return Le score obtenu par le participant lors de l'épreuve
      */
-    public double participer();
+    public double participer(Epreuve epreuve);
 
     /**
      * Définit le nom du participant

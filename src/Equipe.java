@@ -114,12 +114,21 @@ public class Equipe implements Participant{
     }
 
     @Override
-    public double participer(){
+    public double participer(Epreuve ep){
         double scoreEquipe = 0;
+        double cpt_sport = 0;
         for(Athlete ath : lesAthletes){
-            scoreEquipe += ath.participer();
+            if(ath.getEpreuves().contains(ep)){
+                scoreEquipe += ath.participer(ep);
+                cpt_sport++;
+            }
         }
-        return scoreEquipe;
+        if (cpt_sport > 0){
+            return scoreEquipe/cpt_sport;
+        }
+        else{
+            return 0;
+        }
     }
 
     /**

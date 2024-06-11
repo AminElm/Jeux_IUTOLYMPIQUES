@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -9,7 +10,7 @@ public class Epreuve {
     /**
      *  Liste des équipes participant à l'épreuve
      */
-    private List<Equipe> equipes;
+    private List<Athlete> athletes;
 
     /**
     * Nom de l'épreuve
@@ -17,47 +18,47 @@ public class Epreuve {
     private String nom;
 
     /**
-    * Type de l'épreuve
+    * Sport de l'épreuve
     */
-    private String typeEpreuve;
+    private Sport sportEpreuve;
 
     /**
      * Constructeur de la classe Epreuve
-     * @param equipes Liste des équipes participant à l'épreuve
+     * @param athletes Liste des équipes participant à l'épreuve
      * @param nom Nom de l'épreuve
-     * @param typeEpreuve Type de l'épreuve
+     * @param sp Sport de l'épreuve
      */
-    public Epreuve(List<Equipe> equipes, String nom, String typeEpreuve){
-        this.equipes = equipes;
+    public Epreuve(List<Athlete> athletes, String nom, Sport sp){
+        this.athletes = athletes;
         this.nom = nom;
-        this.typeEpreuve = typeEpreuve;
+        this.sportEpreuve = sp;
     }
 
     /**
      * Constructeur de la classe Epreuve
      * @param nom Nom de l'épreuve
-     * @param typeEpreuve Type de l'épreuve
+     * @param sp Sport de l'épreuve
      */
-    public Epreuve(String nom, String typeEpreuve){
-        this.equipes = new ArrayList<>();
+    public Epreuve(String nom, Sport sp){
+        this.athletes = new ArrayList<>();
         this.nom = nom;
-        this.typeEpreuve = typeEpreuve;
+        this.sportEpreuve = sp;
     }
 
     /**
      * Getter de la liste des équipes participant à l'épreuve
      * @return Liste des équipes participant à l'épreuve
      */
-    public List<Equipe> getEquipes() {
-        return equipes;
+    public List<Athlete> getathletes() {
+        return athletes;
     }
 
     /**
      * Définit la liste des équipes participant à l'épreuve
-     * @param equipes Liste des équipes participant à l'épreuve
+     * @param athletes Liste des équipes participant à l'épreuve
      */
-    public void setEquipes(List<Equipe> equipes) {
-        this.equipes = equipes;
+    public void setathletes(List<Athlete> athletes) {
+        this.athletes = athletes;
     }
 
     /**
@@ -77,23 +78,41 @@ public class Epreuve {
     }
 
     /**
-     * getter du type de l'épreuve
-     * @return Le type de l'épreuve
+     * getter du sport de l'épreuve
+     * @return Le sport de l'épreuve
      */
-    public String getTypeEpreuve() {
-        return typeEpreuve;
+    public Sport getSportEpreuve() {
+        return this.sportEpreuve;
     }
 
     /**
-     * Définit le type de l'épreuve
-     * @param typeEpreuve Le type de l'épreuve
+     * Définit le sport de l'épreuve
+     * @param sp Le sport de l'épreuve
      */
-    public void setTypeEpreuve(String typeEpreuve) {
-        this.typeEpreuve = typeEpreuve;
+    public void setSportEpreuve(Sport sp) {
+        this.sportEpreuve = sp;
+    }
+
+    public List<Athlete> classement(){
+        List<Double> lesScores = new ArrayList<>();
+        for(Athlete ath : athletes){
+            lesScores.add(ath.participer(this));
+        }
+        Collections.sort(lesScores, Collections.reverseOrder());
+        List<Athlete> classement = new ArrayList<>();
+        for(double score : lesScores){
+            for(Athlete ath : athletes){
+                if(ath.participer(this) == score && (!(classement.contains(ath)))){
+                    classement.add(ath);
+                    break;
+                }
+            }
+        }
+        return classement;
     }
 
     @Override
     public String toString() {
-        return "Epreuve [equipes=" + equipes + ", nom=" + nom + ", typeEpreuve=" + typeEpreuve + "]";
+        return "Epreuve [athletes=" + athletes + ", nom=" + nom + ", discipline=" + sportEpreuve + "]";
     }
 }
