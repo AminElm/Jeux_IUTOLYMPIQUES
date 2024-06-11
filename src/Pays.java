@@ -1,10 +1,10 @@
 import java.util.List;
 import java.util.ArrayList;
 
-public abstract class Pays {
-    protected String nom;
-    protected List<Equipe> lesEquipes;
-    protected int nbAthletesPays;
+public class Pays {
+    private String nom;
+    private List<Equipe> lesEquipes;
+    private int nbAthletesPays;
 
     /**
      * Constructeur de la classe Pays.
