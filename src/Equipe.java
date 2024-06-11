@@ -137,15 +137,7 @@ public class Equipe implements Participant{
      */
     @Override
     public String toString() {
-        String result = "Les athlètes de cette équipe sont : [";
-        for (int i = 0; i < lesAthletes.size(); i++) {
-            result += lesAthletes.get(i).toString();
-            if (i < lesAthletes.size() - 1) {
-                result += ", ";
-            }
-        }
-        result += "]";
-        return result;
+        return "équipe " + this.nomEquipe;
     }
 
     /**
