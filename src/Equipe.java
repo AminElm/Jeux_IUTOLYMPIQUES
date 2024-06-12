@@ -4,9 +4,20 @@ import java.util.Collections;
 
 
 public class Equipe implements Participant{
-    private String nomEquipe; // Le nom de l'équipe
-    private List<Epreuve> lesEpreuves; // Les épreuves auxquelles participe l'équipe
-    private List<Athlete> lesAthletes; // La liste des athlètes de l'équipe
+     /**
+     * Nom de l'équipe
+     */
+    private String nomEquipe;
+
+    /**
+     * Liste des épreuves auxquelles l'équipe participe
+     */
+    private List<Epreuve> lesEpreuves;
+
+    /**
+     * Liste des athlètes de l'équipe
+     */
+    private List<Athlete> lesAthletes;
 
     /**
      * Constructeur de la classe Equipe.

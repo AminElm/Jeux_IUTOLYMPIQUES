@@ -93,6 +93,10 @@ public class Epreuve {
         this.sportEpreuve = sp;
     }
 
+    /**
+     * Classe les athlètes en fonction de leurs performances dans l'épreuve
+     * @return Liste triée des athlètes en fonction de leurs scores
+     */
     public List<Athlete> classement(){
         List<Double> lesScores = new ArrayList<>();
         for(Athlete ath : athletes){

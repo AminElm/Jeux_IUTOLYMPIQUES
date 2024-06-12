@@ -2,13 +2,44 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Athlete implements Comparable<Athlete>, Participant{
+     /**
+     * Nom de l'athlète
+     */
     private String nom;
+
+    /**
+     * Prénom de l'athlète
+     */
     private final String prenom;
+
+    /**
+     * Sexe de l'athlète ("H" ou "F"). Ce champ est final car il ne doit pas être modifié après l'initialisation.
+     */
     private final String sexe;
+
+    /**
+     * Nationalité de l'athlète. Ce champ est final car il ne doit pas être modifié après l'initialisation.
+     */
     private final String nationalite;
+
+    /**
+     * Force de l'athlète, représentée par un entier.
+     */
     private int force;
+
+    /**
+     * Agilité de l'athlète, représentée par un entier.
+     */
     private int agilite;
+
+    /**
+     * Endurance de l'athlète, représentée par un entier.
+     */
     private int endurance;
+
+    /**
+     * Liste des épreuves auxquelles l'athlète participe.
+     */
     private List<Epreuve> lesEpreuves;
 
     /** 

@@ -2,8 +2,19 @@ import java.util.List;
 import java.util.ArrayList;
 
 public class Pays {
+    /**
+     * Nom du pays
+     */
     private String nom;
+
+    /**
+     * Liste des équipes représentant le pays
+     */
     private List<Equipe> lesEquipes;
+
+    /**
+     * Nombre total d'athlètes du pays
+     */
     private int nbAthletesPays;
 
     /**
