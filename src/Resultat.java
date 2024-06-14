@@ -81,6 +81,20 @@ public class Resultat {
         scores = scoresTries;
     }
 
+    /**
+     * Ajoute un score à une équipe existante, ou ajoute l'équipe si elle n'existe pas
+     * @param nomEquipe Le nom de l'équipe
+     * @param score Le score à ajouter
+     */
+    public void ajouterScoreEquipe(String nomEquipe, int score) {
+        for (int i = 0; i < equipes.size(); i++) {
+            if (equipes.get(i).getNom().equalsIgnoreCase(nomEquipe)) {
+                scores.set(i, scores.get(i) + score);
+                return;
+            }
+        }
+        ajouteEquipe(nomEquipe, score);
+    }
 
     public String attribuerMedaille() {
         trierEquipesParScores();

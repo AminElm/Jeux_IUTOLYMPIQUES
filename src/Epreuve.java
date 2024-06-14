@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -93,27 +92,6 @@ public class Epreuve {
         this.sportEpreuve = sp;
     }
 
-    /**
-     * Classe les athlètes en fonction de leurs performances dans l'épreuve
-     * @return Liste triée des athlètes en fonction de leurs scores
-     */
-    public List<Athlete> classement(){
-        List<Double> lesScores = new ArrayList<>();
-        for(Athlete ath : athletes){
-            lesScores.add(ath.participer(this));
-        }
-        Collections.sort(lesScores, Collections.reverseOrder());
-        List<Athlete> classement = new ArrayList<>();
-        for(double score : lesScores){
-            for(Athlete ath : athletes){
-                if(ath.participer(this) == score && (!(classement.contains(ath)))){
-                    classement.add(ath);
-                    break;
-                }
-            }
-        }
-        return classement;
-    }
 
     @Override
     public String toString() {
