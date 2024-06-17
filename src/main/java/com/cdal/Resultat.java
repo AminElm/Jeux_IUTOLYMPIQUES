@@ -1,91 +1,64 @@
-package main.java.com.cdal;
-
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
 public class Resultat {
-    private List<Participant> participants;
+    private Map<Participant, Integer> scores;
     private Epreuve epreuve;
 
     public Resultat(List<Participant> participants, Epreuve epreuve) {
-        this.participants = participants;
         this.epreuve = epreuve;
-    }
-
-    public void ajouteParticipant(Participant p){
-        this.participants.add(p);
-    }
-
-
-
-    public List<Participant> getParticipants() {
-        return participants;
+        this.scores = new HashMap<>();
+        for (Participant participant : participants) {
+            this.scores.put(participant, (int) participant.participer(epreuve));
+        }
     }
 
     public Participant meilleurParticipant() {
-        if (participants.isEmpty()) {
-            return null;
-        }
-
-        double meilleurScore = Double.MIN_VALUE;
-        Participant meilleurParticipant = null;
-
-        for (Participant p : participants) {
-            double score = p.participer(epreuve);
-            if (score > meilleurScore) {
-                meilleurScore = score;
-                meilleurParticipant = p;
+        Participant meilleur = null;
+        int meilleurScore = Integer.MIN_VALUE;
+        for (Map.Entry<Participant, Integer> entry : scores.entrySet()) {
+            if (entry.getValue() > meilleurScore) {
+                meilleurScore = entry.getValue();
+                meilleur = entry.getKey();
             }
         }
-
-        return meilleurParticipant;
+        return meilleur;
     }
 
     public Participant pireParticipant() {
-        if (participants.isEmpty()) {
-            return null;
-        }
-
-        double pireScore = Double.MAX_VALUE;
-        Participant pireParticipant = null;
-
-        for (Participant p : participants) {
-            double score = p.participer(epreuve);
-            if (score < pireScore) {
-                pireScore = score;
-                pireParticipant = p;
+        Participant pire = null;
+        int pireScore = Integer.MAX_VALUE;
+        for (Map.Entry<Participant, Integer> entry : scores.entrySet()) {
+            if (entry.getValue() < pireScore) {
+                pireScore = entry.getValue();
+                pire = entry.getKey();
             }
         }
-
-        return pireParticipant;
+        return pire;
     }
 
     public String attribuerMedaille() {
-        if (participants.size() < 3) {
+        if (scores.size() < 3) {
             return "Il n'y a pas assez de participants pour attribuer des médailles.";
         }
 
-        Map<Participant, Double> scores = new HashMap<>();
-        for (Participant p : participants) {
-            scores.put(p, p.participer(epreuve));
-        }
-
-        List<Participant> classement = new ArrayList<>(scores.keySet());
-        classement.sort((p1, p2) -> scores.get(p2).compareTo(scores.get(p1)));
+        List<Map.Entry<Participant, Integer>> list = new ArrayList<>(scores.entrySet());
+        list.sort(new ScoreComparator());
 
         StringBuilder result = new StringBuilder();
-        result.append("Médaille d'or: ").append(classement.get(0).getNom()).append("\n");
-        result.append("Médaille d'argent: ").append(classement.get(1).getNom()).append("\n");
-        result.append("Médaille de bronze: ").append(classement.get(2).getNom()).append("\n");
+        result.append("Médaille d'or: ").append(list.get(0).getKey().getNom()).append("\n");
+        result.append("Médaille d'argent: ").append(list.get(1).getKey().getNom()).append("\n");
+        result.append("Médaille de bronze: ").append(list.get(2).getKey().getNom()).append("\n");
 
         return result.toString();
     }
 
     public String participantExiste(String nom) {
-        for (Participant p : participants) {
-            if (p.getNom().equalsIgnoreCase(nom)) {
+        for (Participant participant : scores.keySet()) {
+            if (participant.getNom().equalsIgnoreCase(nom)) {
                 return "Le participant " + nom + " est bien dans la liste des résultats";
             }
         }
@@ -93,21 +66,32 @@ public class Resultat {
     }
 
     public void supprimerParticipant(String nomParticipant) {
-        for (int i = 0; i < participants.size(); i++) {
-            if (participants.get(i).getNom().equalsIgnoreCase(nomParticipant)) {
-                participants.remove(i);
-                System.out.println("Le participant " + nomParticipant + " a été supprimé");
-                return;
+        List<Participant> participantsToRemove = new ArrayList<>();
+        for (Participant participant : scores.keySet()) {
+            if (participant.getNom().equalsIgnoreCase(nomParticipant)) {
+                participantsToRemove.add(participant);
             }
         }
-        System.out.println("Le participant " + nomParticipant + " n'est pas dans la liste des résultats");
+        for (Participant participant : participantsToRemove) {
+            scores.remove(participant);
+        }
+    }
+
+    public void trierResultatsParScore() {
+        Map<Participant, Integer> sortedScores = new LinkedHashMap<>();
+        List<Map.Entry<Participant, Integer>> entryList = new ArrayList<>(scores.entrySet());
+        entryList.sort(new ScoreComparator());
+        for (Map.Entry<Participant, Integer> entry : entryList) {
+            sortedScores.put(entry.getKey(), entry.getValue());
+        }
+        scores = sortedScores;
     }
 
     @Override
     public String toString() {
         StringBuilder result = new StringBuilder();
-        for (Participant p : participants) {
-            result.append(p.getNom()).append(": ").append(p.participer(epreuve)).append("\n");
+        for (Map.Entry<Participant, Integer> entry : scores.entrySet()) {
+            result.append(entry.getKey().getNom()).append(": ").append(entry.getValue()).append("\n");
         }
         return result.toString();
     }
