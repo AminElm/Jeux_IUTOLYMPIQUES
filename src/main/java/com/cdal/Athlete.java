@@ -1,6 +1,9 @@
+package main.java.com.cdal;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+
 
 public class Athlete implements Comparable<Athlete>, Participant{
      /**

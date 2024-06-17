@@ -1,3 +1,4 @@
+package main.java.com.cdal;
 /**
  * Cette classe représente le sport de la natation
 */
@@ -13,5 +14,4 @@ public class Natation  extends Sport{
     public Natation(String nom){
         super(nom, COEFF_FORCE, COEFF_AGILITE, COEFF_ENDURANCE);
         }
-    }
-
+}

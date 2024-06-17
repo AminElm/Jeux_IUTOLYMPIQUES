@@ -1,65 +1,67 @@
+package main.java.com.cdal;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Cette classe représente une épreuve sportive
  */
 public class Epreuve {
-
     /**
      *  Liste des équipes participant à l'épreuve
      */
-    private List<Athlete> athletes;
-
+    private List<Participant> participants;
     /**
     * Nom de l'épreuve
     */
     private String nom;
-
     /**
     * Sport de l'épreuve
     */
     private Sport sportEpreuve;
-
     /**
      * Constructeur de la classe Epreuve
-     * @param athletes Liste des équipes participant à l'épreuve
+     * @param participants Liste des équipes participant à l'épreuve
      * @param nom Nom de l'épreuve
      * @param sp Sport de l'épreuve
      */
-    public Epreuve(List<Athlete> athletes, String nom, Sport sp){
-        this.athletes = athletes;
+    public Epreuve(List<Participant> participants, String nom, Sport sp){
+        this.participants = participants;
         this.nom = nom;
         this.sportEpreuve = sp;
     }
-
     /**
      * Constructeur de la classe Epreuve
      * @param nom Nom de l'épreuve
      * @param sp Sport de l'épreuve
      */
     public Epreuve(String nom, Sport sp){
-        this.athletes = new ArrayList<>();
+        this.participants = new ArrayList<>();
         this.nom = nom;
         this.sportEpreuve = sp;
     }
-
     /**
      * Getter de la liste des équipes participant à l'épreuve
      * @return Liste des équipes participant à l'épreuve
      */
-    public List<Athlete> getathletes() {
-        return athletes;
+    public List<Participant> getparticipants() {
+        return participants;
     }
-
     /**
      * Définit la liste des équipes participant à l'épreuve
-     * @param athletes Liste des équipes participant à l'épreuve
+     * @param participants Liste des équipes participant à l'épreuve
      */
-    public void setathletes(List<Athlete> athletes) {
-        this.athletes = athletes;
+    public void setparticipants(List<Participant> participants) {
+        this.participants = participants;
     }
-
+    /**
+     * ajoute le participant dans la liste
+     */
+    public void ajouteParticipant(Participant p){
+        this.participants.add(p);
+    }
     /**
      * getter du nom de l'épreuve
      * @return Le nom de l'épreuve
@@ -67,7 +69,6 @@ public class Epreuve {
     public String getNom() {
         return nom;
     }
-
     /**
      * Définit le nom de l'épreuve
      * @param nom Le nom de l'épreuve
@@ -75,7 +76,6 @@ public class Epreuve {
     public void setNom(String nom) {
         this.nom = nom;
     }
-
     /**
      * getter du sport de l'épreuve
      * @return Le sport de l'épreuve
@@ -83,7 +83,6 @@ public class Epreuve {
     public Sport getSportEpreuve() {
         return this.sportEpreuve;
     }
-
     /**
      * Définit le sport de l'épreuve
      * @param sp Le sport de l'épreuve
@@ -92,9 +91,15 @@ public class Epreuve {
         this.sportEpreuve = sp;
     }
 
-
+    public Map<Participant, Double> classement(){
+        Map<Participant, Double> classement = new HashMap<>();
+        for(Participant part : participants){
+            classement.put(part, part.participer(this));
+        }
+        return classement;
+    }
     @Override
     public String toString() {
-        return "Epreuve [athletes=" + athletes + ", nom=" + nom + ", discipline=" + sportEpreuve + "]";
+        return "Epreuve [participants=" + participants + ", nom=" + nom + ", discipline=" + sportEpreuve + "]";
     }
 }
