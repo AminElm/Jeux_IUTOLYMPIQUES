@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class Athlete implements Comparable<Athlete>, Participant{
      /**
@@ -161,8 +162,10 @@ public class Athlete implements Comparable<Athlete>, Participant{
     */
     @Override
     public double participer(Epreuve ep){
+        Random rm = new Random();
+        int res = rm.nextInt(10) + 1;
         Sport sport = ep.getSportEpreuve();
-        return (force * sport.getCoeffForce()) + (agilite * sport.getCoeffAgilite()) + (endurance * sport.getCoeffEndurance());
+        return (force * sport.getCoeffForce()) + (agilite * sport.getCoeffAgilite()) + (endurance * sport.getCoeffEndurance()) * res;
     }
 
     /**
