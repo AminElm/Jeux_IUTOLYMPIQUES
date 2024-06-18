@@ -6,6 +6,16 @@ public class requete {
 	ConnexionMySQL laConnexion;
 	Statement st;
 
-	requete(ConnexionMySQL laConnexion) {
+	public requete(ConnexionMySQL laConnexion) {
 		this.laConnexion = laConnexion;
-	}}
+	}
+
+	public void ajoutevisiteur(String nom, string prenom, string mdp){
+		
+	}
+
+
+
+
+
+}
