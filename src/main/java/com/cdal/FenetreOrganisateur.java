@@ -23,16 +23,17 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
-import javafx.util.Callback;
 
 public class FenetreOrganisateur extends BorderPane{
 
-    private Main app;
+    private TextField tfEpreuve;
+    private ComboBox<String> choixSport;
+    private Button lancerEp;
+    private Button btnEnregistrer;
+    private TableView<Epreuve> tabEpreuve;
     private ObservableList<Epreuve> epreuves;
 
-    public FenetreOrganisateur(Main app){
-        super();
-        this.app = app;
+    public FenetreOrganisateur(){
         this.epreuves = FXCollections.observableArrayList();
         this.setTop(enTete());
         this.setCenter(contenu());
@@ -42,8 +43,8 @@ public class FenetreOrganisateur extends BorderPane{
         HBox headerHBox = new HBox();
         headerHBox.setPadding(new Insets(15, 12, 15, 12));
         headerHBox.setSpacing(10);
-        headerHBox.setStyle("-fx-background-color: #336699;");
-        
+        headerHBox.setStyle("-fx-background-color: #005da4;");
+
         ImageView imageEnTete = new ImageView(new Image("file:header.png"));
         imageEnTete.setFitHeight(50);
         imageEnTete.setPreserveRatio(true);
@@ -70,11 +71,11 @@ public class FenetreOrganisateur extends BorderPane{
         formulaire.setBackground(new Background(new BackgroundFill(Color.WHITE, new CornerRadii(10), Insets.EMPTY)));
 
         Label nomEp = new Label("Nom de l'épreuve:");
-        TextField tfEpreuve = new TextField();
+        tfEpreuve = new TextField();
         tfEpreuve.setPromptText("Entrez le nom de l'épreuve");
 
         Label nomSport = new Label("Sport:");
-        ComboBox<String> choixSport = new ComboBox<>();
+        choixSport = new ComboBox<>();
         choixSport.getItems().addAll("Athlétisme", "Escrime", "VolleyBall", "Natation", "Handball");
 
         formulaire.add(nomEp, 0, 0);
@@ -82,33 +83,17 @@ public class FenetreOrganisateur extends BorderPane{
         formulaire.add(nomSport, 2, 0);
         formulaire.add(choixSport, 3, 0);
 
-        Button lancerEp = new Button("Lancer l'épreuve");
-        styleButton(lancerEp);
-        lancerEp.setOnAction(e ->{
-            String nomEpreuve = tfEpreuve.getText();
-            String sport = choixSport.getValue();
-            if (nomEpreuve != null && !nomEpreuve.isEmpty() && sport != null){
-                Sport sportEpreuve = getNomSport(sport);
-                Epreuve epreuve = new Epreuve(nomEpreuve, sportEpreuve);
-                // Lancer l'épreuve (ajouter à une liste d'épreuves en cours)
-                System.out.println("L'épreuve " + nomEpreuve + " a été lancée.");
-            }
-        });
+        lancerEp = new Button("Lancer l'épreuve");
+        btnEnregistrer = new Button("Enregistrer l'épreuve");
 
-        Button btnEnregistrer = new Button("Enregistrer l'épreuve");
-        styleButton(btnEnregistrer);
-        btnEnregistrer.setOnAction(e ->{
-            String nomEpreuve = tfEpreuve.getText();
-            String sport = choixSport.getValue();
-            if (nomEpreuve != null && !nomEpreuve.isEmpty() && sport != null){
-                Sport sportEpreuve = getNomSport(sport);
-                Epreuve epreuve = new Epreuve(nomEpreuve, sportEpreuve);
-                epreuves.add(epreuve);
-                System.out.println("L'épreuve " + nomEpreuve + " a été enregistrée.");
-                tfEpreuve.clear();
-                choixSport.setValue(null);
-            }
-        });
+        lancerEp.setStyle("-fx-background-color: #005da4; -fx-text-fill: white; -fx-pref-width: 200px; -fx-pref-height: 40px;");
+        btnEnregistrer.setStyle("-fx-background-color: #005da4; -fx-text-fill: white; -fx-pref-width: 200px; -fx-pref-height: 40px;");
+
+        lancerEp.setOnMouseEntered(e -> lancerEp.setStyle("-fx-background-color: #4ca3dd; -fx-text-fill: white; -fx-pref-width: 200px; -fx-pref-height: 40px;"));
+        lancerEp.setOnMouseExited(e -> lancerEp.setStyle("-fx-background-color: #005da4; -fx-text-fill: white; -fx-pref-width: 200px; -fx-pref-height: 40px;"));
+
+        btnEnregistrer.setOnMouseEntered(e -> btnEnregistrer.setStyle("-fx-background-color: #4ca3dd; -fx-text-fill: white; -fx-pref-width: 200px; -fx-pref-height: 40px;"));
+        btnEnregistrer.setOnMouseExited(e -> btnEnregistrer.setStyle("-fx-background-color: #005da4; -fx-text-fill: white; -fx-pref-width: 200px; -fx-pref-height: 40px;"));
 
         HBox buttonHBox = new HBox(20);
         buttonHBox.setAlignment(Pos.CENTER);
@@ -127,9 +112,9 @@ public class FenetreOrganisateur extends BorderPane{
         formHBox.setAlignment(Pos.CENTER);
         formHBox.getChildren().addAll(formulaire, imgFormulaire);
 
-        TableView<Epreuve> tabEpreuve = new TableView<>(epreuves);
+        tabEpreuve = new TableView<>(epreuves);
         tabEpreuve.setPrefHeight(200);
-        
+
         TableColumn<Epreuve, String> colEpreuve = new TableColumn<>("Nom de l'épreuve");
         colEpreuve.setCellValueFactory(new PropertyValueFactory<>("nom"));
         colEpreuve.setPrefWidth(150);
@@ -143,7 +128,29 @@ public class FenetreOrganisateur extends BorderPane{
         TableColumn<Epreuve, Void> colAction = new TableColumn<>("Action");
         colAction.setPrefWidth(100);
         colAction.setMinWidth(80);
-        colAction.setCellFactory(getButtonCellFactory());
+        colAction.setCellFactory(param -> new TableCell<>(){
+            private final Button deleteButton = new Button();
+            private final ImageView imageView = new ImageView(new Image("file:img/delete.png", 16, 16, true, true));
+
+           {
+                deleteButton.setGraphic(imageView);
+                deleteButton.setStyle("-fx-background-color: transparent;");
+                deleteButton.setOnAction(event ->{
+                    Epreuve epreuve = getTableView().getItems().get(getIndex());
+                    getTableView().getItems().remove(epreuve);
+                });
+            }
+
+            @Override
+            protected void updateItem(Void item, boolean empty){
+                super.updateItem(item, empty);
+                if (empty){
+                    setGraphic(null);
+                } else{
+                    setGraphic(deleteButton);
+                }
+            }
+        });
 
         tabEpreuve.getColumns().addAll(colEpreuve, colSport, colAction);
 
@@ -152,82 +159,27 @@ public class FenetreOrganisateur extends BorderPane{
         return contenu;
     }
 
-    private Callback<TableColumn<Epreuve, Void>, TableCell<Epreuve, Void>> getButtonCellFactory(){
-        return new Callback<TableColumn<Epreuve, Void>, TableCell<Epreuve, Void>>(){
-            @Override
-            public TableCell<Epreuve, Void> call(final TableColumn<Epreuve, Void> param){
-                final TableCell<Epreuve, Void> cell = new TableCell<Epreuve, Void>(){
-
-                    private final Button btn = new Button();
-                    private final ImageView imageView = new ImageView(new Image("file:img/delete.png", 16, 16, true, true));
-
-                   {
-                        btn.setGraphic(imageView);
-                        btn.setOnAction(e ->{
-                            Epreuve epreuve = getTableView().getItems().get(getIndex());
-                            epreuves.remove(epreuve);
-                        });
-                        btn.setStyle("-fx-background-color: transparent;");
-                    }
-
-                    @Override
-                    public void updateItem(Void item, boolean empty){
-                        super.updateItem(item, empty);
-                        if (empty){
-                            setGraphic(null);
-                        } else{
-                            setGraphic(btn);
-                        }
-                    }
-                };
-                return cell;
-            }
-        };
+    public TextField getTfEpreuve(){
+        return tfEpreuve;
     }
 
-    private Sport getNomSport(String sportName){
-        switch (sportName){
-            case "Athlétisme":
-                return new Athletisme(sportName);
-            case "Escrime":
-                return new Escrime(sportName);
-            case "VolleyBall":
-                return new VolleyBall(sportName);
-            case "Natation":
-                return new Natation(sportName);
-            case "Handball":
-                return new Handball(sportName);
-            default:
-                return null;
-        }
+    public ComboBox<String> getChoixSport(){
+        return choixSport;
     }
 
-    private void styleButton(Button button){
-        button.setStyle(
-            "-fx-background-color: #007BFF; " + // Couleur bleue
-            "-fx-text-fill: white; " +
-            "-fx-font-size: 14px; " +
-            "-fx-padding: 10px 20px; " +
-            "-fx-background-radius: 5px; " +
-            "-fx-border-radius: 5px;"
-        );
+    public Button getLancerEp(){
+        return lancerEp;
+    }
 
-        button.setOnMouseEntered(e -> button.setStyle(
-            "-fx-background-color: #0056b3; " + // Couleur bleue foncée
-            "-fx-text-fill: white; " +
-            "-fx-font-size: 14px; " +
-            "-fx-padding: 10px 20px; " +
-            "-fx-background-radius: 5px; " +
-            "-fx-border-radius: 5px;"
-        ));
-        
-        button.setOnMouseExited(e -> button.setStyle(
-            "-fx-background-color: #007BFF; " + // Couleur bleue
-            "-fx-text-fill: white; " +
-            "-fx-font-size: 14px; " +
-            "-fx-padding: 10px 20px; " +
-            "-fx-background-radius: 5px; " +
-            "-fx-border-radius: 5px;"
-        ));
+    public Button getBtnEnregistrer(){
+        return btnEnregistrer;
+    }
+
+    public TableView<Epreuve> getTabEpreuve(){
+        return tabEpreuve;
+    }
+
+    public ObservableList<Epreuve> getEpreuves(){
+        return epreuves;
     }
 }
