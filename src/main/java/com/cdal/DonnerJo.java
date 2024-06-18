@@ -82,9 +82,15 @@ public class DonnerJo {
             e.ajouteParticipant(a);
             p.ajouterParticipant(a);
 
-                    
+            Statement st=laConnexion.createStatement();
 
+            for 
 
+            String ath = "insert into DETUDIANT(nume,nome,prenome,idf) values("+String.valueOf(e.getNum())+","+e.getNom()+","+e.getPrenom()+","+String.valueOf(e.getFormation())+ ");";
+            System.out.println(etu);
+            st.executeUpdate(etu);
+    
+        }
     }
    
 }
