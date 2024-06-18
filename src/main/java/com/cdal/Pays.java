@@ -24,10 +24,12 @@ public class Pays {
      * @param nom Le nom du pays
      * @param nbAthletesPays Le nombre total d'athlètes du pays
      */
-    public Pays(String nom, int nbAthletesPays) {
+
+    public Pays(String nom) {
         this.nom = nom;
         this.lesParticipants = new ArrayList<>();
-        this.nbAthletesPays = nbAthletesPays;
+        this.nbAthletesPays = 0;
+
     }
 
     /**
@@ -52,6 +54,9 @@ public class Pays {
      */
     public void ajouterParticipant(Participant participant) {
         this.lesParticipants.add(participant);
+
+        this.nbAthletesPays += 1;
+
     }
 
     @Override
@@ -73,4 +78,6 @@ public class Pays {
         Pays tmp = (Pays) objet;
         return tmp.getNom().equals(this.nom);
     }
+
 }
+

@@ -102,4 +102,14 @@ public class Epreuve {
     public String toString() {
         return "Epreuve [participants=" + participants + ", nom=" + nom + ", discipline=" + sportEpreuve + "]";
     }
+    @Override 
+    public boolean equals(Object obj) { 
+        if (this == obj) return true; 
+        if (obj == null) return false; 
+        if (!(obj instanceof Epreuve))return false; 
+        Epreuve tmp = (Epreuve) obj; 
+        return this.nom == tmp.nom;
+           
+    } 
 }
+

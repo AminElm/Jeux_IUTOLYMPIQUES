@@ -24,7 +24,9 @@ public class Athlete implements Comparable<Athlete>, Participant{
     /**
      * Nationalité de l'athlète. Ce champ est final car il ne doit pas être modifié après l'initialisation.
      */
-    private final String nationalite;
+
+    private final Pays nationalite;
+
 
     /**
      * Force de l'athlète, représentée par un entier.
@@ -56,7 +58,9 @@ public class Athlete implements Comparable<Athlete>, Participant{
      * @param agilite Entier indiquant la valeur d'agilité d'un athlète.
      * @param endurance Entier indiquant la valeur d'endurance d'un athlète.
      */
-    public Athlete(String nom, String prenom, String sexe, String nationalite, int force, int agilite, int endurance) {
+
+    public Athlete(String nom, String prenom, String sexe, Pays nationalite, int force, int agilite, int endurance) {
+
         this.nom = nom;
         this.prenom = prenom;
         this.sexe = sexe;
@@ -103,7 +107,9 @@ public class Athlete implements Comparable<Athlete>, Participant{
      * Retourne la nationalité de l'athlète.
      * @return La nationalité de l'athlète.
      */
-    public String getNationalite(){
+
+    public Pays getNationalite(){
+
         return this.nationalite;
     }
 

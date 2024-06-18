@@ -2,11 +2,15 @@ package main.java.com.cdal;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+
 import java.util.LinkedHashMap;
+
 import java.util.List;
 import java.util.Map;
 
 public class Resultat {
+
+
     private Map<Participant, Integer> scores;
     private Epreuve epreuve;
 
@@ -54,13 +58,13 @@ public class Resultat {
         result.append("Médaille d'or: ").append(list.get(0).getKey().getNom()).append("\n");
         result.append("Médaille d'argent: ").append(list.get(1).getKey().getNom()).append("\n");
         result.append("Médaille de bronze: ").append(list.get(2).getKey().getNom()).append("\n");
-
         return result.toString();
     }
 
     public String participantExiste(String nom) {
         for (Participant participant : scores.keySet()) {
             if (participant.getNom().equalsIgnoreCase(nom)) {
+
                 return "Le participant " + nom + " est bien dans la liste des résultats";
             }
         }
@@ -68,6 +72,7 @@ public class Resultat {
     }
 
     public void supprimerParticipant(String nomParticipant) {
+
         List<Participant> participantsToRemove = new ArrayList<>();
         for (Participant participant : scores.keySet()) {
             if (participant.getNom().equalsIgnoreCase(nomParticipant)) {
@@ -87,6 +92,7 @@ public class Resultat {
             sortedScores.put(entry.getKey(), entry.getValue());
         }
         scores = sortedScores;
+
     }
 
     @Override
@@ -98,3 +104,4 @@ public class Resultat {
         return result.toString();
     }
 }
+
