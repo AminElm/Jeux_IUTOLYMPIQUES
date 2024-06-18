@@ -16,8 +16,6 @@ public class Main extends Application{
     @Override
     public void start(Stage stage) throws Exception{
         Pane root = new FenetreConnexion(this);
-        // Pane root = new FenetreInscription(this); // Décommentez pour tester la fenêtre d'inscription
-        // Pane root = new FenetreOrganisateur(this); // Décommentez pour tester la fenêtre de l'organisateur
         this.scene = new Scene(root, 900, 700);
         stage.setScene(scene);
         stage.setTitle("Appli avec plusieurs fenêtres");
@@ -34,8 +32,10 @@ public class Main extends Application{
         scene.setRoot(root);
     }
 
-    public void afficherOrganisateur(){
-        Pane root = new FenetreOrganisateur(this);
-        scene.setRoot(root);
+    public void afficherOrganisateur() {
+        FenetreOrganisateur fenetreOrganisateur = new FenetreOrganisateur();
+        new ControleurFenetreOrga(fenetreOrganisateur);
+        scene.setRoot(fenetreOrganisateur);
     }
+    
 }
