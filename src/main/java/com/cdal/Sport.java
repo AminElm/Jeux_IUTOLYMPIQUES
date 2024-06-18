@@ -46,6 +46,7 @@ public abstract class Sport{
     public double getCoeffEndurance(){
         return this.coeffEndurance;
     }
+
         /**
      * getter pour le coeff d'endurance
      * @return le coeff d'endurance
@@ -53,6 +54,7 @@ public abstract class Sport{
     public String getNom(){
         return this.nom;
     }
+
 
     /**
      * permet d'ajouter une epreuve de ce sport
@@ -80,6 +82,7 @@ public abstract class Sport{
         return "Les épreuve de" + nom + "sont :" + res;
     }
 
+
     @Override 
     public boolean equals(Object obj) { 
         if (this == obj) return true; 
@@ -89,5 +92,6 @@ public abstract class Sport{
         return this.nom == tmp.nom;
            
     } 
+
     
 }
