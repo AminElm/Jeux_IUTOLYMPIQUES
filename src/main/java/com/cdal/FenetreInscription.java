@@ -1,8 +1,9 @@
+package main.java.com.cdal;
+
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -17,9 +18,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
-
-
-public class FenetreInscription extends BorderPane{
+public class FenetreInscription extends BorderPane {
 
     private Main app;
 
@@ -29,10 +28,9 @@ public class FenetreInscription extends BorderPane{
         ImageView topImageView = new ImageView(new Image("file:test.png", 100, 100, false, false));
         topImageView.setPreserveRatio(true);
         this.setTop(topImageView);
-        
+
         // Ajout de la HBox centrale au BorderPane
         this.setCenter(center());
-
     }
 
     public HBox center() {
@@ -41,10 +39,10 @@ public class FenetreInscription extends BorderPane{
         centerHBox.setPadding(new Insets(10, 0, 0, 10));
         centerHBox.setAlignment(Pos.CENTER);
 
-        // VBox pour les éléments de connexion
+        // VBox pour les éléments d'inscription
         VBox registerVBox = new VBox(10);
         registerVBox.setPadding(new Insets(0, 0, 0, 50));
-        Label titleLabel = new Label("Inscrivez vous");
+        Label titleLabel = new Label("Inscrivez-vous");
         titleLabel.setFont(new Font("System Bold", 18));
         titleLabel.setAlignment(Pos.CENTER);
 
@@ -71,11 +69,14 @@ public class FenetreInscription extends BorderPane{
         createAccountLabel.setOnMouseClicked(e -> app.afficherConnexion());
         Utils.setCursorOnHover(createAccountLabel, Cursor.HAND);
 
-        registerVBox.getChildren().addAll(titleLabel, usernameField, passwordField, passwordField2, registerButton, createAccountLabel);
+        Button organiserButton = new Button("Organisateur");
+        organiserButton.setOnAction(e -> app.afficherOrganisateur());
+
+        registerVBox.getChildren().addAll(titleLabel, usernameField, passwordField, passwordField2, registerButton, createAccountLabel, organiserButton);
         registerVBox.setAlignment(Pos.CENTER);
 
         // ImageView à côté de la VBox
-        ImageView sideImageView = new ImageView(new Image(getClass().getResourceAsStream("/test.png")));
+        ImageView sideImageView = new ImageView(new Image("file:test.png"));
         sideImageView.setFitHeight(200);
         sideImageView.setFitWidth(200);
         sideImageView.setPreserveRatio(true);

@@ -1,3 +1,5 @@
+package main.java.com.cdal;
+
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
@@ -30,7 +32,6 @@ public class FenetreConnexion extends BorderPane {
 
         // Ajout de la HBox centrale au BorderPane
         this.setCenter(center());
-
     }
 
     public HBox center() {
@@ -42,7 +43,7 @@ public class FenetreConnexion extends BorderPane {
         // VBox pour les éléments de connexion
         VBox loginVBox = new VBox(10);
         loginVBox.setPadding(new Insets(0, 0, 0, 50));
-        Label titleLabel = new Label("Connectez vous");
+        Label titleLabel = new Label("Connectez-vous");
         titleLabel.setFont(new Font("System Bold", 18));
         titleLabel.setAlignment(Pos.CENTER);
 
@@ -64,11 +65,14 @@ public class FenetreConnexion extends BorderPane {
         createAccountLabel.setOnMouseClicked(e -> app.afficherInscription());
         Utils.setCursorOnHover(createAccountLabel, Cursor.HAND);
 
-        loginVBox.getChildren().addAll(titleLabel, usernameField, passwordField, buttonHBox, createAccountLabel);
+        Button organiserButton = new Button("Organisateur");
+        organiserButton.setOnAction(e -> app.afficherOrganisateur());
+
+        loginVBox.getChildren().addAll(titleLabel, usernameField, passwordField, buttonHBox, createAccountLabel, organiserButton);
         loginVBox.setAlignment(Pos.CENTER);
 
         // ImageView à côté de la VBox
-        ImageView sideImageView = new ImageView(new Image(getClass().getResourceAsStream("/test.png")));
+        ImageView sideImageView = new ImageView(new Image("file:test.png"));
         sideImageView.setFitHeight(200);
         sideImageView.setFitWidth(200);
         sideImageView.setPreserveRatio(true);
