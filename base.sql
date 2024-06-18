@@ -76,3 +76,11 @@ create role administrateur , organisateur, visiteur;
 grant all on BD.* to admin;
 grant insert , update, delete, select on BD.base to organisateur;
 grant select on BD.base to visiteur;
+
+CREATE TABLE PERSONNE{
+  idPers int,
+  prenomA varchar(30),
+  nomA varchar(30),
+  mdp varchar(30),
+  PRIMARY KEY (idpers)
+}
