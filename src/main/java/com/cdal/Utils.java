@@ -1,3 +1,5 @@
+package main.java.com.cdal;
+
 import javafx.scene.Cursor;
 
 public class Utils {

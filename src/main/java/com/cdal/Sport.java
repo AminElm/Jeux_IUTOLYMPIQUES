@@ -65,12 +65,7 @@ public abstract class Sport{
     
     @Override
     public String toString(){
-        String res = "";
-        for (Epreuve i : this.epreuves){
-            res += i.toString();
-        }
-
-        return "Les épreuve de" + nom + "sont :" + res;
+        return this.nom.toString();
     }
     
 }
