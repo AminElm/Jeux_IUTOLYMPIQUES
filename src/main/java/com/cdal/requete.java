@@ -8,8 +8,10 @@ public class requete {
 	ConnexionMySQL laConnexion;
 	Statement st;
 
-	public requete(ConnexionMySQL laConnexion) {
-		this.laConnexion = laConnexion;
+	public requete()throws SQLException, ClassNotFoundException {
+		this.laConnexion = new ConnexionMySQL();
+        this.laConnexion.connecter();
+		
 	}
 
 	public int ajouteAthletAvecEquipe(int idA,Pays p, Equipe e, String prenom, String nom, char sexe, int endurence, int forces, int agilite)throws SQLException{

@@ -7,6 +7,7 @@ import javax.smartcardio.ATR;
 
 import main.java.com.cdal.Athlete;
 import main.java.com.cdal.Epreuve;
+import main.java.com.cdal.Equipe;
 import main.java.com.cdal.Pays;
 
 import java.io.FileNotFoundException;
@@ -18,6 +19,7 @@ public class DonnerJo {
     private ArrayList<Sport> sport;
     private ArrayList<Epreuve> epreuves;
     private ArrayList<Pays> pays;
+    private ArrayList<Equipe> equipes;
 
 
 
@@ -35,6 +37,7 @@ public class DonnerJo {
         this.sport = new ArrayList<>();
         this.epreuves = new ArrayList<>();
         this.pays = new ArrayList<>();
+        this.equipes = new ArrayList<>();
         while(scan.hasNextLine()){
             String line = scan.nextLine();
             String [] l = line.split(",");
@@ -67,7 +70,6 @@ public class DonnerJo {
             if (epr){
                 e = new Epreuve(l[5],s);
                 epreuves.add(e);
-                ;
             }
             Athlete a = new Athlete(l[0], l[1], l[2],p,Integer.valueOf(l[7]), Integer.valueOf(l[9]), Integer.valueOf(l[8]));
             boolean at = true;
@@ -81,7 +83,28 @@ public class DonnerJo {
             }
             e.ajouteParticipant(a);
             p.ajouterParticipant(a);
+
+            if (l[6]=="T"){
+                Equipe equip;
+                boolean eq = true;
+                for (Equipe equi : equipes){
+                    if (equi.getNom().equals(l[5])){
+                        equi.ajouteAthlete(a);
+                        eq = false;
+                        equip = equi;
+                    }
+                }
+                if (eq){
+                    equip = new Equipe(l[5],p);
+                    equip.ajouteAthlete(a);
+                    equipes.add(equip);
+                }
+            }
+
         }
+
+        
+
     }
    
 }
