@@ -2,7 +2,7 @@ package main.java.com.cdal;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class Sport{
+public class Sport{
     protected List<Epreuve> epreuves;
     protected String nom;
     private double coeffForce;

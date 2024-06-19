@@ -13,21 +13,27 @@ public class Equipe implements Participant{
     /**
      * Liste des épreuves auxquelles l'équipe participe
      */
-    private List<Epreuve> lesEpreuves;
+    private Epreuve ep;
 
     /**
      * Liste des athlètes de l'équipe
      */
     private List<Athlete> lesAthletes;
+ 
+     /**
+     * Nom de l'équipe
+     */
+     private Pays pays;
 
     /**
      * Constructeur de la classe Equipe.
      * @param nomEquipe Le nom de l'équipe.
      */
-    public Equipe(String nomEquipe) {
+    public Equipe(String nomEquipe, Epreuve ep, Pays p) {
         this.nomEquipe = nomEquipe;
         this.lesAthletes = new ArrayList<>();
-        this.lesEpreuves = new ArrayList<>();
+        this.ep = ep;
+        this.pays = p;
     }
 
     /**
@@ -66,8 +72,8 @@ public class Equipe implements Participant{
         }
     }
 
-    public List<Epreuve> getEpreuves() {
-        return this.lesEpreuves;
+    public Epreuve getEpreuves() {
+        return this.ep;
     }
 
     /**
@@ -130,7 +136,7 @@ public class Equipe implements Participant{
         double scoreEquipe = 0;
         double cpt_sport = 0;
         for(Athlete ath : lesAthletes){
-            if(ath.getEpreuves().contains(ep)){
+            if(ath.getEpreuve().equals(ep)){
                 scoreEquipe += ath.participer(ep);
                 cpt_sport++;
             }

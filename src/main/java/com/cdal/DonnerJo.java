@@ -7,9 +7,11 @@ import javax.smartcardio.ATR;
 
 import main.java.com.cdal.Athlete;
 import main.java.com.cdal.Epreuve;
+import main.java.com.cdal.Equipe;
 import main.java.com.cdal.Pays;
 
 import java.io.FileNotFoundException;
+import java.sql.SQLException;
 
 
 
@@ -18,10 +20,11 @@ public class DonnerJo {
     private ArrayList<Sport> sport;
     private ArrayList<Epreuve> epreuves;
     private ArrayList<Pays> pays;
+    private ArrayList<Equipe> equipes;
 
 
 
-    public DonnerJo(File file)throws FileNotFoundException{
+    public DonnerJo(File file)throws FileNotFoundException,SQLException, ClassNotFoundException{
         Scanner scan = new Scanner(file);
         sport.add(new VolleyBall());
         sport.add(new Escrime());
@@ -35,15 +38,20 @@ public class DonnerJo {
         this.sport = new ArrayList<>();
         this.epreuves = new ArrayList<>();
         this.pays = new ArrayList<>();
+        this.equipes = new ArrayList<>();
         while(scan.hasNextLine()){
             String line = scan.nextLine();
             String [] l = line.split(",");
 
-            
+            Boolean sp = true;
             Sport s;
             for (Sport sports : sport)
                 {if (l[4]==sports.getNom()){
-                    s = sports;}}
+                    s = sports;
+                    sp = false;}}
+            if (sp) {
+               s = new Sport(l[4], 0, 0, 0); 
+            }
             
             Boolean pa = true;
             Pays p;
@@ -67,9 +75,11 @@ public class DonnerJo {
             if (epr){
                 e = new Epreuve(l[5],s);
                 epreuves.add(e);
-                ;
             }
-            Athlete a = new Athlete(l[0], l[1], l[2],p,Integer.valueOf(l[7]), Integer.valueOf(l[9]), Integer.valueOf(l[8]));
+
+
+            Athlete a = new Athlete(l[0], l[1],l[2].charAt(0),p,Integer.valueOf(l[7]), Integer.valueOf(l[9]), Integer.valueOf(l[8]),(l[6]=="T"),e);
+            
             boolean at = true;
             for (Athlete ath : athletes){
                 if (ath.equals(a)){
@@ -82,10 +92,45 @@ public class DonnerJo {
             e.ajouteParticipant(a);
             p.ajouterParticipant(a);
 
-                    
+            if (l[6]=="T"){
+                Equipe equip;
+                boolean eq = true;
+                for (Equipe equi : equipes){
+                    if (equi.getNom().equals(l[5])){
+                        equi.ajouteAthlete(a);
+                        eq = false;
+                        equip = equi;
+                    }
+                }
+                if (eq){
+                    equip = new Equipe(l[5],e, p);
+                    equip.ajouteAthlete(a);
+                    equipes.add(equip);
+                }
+            }
 
+        }
+        Requete re = new Requete();
+        for (Pays pa : pays){
+            re.ajoutePays(pa);
+        }
+        for (Sport s : sport){
+            re.ajouteSport(s);
+        }
+        for (Epreuve e : epreuves){
+            re.ajouteEpreuve(e);
+        }
+        for (Athlete a : athletes){
+            if 
+        }
+
+        
+        
+
+
+
+        
 
     }
    
-}
 }
