@@ -8,6 +8,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
+import javafx.scene.layout.StackPane;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
@@ -24,6 +25,7 @@ public class FenetreInscription extends BorderPane {
     private TextField usernameField;
     private PasswordField passwordField;
     private PasswordField passwordField2;
+    private Button infoButton;
 
     public FenetreInscription(Main app) {
         super();
@@ -32,12 +34,49 @@ public class FenetreInscription extends BorderPane {
         this.passwordField = new PasswordField();
         this.passwordField2 = new PasswordField();
 
-        // ImageView topImageView = new ImageView(new Image("file:src/main/java/com/cdal/test.png", 100, 100, false, false));
-        // topImageView.setPreserveRatio(true);
-        // this.setTop(topImageView);
+        this.setTop(enTete());
 
         // Ajout de la HBox centrale au BorderPane
         this.setCenter(center());
+    }
+
+    private StackPane enTete(){
+        StackPane headerStackPane = new StackPane();
+        headerStackPane.setPadding(new Insets(15, 12, 15, 12));
+        headerStackPane.setStyle("-fx-background-color: white;");
+
+        ImageView imageEnTete = new ImageView(new Image("file:img/iutjo.png"));
+        imageEnTete.setFitHeight(50);
+        imageEnTete.setPreserveRatio(true);
+
+        Label titre = new Label("Inscription");
+        titre.setFont(new Font("System Bold", 24));
+        titre.setTextFill(Color.BLACK);
+
+        Button logoutButton = new Button();
+        ImageView logoutImage = new ImageView(new Image("file:img/logout.png"));
+        logoutImage.setFitHeight(30);
+        logoutImage.setPreserveRatio(true);
+        logoutButton.setGraphic(logoutImage);
+        logoutButton.setStyle("-fx-background-radius: 50%; -fx-padding: 8;");
+
+        infoButton = new Button();
+        ImageView infoImage = new ImageView(new Image("file:img/info.png"));
+        infoImage.setFitHeight(30);
+        infoImage.setPreserveRatio(true);
+        infoButton.setGraphic(infoImage);
+        infoButton.setStyle("-fx-background-radius: 50%; -fx-padding: 8;");
+
+        HBox buttonsHBox = new HBox(10, logoutButton, infoButton);
+        buttonsHBox.setAlignment(Pos.CENTER_RIGHT);
+
+        StackPane.setAlignment(imageEnTete, Pos.CENTER_LEFT);
+        StackPane.setAlignment(titre, Pos.CENTER);
+        StackPane.setAlignment(buttonsHBox, Pos.CENTER_RIGHT);
+
+        headerStackPane.getChildren().addAll(imageEnTete, titre, buttonsHBox);
+
+        return headerStackPane;
     }
 
     public HBox center() {
