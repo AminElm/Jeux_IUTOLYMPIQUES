@@ -46,6 +46,12 @@ public class Epreuve {
         this.sportEpreuve = sp;
         this.colectif = colectif;
     }
+    public Epreuve(String nom, Sport sp){
+        this.participants = new ArrayList<>();
+        this.nom = nom;
+        this.sportEpreuve = sp;
+        this.colectif = false;
+    }
     /**
      * Getter de la liste des équipes participant à l'épreuve
      * @return Liste des équipes participant à l'épreuve
