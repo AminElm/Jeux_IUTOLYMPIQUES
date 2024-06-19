@@ -93,6 +93,10 @@ public class Athlete implements Comparable<Athlete>, Participant {
         return this.nom;
     }
 
+    public Boolean getEnEquipe() {
+        return this.enEquipe;
+    }
+
     /**
      * Modifie le nom d'un athlète
      *
@@ -187,11 +191,6 @@ public class Athlete implements Comparable<Athlete>, Participant {
         return this.ep;
     }
 
-
-    public Equipe getEquipe(){
-        Requete re = new Requete();
-    }
-
     /**
      * Simule la participation d'un athlète à une épreuve
      *
@@ -244,5 +243,5 @@ public class Athlete implements Comparable<Athlete>, Participant {
     public int compareTo(Athlete ath) {
         return (this.force + this.agilite + this.endurance) - (ath.getForce() + ath.getAgilite() + ath.getEndurance());
     }
-}}
+}
 
