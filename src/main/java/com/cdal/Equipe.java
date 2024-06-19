@@ -21,14 +21,20 @@ public class Equipe implements Participant{
     */
    private List<Athlete> lesAthletes;
 
+    /**
+    * Nom de l'équipe
+    */
+    private Pays pays;
+
    /**
     * Constructeur de la classe Equipe.
     * @param nomEquipe Le nom de l'équipe.
     */
-   public Equipe(String nomEquipe, Epreuve ep) {
+   public Equipe(String nomEquipe, Epreuve ep, Pays p) {
        this.nomEquipe = nomEquipe;
        this.lesAthletes = new ArrayList<>();
        this.ep = ep;
+       this.pays = p;
    }
 
    /**
