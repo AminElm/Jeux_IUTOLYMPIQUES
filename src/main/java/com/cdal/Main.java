@@ -36,4 +36,14 @@ public class Main extends Application {
         new ControleurFenetreOrga(fenetreOrganisateur);
         scene.setRoot(fenetreOrganisateur);
     }
+
+    public void afficherAdministrateur(){
+        FenetreAdministrateur fenetreadministrateur = new FenetreAdministrateur(this);
+        scene.setRoot(fenetreadministrateur);
+    }
+
+    public void afficherFentreAjouterAthlete(){
+        FenetreAjouterAthlete afficherFentreAjouterAthlete = new FenetreAjouterAthlete(this);
+        scene.setRoot(afficherFentreAjouterAthlete);
+    }
 }
