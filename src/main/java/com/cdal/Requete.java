@@ -207,18 +207,19 @@ public Requete() throws SQLException, ClassNotFoundException {
 
 
 	public List<Epreuve> ToutLesEpreuves() throws SQLException {
-		List<Epreuve> epreuves = new ArrayList<>();
-		st = laConnexion.createStatement();
-		ResultSet rs = st.executeQuery("select * from EPREUVE;");
-		while (rs.next()) {
-			int idEp = rs.getInt(1);
-			String nomEp = rs.getString(2);
-			int idS = rs.getInt(3);
-			Sport s = this.getSport(idS);
-			epreuves.add(new Epreuve(nomEp, s));
-		}
-		return epreuves;
-	}
+        List<Epreuve> epreuves = new ArrayList<>();
+        Statement st = laConnexion.createStatement();
+        ResultSet rs = st.executeQuery("SELECT * FROM EPREUVE;");
+        while (rs.next()) {
+            int idEp = rs.getInt("idEp");
+            int idS = rs.getInt("idS");
+            String nomEp = rs.getString("nomEp");
+            Sport sport = getSport(idS);
+            Epreuve epreuve = new Epreuve(nomEp, sport);
+            epreuves.add(epreuve);
+        }
+        return epreuves;
+    }
 
 	public List<Pays> ToutLesPays() throws SQLException {
 		List<Pays> pays = new ArrayList<>();
@@ -252,11 +253,11 @@ public Requete() throws SQLException, ClassNotFoundException {
 
 	public Sport getSport(int idS) throws SQLException {
 		st = laConnexion.createStatement();
-		ResultSet rs = st.executeQuery("select nomS from SPORT where idS =" + String.valueOf(idS) + ";");
+		ResultSet rs = st.executeQuery("select nomS, coeffForce, coeffAgilite, coeffEndurance from SPORT where idS =" + String.valueOf(idS) + ";");
 		rs.next();
 		return new Sport(rs.getString(1), rs.getDouble(2), rs.getDouble(3), rs.getDouble(4));
 	}
-
+	
 	public Pays getPays(int idP) throws SQLException {
 		st = laConnexion.createStatement();
 		ResultSet rs = st.executeQuery("select nomP from PAYS where idP =" + String.valueOf(idP) + ";");
