@@ -103,6 +103,22 @@ public Requete() throws SQLException, ClassNotFoundException {
 		sn.executeUpdate();
 	}
 
+	public void ajouteParticipEq(Epreuve ep, Equipe eq) throws SQLException {
+		int idEp = this.getidEpreuve(ep);
+		int idEq = this.getidEquipe(eq);
+		PreparedStatement sn = laConnexion.prepareStatement(
+				"insert into PARTICIPE_Eq(idEq,idEp,score) values (" + String.valueOf(idEq) + "," + String.valueOf(idEp) + ",0);");
+		sn.executeUpdate();
+	}
+
+	public void ajouteParticipA(Epreuve ep, Athlete a) throws SQLException {
+		int idEp = this.getidEpreuve(ep);
+		int idA = this.getidAtlhete(a);
+		PreparedStatement sn = laConnexion.prepareStatement(
+				"insert into PARTICIPE_A(idA,idEp,score) values (" + String.valueOf(idA) + "," + String.valueOf(idEp) + ",0);");
+		sn.executeUpdate();
+	}
+
 
 
 
