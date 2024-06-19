@@ -5,12 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import javax.smartcardio.ATR;
-
-import main.java.com.cdal.Athlete;
-import main.java.com.cdal.Epreuve;
-import main.java.com.cdal.Equipe;
-import main.java.com.cdal.Pays;
 
 import java.io.FileNotFoundException;
 import java.sql.SQLException;
@@ -46,7 +40,7 @@ public class DonnerJo {
             String [] l = line.split(",");
 
             Boolean sp = true;
-            Sport s;
+            Sport s = null;
             for (Sport sports : sport)
                 {if (l[4]==sports.getNom()){
                     s = sports;
@@ -56,7 +50,7 @@ public class DonnerJo {
             }
             
             Boolean pa = true;
-            Pays p;
+            Pays p = null;
             for(Pays pay : pays){
                 if(l[3] == pay.getNom()){
                 pa = false;
@@ -68,7 +62,7 @@ public class DonnerJo {
             }
 
             Boolean epr = true;
-            Epreuve e;
+            Epreuve e = null;
             for(Epreuve epreuve : epreuves){
                 if(l[5] == epreuve.getNom()){
                 epr = false;
@@ -149,4 +143,5 @@ public class DonnerJo {
                 re.ajouteParticipA(e, null);}
         
     
-    }}
+    }
+}
