@@ -45,6 +45,9 @@ CREATE TABLE EPREUVE (
 CREATE TABLE SPORT (
   idS int,
   nomS varchar(30),
+  coeffForce float,
+  coeffAgilite float,
+  coeffEndurance float,
   PRIMARY KEY (idS)
 );
 
@@ -80,5 +83,6 @@ CREATE TABLE PERSONNE(
   PRIMARY KEY (pseudos)
 );
 
+INSERT INTO SPORT (idS, nomS) VALUES (1, 'Athlétisme'), (2, 'Escrime'), (3, 'VolleyBall'), (4, 'Natation'), (5, 'Handball');
+INSERT INTO EPREUVE (idEp, idS, nomEp) VALUES (1, 1, '100m Sprint'), (2, 1, 'Long Jump'), (3, 1, 'Shot Put'), (4, 1, 'High Jump'), (5, 1, '400m Sprint');
 INSERT INTO PERSONNE (pseudos, mdp,roles) values ('testadm','96426','admin'),('testorga','3419645','orga'),('testvisit','112217419','visit');
-INSERT INTO EPREUVE (idEp, nomEp) VALUES (1, '100m Sprint'), (2, 'Long Jump'), (3, 'Shot Put'), (4, 'High Jump'), (5, '400m Sprint');
