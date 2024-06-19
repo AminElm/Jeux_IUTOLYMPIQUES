@@ -21,26 +21,30 @@ public class Epreuve {
     * Sport de l'épreuve
     */
     private Sport sportEpreuve;
+
+    private boolean colectif;
     /**
      * Constructeur de la classe Epreuve
      * @param participants Liste des équipes participant à l'épreuve
      * @param nom Nom de l'épreuve
      * @param sp Sport de l'épreuve
      */
-    public Epreuve(List<Participant> participants, String nom, Sport sp){
+    public Epreuve(List<Participant> participants, String nom, Sport sp, boolean colectif){
         this.participants = participants;
         this.nom = nom;
         this.sportEpreuve = sp;
+        this.colectif = colectif;
     }
     /**
      * Constructeur de la classe Epreuve
      * @param nom Nom de l'épreuve
      * @param sp Sport de l'épreuve
      */
-    public Epreuve(String nom, Sport sp){
+    public Epreuve(String nom, Sport sp, boolean colectif){
         this.participants = new ArrayList<>();
         this.nom = nom;
         this.sportEpreuve = sp;
+        this.colectif = colectif;
     }
     /**
      * Getter de la liste des équipes participant à l'épreuve
@@ -48,6 +52,10 @@ public class Epreuve {
      */
     public List<Participant> getparticipants() {
         return participants;
+    }
+
+    public boolean isColectif(){
+        return this.colectif;
     }
     /**
      * Définit la liste des équipes participant à l'épreuve
