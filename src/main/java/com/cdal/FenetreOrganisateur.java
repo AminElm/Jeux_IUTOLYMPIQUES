@@ -1,4 +1,5 @@
 package main.java.com.cdal;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -11,10 +12,10 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
-public class FenetreOrganisateur extends BorderPane{
+public class FenetreOrganisateur extends BorderPane {
 
     private Main app;
-    private TextField tfEpreuve;
+    private ComboBox<Epreuve> choixEpreuve;
     private ComboBox<String> choixSport;
     private Button lancerEp;
     private Button btnEnregistrer;
@@ -23,14 +24,14 @@ public class FenetreOrganisateur extends BorderPane{
     private Button infoButton;
     private Button logoutButton;
 
-    public FenetreOrganisateur(Main app){
+    public FenetreOrganisateur(Main app) {
         this.app = app;
         this.epreuves = FXCollections.observableArrayList();
         this.setTop(enTete());
         this.setCenter(contenu());
     }
 
-    private StackPane enTete(){
+    private StackPane enTete() {
         StackPane spEntete = new StackPane();
         spEntete.setPadding(new Insets(15, 12, 15, 12));
         spEntete.setStyle("-fx-background-color: white;");
@@ -68,7 +69,7 @@ public class FenetreOrganisateur extends BorderPane{
         return spEntete;
     }
 
-    private VBox contenu(){
+    private VBox contenu() {
         VBox contenu = new VBox(20);
         contenu.setPadding(new Insets(20, 20, 20, 20));
         contenu.setAlignment(Pos.TOP_CENTER);
@@ -77,14 +78,15 @@ public class FenetreOrganisateur extends BorderPane{
         formulaire.setVgap(15);
         formulaire.setPadding(new Insets(20, 20, 20, 20));
         formulaire.setBackground(new Background(new BackgroundFill(Color.WHITE, new CornerRadii(10), Insets.EMPTY)));
+
         Label nomEp = new Label("Nom de l'épreuve:");
-        tfEpreuve = new TextField();
-        tfEpreuve.setPromptText("Entrez le nom de l'épreuve");
+        choixEpreuve = new ComboBox<>();
         Label nomSport = new Label("Sport:");
         choixSport = new ComboBox<>();
         choixSport.getItems().addAll("Athlétisme", "Escrime", "VolleyBall", "Natation", "Handball");
+
         formulaire.add(nomEp, 0, 0);
-        formulaire.add(tfEpreuve, 1, 0);
+        formulaire.add(choixEpreuve, 1, 0);
         formulaire.add(nomSport, 2, 0);
         formulaire.add(choixSport, 3, 0);
         lancerEp = new Button("Lancer l'épreuve");
@@ -127,24 +129,25 @@ public class FenetreOrganisateur extends BorderPane{
         TableColumn<Epreuve, Void> colAction = new TableColumn<>("Action");
         colAction.setPrefWidth(100);
         colAction.setMinWidth(80);
-        colAction.setCellFactory(param -> new TableCell<>(){
+        colAction.setCellFactory(param -> new TableCell<>() {
             private final Button btnSupp = new Button();
             private final ImageView imageView = new ImageView(new Image("file:img/delete.png", 16, 16, true, true));
 
             {
                 btnSupp.setGraphic(imageView);
                 btnSupp.setStyle("-fx-background-color: transparent;");
-                btnSupp.setOnAction(event ->{
+                btnSupp.setOnAction(event -> {
                     Epreuve epreuve = getTableView().getItems().get(getIndex());
                     getTableView().getItems().remove(epreuve);
                 });
             }
+
             @Override
-            protected void updateItem(Void item, boolean empty){
+            protected void updateItem(Void item, boolean empty) {
                 super.updateItem(item, empty);
-                if (empty){
+                if (empty) {
                     setGraphic(null);
-                } else{
+                } else {
                     setGraphic(btnSupp);
                 }
             }
@@ -155,26 +158,33 @@ public class FenetreOrganisateur extends BorderPane{
 
         return contenu;
     }
-    public TextField getTfEpreuve(){
-        return tfEpreuve;
+
+    // Getters pour le contrôleur
+    public ComboBox<Epreuve> getChoixEpreuve() {
+        return choixEpreuve;
     }
-    public ComboBox<String> getChoixSport(){
+
+    public ComboBox<String> getChoixSport() {
         return choixSport;
     }
-    public Button getLancerEp(){
+
+    public Button getLancerEp() {
         return lancerEp;
     }
-    public Button getBtnEnregistrer(){
+
+    public Button getBtnEnregistrer() {
         return btnEnregistrer;
     }
-    public TableView<Epreuve> getTabEpreuve(){
+
+    public TableView<Epreuve> getTabEpreuve() {
         return tabEpreuve;
     }
-    public ObservableList<Epreuve> getEpreuves(){
+
+    public ObservableList<Epreuve> getEpreuves() {
         return epreuves;
     }
 
-    public Button getInfoButton(){
+    public Button getInfoButton() {
         return infoButton;
     }
 }
