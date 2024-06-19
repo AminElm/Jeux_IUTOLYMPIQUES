@@ -5,6 +5,7 @@ DROP TABLE IF EXISTS SPORT;
 DROP TABLE IF EXISTS ATHLETE;
 DROP TABLE IF EXISTS EQUIPE;
 DROP TABLE IF EXISTS PAYS;
+DROP TABLE IF EXISTS PERSONNE;
 
 
 CREATE TABLE PAYS (
@@ -37,7 +38,7 @@ CREATE TABLE ATHLETE (
 CREATE TABLE EPREUVE (
   idEp int,
   idS int,
-  nomEp varchar(30),
+  nomEp varchar(50),
   PRIMARY KEY (idEp)
 );
 
@@ -79,5 +80,5 @@ CREATE TABLE PERSONNE(
   PRIMARY KEY (pseudos)
 );
 
-
+INSERT INTO PERSONNE (pseudos, mdp,roles) values ('testadm','96426','admin'),('testorga','3419645','orga'),('testvisit','112217419','visit');
 INSERT INTO EPREUVE (idEp, nomEp) VALUES (1, '100m Sprint'), (2, 'Long Jump'), (3, 'Shot Put'), (4, 'High Jump'), (5, '400m Sprint');
