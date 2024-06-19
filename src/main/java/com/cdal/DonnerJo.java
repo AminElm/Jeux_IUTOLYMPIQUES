@@ -73,7 +73,7 @@ public class DonnerJo {
                 e = epreuve;}
             }
             if (epr){
-                e = new Epreuve(l[5],s);
+                e = new Epreuve(l[5],s,(l[6]=="T"));
                 epreuves.add(e);
             }
 
@@ -119,20 +119,32 @@ public class DonnerJo {
         for (Sport s : sport){
             re.ajouteSport(s);
         }
-        for (Epreuve e : epreuves){
-            re.ajouteEpreuve(e);
-        }
+        for (Equipe eq : equipes){
+            re.ajouteEquipe(eq);}
+
         for (Athlete a : athletes){
-            if 
-        }
-
+            if (a.getEnEquipe()){
+                for (Equipe eq : equipes){
+                    if (eq.getAthletes().contains(a)){
+                      re.ajouteAthletAvecEquipe(a,eq);}}}
+            else{
+                re.ajouteAthletSansEquipe(a);
+            }}
+            for (Epreuve e : epreuves){
+                re.ajouteEpreuve(e);
+                if (e.isColectif()){
+                    for (Participant eq : e.getparticipants()){
+                        Equipe equi = (Equipe) eq;
+                        re.ajouteParticipEq(e, equi);
+                    }
+                }
+                else{
+                    for (Participant a : e.getparticipants()){
+                        Athlete ath = (Athlete) a;
+                        re.ajouteParticipA(e, ath);
+                    }
+                }
+                re.ajouteParticipA(e, null);}
         
-        
-
-
-
-        
-
-    }
-   
-}
+    
+    }}
