@@ -1,3 +1,5 @@
+package main.java.com.cdal;
+
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -130,20 +132,40 @@ public class Requete {
 
 	public void ajouteVisiteur(String pseudos, String mdp)throws SQLException{
 		PreparedStatement sn = laConnexion.prepareStatement(
-			"insert into PERSONNE (pseudos, mdp,roles) values ("+pseudos+","+mdp+"visit);");
+			"insert into PERSONNE (pseudos, mdp, roles) values ("+pseudos+","+mdp+",'visit');");
 		sn.executeUpdate();
 	}
 
 	public void ajouteAdmin(String pseudos, String mdp)throws SQLException{
 		PreparedStatement sn = laConnexion.prepareStatement(
-			"insert into PERSONNE (pseudos, mdp,roles) values ("+pseudos+","+mdp+"admin);");
+			"insert into PERSONNE (pseudos, mdp,roles) values ("+pseudos+","+mdp+",'admin');");
 		sn.executeUpdate();
 	}
 
 	public void ajouteOrga(String pseudos, String mdp)throws SQLException{
 		PreparedStatement sn = laConnexion.prepareStatement(
-			"insert into PERSONNE (pseudos, mdp,roles) values ("+pseudos+","+mdp+"orga);");
+			"insert into PERSONNE (pseudos, mdp,roles) values ("+pseudos+","+mdp+",'orga');");
 		sn.executeUpdate();
+	}
+
+	public boolean personneExiste(String pseudo) throws SQLException{
+		this.st = this.laConnexion.createStatement();
+		ResultSet rs = this.st.executeQuery("Select * from PERSONNE where pseudos = " + pseudo);
+		return rs.next();
+	}
+
+	public int mdpPersonne(String pseudo) throws SQLException{
+		this.st = this.laConnexion.createStatement();
+		ResultSet rs = this.st.executeQuery("Select mdp from PERSONNE where pseudos = " + pseudo);
+		rs.next();
+		return rs.getInt(1);
+	}
+
+	public String rolePersonne(String pseudo) throws SQLException{
+		this.st = this.laConnexion.createStatement();
+		ResultSet rs = this.st.executeQuery("Select roles from PERSONNE where pseudos = " + pseudo);
+		rs.next();
+		return rs.getString(1);
 	}
 
 

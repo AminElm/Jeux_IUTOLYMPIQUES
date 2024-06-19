@@ -22,13 +22,18 @@ import javafx.scene.text.Font;
 public class FenetreConnexion extends BorderPane {
 
     private Main app;
+    private TextField usernameField;
+    private PasswordField passwordField;
 
     public FenetreConnexion(Main app) {
         super();
         this.app = app;
-        ImageView topImageView = new ImageView(new Image("file:test.png", 100, 100, false, false));
-        topImageView.setPreserveRatio(true);
-        this.setTop(topImageView);
+        this.usernameField = new TextField();
+        this.passwordField = new PasswordField();
+
+        // ImageView topImageView = new ImageView(new Image("file:src/main/java/com/cdal/test.png", 100, 100, false, false));
+        // topImageView.setPreserveRatio(true);
+        // this.setTop(topImageView);
 
         // Ajout de la HBox centrale au BorderPane
         this.setCenter(center());
@@ -47,17 +52,17 @@ public class FenetreConnexion extends BorderPane {
         titleLabel.setFont(new Font("System Bold", 18));
         titleLabel.setAlignment(Pos.CENTER);
 
-        TextField usernameField = new TextField();
         usernameField.setPromptText("nom d'utilisateur");
         usernameField.setMaxWidth(238);
 
-        PasswordField passwordField = new PasswordField();
         passwordField.setPromptText("mot de passe");
         passwordField.setMaxWidth(238);
 
         HBox buttonHBox = new HBox(5);
         CheckBox stayConnectedCheckBox = new CheckBox("rester connecté");
         Button loginButton = new Button("Se connecter");
+        ControleurConnexion controleurConnexion = new ControleurConnexion(this);
+        loginButton.setOnAction(controleurConnexion);
         buttonHBox.getChildren().addAll(stayConnectedCheckBox, loginButton);
 
         Label createAccountLabel = new Label("Créer un compte");
@@ -65,14 +70,14 @@ public class FenetreConnexion extends BorderPane {
         createAccountLabel.setOnMouseClicked(e -> app.afficherInscription());
         Utils.setCursorOnHover(createAccountLabel, Cursor.HAND);
 
-        Button organiserButton = new Button("Organisateur");
-        organiserButton.setOnAction(e -> app.afficherOrganisateur());
+        // Button organiserButton = new Button("Organisateur");
+        // organiserButton.setOnAction(e -> app.afficherOrganisateur());
 
-        loginVBox.getChildren().addAll(titleLabel, usernameField, passwordField, buttonHBox, createAccountLabel, organiserButton);
+        loginVBox.getChildren().addAll(titleLabel, usernameField, passwordField, buttonHBox, createAccountLabel);
         loginVBox.setAlignment(Pos.CENTER);
 
         // ImageView à côté de la VBox
-        ImageView sideImageView = new ImageView(new Image("file:test.png"));
+        ImageView sideImageView = new ImageView(new Image("file:src/main/java/com/cdal/test.png"));
         sideImageView.setFitHeight(200);
         sideImageView.setFitWidth(200);
         sideImageView.setPreserveRatio(true);
@@ -84,4 +89,18 @@ public class FenetreConnexion extends BorderPane {
 
         return centerHBox;
     }
+
+    public String getUsernameField(){
+        return this.usernameField.getText();
+    }
+
+    public String getPasswordField(){
+        return this.passwordField.getText();
+    }
+
+    public Main getApp() {
+        return this.app;
+    }
+
+    
 }

@@ -21,13 +21,20 @@ import javafx.scene.text.Font;
 public class FenetreInscription extends BorderPane {
 
     private Main app;
+    private TextField usernameField;
+    private PasswordField passwordField;
+    private PasswordField passwordField2;
 
     public FenetreInscription(Main app) {
         super();
         this.app = app;
-        ImageView topImageView = new ImageView(new Image("file:test.png", 100, 100, false, false));
-        topImageView.setPreserveRatio(true);
-        this.setTop(topImageView);
+        this.usernameField = new TextField();
+        this.passwordField = new PasswordField();
+        this.passwordField2 = new PasswordField();
+
+        // ImageView topImageView = new ImageView(new Image("file:src/main/java/com/cdal/test.png", 100, 100, false, false));
+        // topImageView.setPreserveRatio(true);
+        // this.setTop(topImageView);
 
         // Ajout de la HBox centrale au BorderPane
         this.setCenter(center());
@@ -46,22 +53,21 @@ public class FenetreInscription extends BorderPane {
         titleLabel.setFont(new Font("System Bold", 18));
         titleLabel.setAlignment(Pos.CENTER);
 
-        TextField usernameField = new TextField();
         usernameField.setPromptText("nom d'utilisateur");
         usernameField.setMinWidth(238);
         usernameField.setMaxWidth(238);
 
-        PasswordField passwordField = new PasswordField();
         passwordField.setPromptText("mot de passe");
         passwordField.setMinWidth(238);
         passwordField.setMaxWidth(238);
 
-        PasswordField passwordField2 = new PasswordField();
         passwordField2.setPromptText("confirmez le mot de passe");
         passwordField2.setMinWidth(238);
         passwordField2.setMaxWidth(238);
 
         Button registerButton = new Button("S'inscrire");
+        ControleurInscription controleurInscription = new ControleurInscription(this);
+        registerButton.setOnAction(controleurInscription);
         registerButton.setAlignment(Pos.CENTER_RIGHT);
 
         Label createAccountLabel = new Label("J'ai déjà un compte");
@@ -69,14 +75,14 @@ public class FenetreInscription extends BorderPane {
         createAccountLabel.setOnMouseClicked(e -> app.afficherConnexion());
         Utils.setCursorOnHover(createAccountLabel, Cursor.HAND);
 
-        Button organiserButton = new Button("Organisateur");
-        organiserButton.setOnAction(e -> app.afficherOrganisateur());
+        // Button organiserButton = new Button("Organisateur");
+        // organiserButton.setOnAction(e -> app.afficherOrganisateur());
 
-        registerVBox.getChildren().addAll(titleLabel, usernameField, passwordField, passwordField2, registerButton, createAccountLabel, organiserButton);
+        registerVBox.getChildren().addAll(titleLabel, usernameField, passwordField, passwordField2, registerButton, createAccountLabel);
         registerVBox.setAlignment(Pos.CENTER);
 
         // ImageView à côté de la VBox
-        ImageView sideImageView = new ImageView(new Image("file:test.png"));
+        ImageView sideImageView = new ImageView(new Image("file:src/main/java/com/cdal/test.png"));
         sideImageView.setFitHeight(200);
         sideImageView.setFitWidth(200);
         sideImageView.setPreserveRatio(true);
@@ -87,4 +93,16 @@ public class FenetreInscription extends BorderPane {
 
         return centerHBox;
     }
+
+    public String getUsernameField(){
+        return this.usernameField.getText();
+    }
+
+    public String getPasswordField(){
+        return this.passwordField.getText();
+    }
+
+    public String getPasswordField2(){
+        return this.passwordField2.getText();
+    } 
 }
