@@ -29,4 +29,6 @@ public class ConnexionMySQL {
 		return this.mysql.prepareStatement(requete);
 	}
 	
+
 }
+

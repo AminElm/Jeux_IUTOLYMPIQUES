@@ -3,123 +3,258 @@ package main.java.com.cdal;
 import java.sql.*;
 import java.util.ArrayList;
 
+
+import java.util.List;
+import java.util.ArrayList;
+import main.java.com.cdal.Athlete;
+import main.java.com.cdal.Epreuve;
 import main.java.com.cdal.Equipe;
+import main.java.com.cdal.Pays;
+import main.java.com.cdal.Sport;
 
 
 public class Requete {
 	ConnexionMySQL laConnexion;
 	Statement st;
-
-	public Requete()throws SQLException, ClassNotFoundException {
+  
+  
+public Requete() throws SQLException, ClassNotFoundException {
 		this.laConnexion = new ConnexionMySQL();
-        this.laConnexion.connecter();
-		
+		this.laConnexion.connecter();
 	}
 
-	public int ajouteAthletAvecEquipe(int idA,Pays p, Equipe e, String prenom, String nom, char sexe, int endurence, int forces, int agilite)throws SQLException{
-		
+
+	
+	public void ajouteAthletAvecEquipe(Athlete a, Equipe e) throws SQLException {
+		int idA = this.getNbAthlete() + 1;
+		Pays p = a.getNationalite();
+		String prenom = a.getPrenom();
+		String nom = a.getNom();
+		char sexe = a.getSexe();
+		int endurence = a.getEndurance();
+		int forces = a.getForce();
+		int agilite = a.getAgilite();
 		int idP = this.getidPays(p);
 		int idEq = this.getidEquipe(e);
 		PreparedStatement sn = laConnexion.prepareStatement(
-					"insert into ATHLETE (idA, idP, idEq, prenomA, nomA, sexe, endurence, forces, agilite) values ("
-					+String.valueOf(idA)+","+String.valueOf(idP)+","+String.valueOf(idEq)+","+prenom+","+nom+","+sexe+","+String.valueOf(endurence)+","+String.valueOf(forces)+","+String.valueOf(agilite)+");");
-
+				"insert into ATHLETE (idA, idP, idEq,idEp prenomA, nomA, sexe, endurence, forces, agilite) values ("
+						+ String.valueOf(idA) + "," + String.valueOf(idP) + "," + String.valueOf(idEq) + ",NULL,"
+						+ prenom + "," + nom + "," + sexe + "," + String.valueOf(endurence) + ","
+						+ String.valueOf(forces) + "," + String.valueOf(agilite) + ");");
 		sn.executeUpdate();
-		return this.getNbAthlete();
-			
 	}
 
-	public int ajouteAthletSansEquipe(int idA,Pays p, String prenom, String nom, char sexe, int endurence, int forces, int agilite)throws SQLException{
+	public void ajouteAthletSansEquipe(Athlete a) throws SQLException {
+		int idA = this.getNbAthlete() + 1;
+		Pays p = a.getNationalite();
+		String prenom = a.getPrenom();
+		String nom = a.getNom();
+		char sexe = a.getSexe();
+		int endurence = a.getEndurance();
+		int forces = a.getForce();
+		int agilite = a.getAgilite();
 		int idP = this.getidPays(p);
 		PreparedStatement sn = laConnexion.prepareStatement(
-					"insert into ATHLETE (idA, idP, idEq, prenomA, nomA, sexe, endurence, forces, agilite) values ("
-					+String.valueOf(idA)+","+String.valueOf(idP)+","+"NULL"+","+prenom+","+nom+","+sexe+","+String.valueOf(endurence)+","+String.valueOf(forces)+","+String.valueOf(agilite)+");");
+				"insert into ATHLETE (idA, idP, idEq, idEp, prenomA, nomA, sexe, endurence, forces, agilite) values ("
+						+ String.valueOf(idA) + "," + String.valueOf(idP) + ",NULL, NULL," + prenom + "," + nom + ","
+						+ sexe + "," + String.valueOf(endurence) + "," + String.valueOf(forces) + ","
+						+ String.valueOf(agilite) + ");");
 
 		sn.executeUpdate();
-		return this.getNbAthlete();}
-
-
-	public int ajoutePays(int idP,String nomP)throws SQLException{
-		PreparedStatement sn = laConnexion.prepareStatement(
-					"insert into PAYS(idP,nomP) values ("+String.valueOf(idP)+","+nomP+");");
-		sn.executeUpdate();
-		return this.getNbPays();}
-
-	public int ajouteSport(int idS,String nomS)throws SQLException{
-		PreparedStatement sn = laConnexion.prepareStatement(
-			"insert into SPORT(idS,nomS) values ("+String.valueOf(idS)+","+nomS+");");
-		sn.executeUpdate();
-		return this.getNbSport();}
-
-	public int ajouteEpreuve(int idEp,String nomEp)throws SQLException{
-		PreparedStatement sn = laConnexion.prepareStatement(
-			"insert into EPREUVE(idEp,nomEp) values ("+String.valueOf(idEp)+","+nomEp+");");
-		sn.executeUpdate();
-		return this.getNbEpreuve();}
-
-	public int ajouteEquipe(int idEq,String nomEq)throws SQLException{
-		PreparedStatement sn = laConnexion.prepareStatement(
-			"insert into Equipe(idEq,nomEq) values ("+String.valueOf(idEq)+","+nomEq+");");
-		sn.executeUpdate();
-		return this.getNbEquipe();}
-
-
-
-
-
-
-
-
-
-
-	public int getidPays(Pays p)throws SQLException{
-		st = laConnexion.createStatement();
-		ResultSet rs = st.executeQuery("select idP from PAYS where nomP ="+p.getNom());
-		rs.next();
-		return rs.getInt(1);
 	}
 
-	public int getidEquipe(Equipe e)throws SQLException{
-		st = laConnexion.createStatement();
-		ResultSet rs = st.executeQuery("select idEq from EQUIPE where nomEq ="+e.getNom());
-		rs.next();
-		return rs.getInt(1);
+	public void ajoutePays(Pays p) throws SQLException {
+		int idP = this.getNbPays() + 1;
+		String nomP = p.getNom();
+		PreparedStatement sn = laConnexion.prepareStatement(
+				"insert into PAYS(idP,nomP) values (" + String.valueOf(idP) + "," + nomP + ");");
+		sn.executeUpdate();
+	}
+
+	public void ajouteSport(Sport s) throws SQLException {
+		int idS = this.getNbSport() + 1;
+		String nomS = s.getNom();
+		double coeffForce = s.getCoeffForce();
+		double coeffAgilite = s.getCoeffAgilite();
+		double coeffEndurance = s.getCoeffEndurance();
+		PreparedStatement sn = laConnexion.prepareStatement(
+				"insert into SPORT(idS,nomS,coeffForce,coeffAgilite,coeffEndurance) values (" + String.valueOf(idS)
+						+ "," +
+						nomS + String.valueOf(coeffForce) + "," + String.valueOf(coeffAgilite) + ","
+						+ String.valueOf(coeffEndurance) + "," + ");");
+		sn.executeUpdate();
+	}
+
+	public void ajouteEpreuve(Epreuve e) throws SQLException {
+		int idEp = this.getNbEpreuve() + 1;
+		String nomEp = e.getNom();
+		int idS = this.getidSport(e.getSportEpreuve());
+		PreparedStatement sn = laConnexion.prepareStatement(
+				"insert into EPREUVE(idEp,nomEp,idS) values (" + String.valueOf(idEp) + "," + nomEp + ","
+						+ String.valueOf(idS) + ");");
+		sn.executeUpdate();
+	}
+
+	public void ajouteEquipe(Equipe e) throws SQLException {
+		int idEq = this.getNbEquipe() + 1;
+		String nomEq = e.getNom();
+		PreparedStatement sn = laConnexion.prepareStatement(
+				"insert into Equipe(idEq,nomEq) values (" + String.valueOf(idEq) + "," + nomEq + ");");
+		sn.executeUpdate();
 	}
 
 
 
 
+	public int getidPays(Pays p) throws SQLException {
+		st = laConnexion.createStatement();
+		ResultSet rs = st.executeQuery("select idP from PAYS where nomP =" + p.getNom() + ";");
+		rs.next();
+		return rs.getInt(1);
+	}
 
-	public int getNbPays()throws SQLException{
+	public int getidEquipe(Equipe e) throws SQLException {
+		st = laConnexion.createStatement();
+		ResultSet rs = st.executeQuery("select idEq from EQUIPE where nomEq =" + e.getNom() + ";");
+		rs.next();
+		return rs.getInt(1);
+	}
+
+	public int getidSport(Sport s) throws SQLException {
+		st = laConnexion.createStatement();
+		ResultSet rs = st.executeQuery("select idS from Sport where nomS =" + s.getNom() + ";");
+		rs.next();
+		return rs.getInt(1);
+	}
+
+	public int getidAtlhete(Athlete a) throws SQLException {
+		st = laConnexion.createStatement();
+		ResultSet rs = st.executeQuery(
+				"select idA from ATHLETE where nomA =" + a.getNom() + "and prenomA = " + a.getPrenom() + ";");
+		rs.next();
+		return rs.getInt(1);
+	}
+
+	public int getidEpreuve(Epreuve e) throws SQLException {
+		st = laConnexion.createStatement();
+		ResultSet rs = st.executeQuery("select idEp from EPREUVE where nomEp =" + e.getNom() + ";");
+		rs.next();
+		return rs.getInt(1);
+	}
+
+
+	public int getidEpreuveParEquipe(int idEq) throws SQLException {
+		st = laConnexion.createStatement();
+		ResultSet rs = st.executeQuery("select idEp from PARTICIPE_Eq where idEq =" + String.valueOf(idEq) + ";");
+		rs.next();
+		return rs.getInt(1);
+	}
+
+
+
+
+	public int getNbPays() throws SQLException {
 		st = laConnexion.createStatement();
 		ResultSet rs = st.executeQuery("select count(idP) from PAYS;");
 		rs.next();
-		return rs.getInt(1);}
+		return rs.getInt(1);
+	}
 
-	public int getNbAthlete()throws SQLException{
+	public int getNbAthlete() throws SQLException {
 		st = laConnexion.createStatement();
 		ResultSet rs = st.executeQuery("select count(idA) from ATHLETE;");
 		rs.next();
-		return rs.getInt(1);}
+		return rs.getInt(1);
+	}
 
-	public int getNbSport()throws SQLException{
+	public int getNbSport() throws SQLException {
 		st = laConnexion.createStatement();
 		ResultSet rs = st.executeQuery("select count(idS) from SPORT;");
 		rs.next();
-		return rs.getInt(1);}
+		return rs.getInt(1);
+	}
 
-	public int getNbEpreuve()throws SQLException{
+	public int getNbEpreuve() throws SQLException {
 		st = laConnexion.createStatement();
 		ResultSet rs = st.executeQuery("select count(idEp) from EPREUVE;");
 		rs.next();
-		return rs.getInt(1);}
+		return rs.getInt(1);
+	}
 
-	public int getNbEquipe()throws SQLException{
+	public int getNbEquipe() throws SQLException {
 		st = laConnexion.createStatement();
 		ResultSet rs = st.executeQuery("select count(idEq) from EQUIPE;");
 		rs.next();
-		return rs.getInt(1);}
-	
+		return rs.getInt(1);
+	}
+
+
+
+	public List<Epreuve> ToutLesEpreuves() throws SQLException {
+		List<Epreuve> epreuves = new ArrayList<>();
+		st = laConnexion.createStatement();
+		ResultSet rs = st.executeQuery("select * from EPREUVE;");
+		while (rs.next()) {
+			int idEp = rs.getInt(1);
+			String nomEp = rs.getString(2);
+			int idS = rs.getInt(3);
+			Sport s = this.getSport(idS);
+			epreuves.add(new Epreuve(nomEp, s));
+		}
+		return epreuves;
+	}
+
+	public List<Pays> ToutLesPays() throws SQLException {
+		List<Pays> pays = new ArrayList<>();
+		st = laConnexion.createStatement();
+		ResultSet rs = st.executeQuery("select * from PAYS;");
+		while (rs.next()) {
+			int idP = rs.getInt(1);
+			String nomP = rs.getString(2);
+			pays.add(new Pays(nomP));
+		}
+		return pays;
+	}
+
+	public List<Equipe> ToutLesEquipes() throws SQLException {
+		List<Equipe> equipes = new ArrayList<>();
+		st = laConnexion.createStatement();
+		ResultSet rs = st.executeQuery("select * from EQUIPE;");
+		while (rs.next()) {
+			int idEq = rs.getInt(1);
+			int idP = rs.getInt(2);
+			int idEp = getidEpreuveParEquipe(idEq);
+			String nomEq = rs.getString(3);
+			Pays p = this.getPays(idP);
+			Epreuve e = this.getEpreuve(idEp);
+			equipes.add(new Equipe(nomEq, e, p));
+		}
+		return equipes;
+	}
+
+
+
+	public Sport getSport(int idS) throws SQLException {
+		st = laConnexion.createStatement();
+		ResultSet rs = st.executeQuery("select nomS from SPORT where idS =" + String.valueOf(idS) + ";");
+		rs.next();
+		return new Sport(rs.getString(1), rs.getDouble(2), rs.getDouble(3), rs.getDouble(4));
+	}
+
+	public Pays getPays(int idP) throws SQLException {
+		st = laConnexion.createStatement();
+		ResultSet rs = st.executeQuery("select nomP from PAYS where idP =" + String.valueOf(idP) + ";");
+		rs.next();
+		return new Pays(rs.getString(1));
+	}
+
+	public Epreuve getEpreuve(int idEp) throws SQLException {
+		st = laConnexion.createStatement();
+		ResultSet rs = st.executeQuery("select nomEp,idS from EPREUVE where idEp =" + String.valueOf(idEp) + ";");
+		rs.next();
+		Sport s = this.getSport(rs.getInt(2));
+		return new Epreuve(rs.getString(1), s);
+	}
 
 
 
@@ -128,48 +263,45 @@ public class Requete {
 
 
 
-
-
-	public void ajouteVisiteur(String pseudos, String mdp)throws SQLException{
+	public void ajouteVisiteur(String pseudos, String mdp) throws SQLException {
 		PreparedStatement sn = laConnexion.prepareStatement(
-			"insert into PERSONNE (pseudos, mdp, roles) values ("+pseudos+","+mdp+",'visit');");
+				"insert into PERSONNE (pseudos, mdp, roles) values (" + pseudos + "," + mdp + ",'visit');");
 		sn.executeUpdate();
 	}
 
-	public void ajouteAdmin(String pseudos, String mdp)throws SQLException{
+	public void ajouteAdmin(String pseudos, String mdp) throws SQLException {
 		PreparedStatement sn = laConnexion.prepareStatement(
-			"insert into PERSONNE (pseudos, mdp,roles) values ("+pseudos+","+mdp+",'admin');");
+				"insert into PERSONNE (pseudos, mdp,roles) values (" + pseudos + "," + mdp + ",'admin');");
 		sn.executeUpdate();
 	}
 
-	public void ajouteOrga(String pseudos, String mdp)throws SQLException{
+	public void ajouteOrga(String pseudos, String mdp) throws SQLException {
 		PreparedStatement sn = laConnexion.prepareStatement(
-			"insert into PERSONNE (pseudos, mdp,roles) values ("+pseudos+","+mdp+",'orga');");
+				"insert into PERSONNE (pseudos, mdp,roles) values (" + pseudos + "," + mdp + ",'orga');");
 		sn.executeUpdate();
 	}
 
-	public boolean personneExiste(String pseudo) throws SQLException{
+	public boolean personneExiste(String pseudo) throws SQLException {
 		this.st = this.laConnexion.createStatement();
 		ResultSet rs = this.st.executeQuery("Select * from PERSONNE where pseudos = " + pseudo);
 		return rs.next();
 	}
 
-	public int mdpPersonne(String pseudo) throws SQLException{
+	public int mdpPersonne(String pseudo) throws SQLException {
+
 		this.st = this.laConnexion.createStatement();
 		ResultSet rs = this.st.executeQuery("Select mdp from PERSONNE where pseudos = " + pseudo);
 		rs.next();
 		return rs.getInt(1);
 	}
 
-	public String rolePersonne(String pseudo) throws SQLException{
+	public String rolePersonne(String pseudo) throws SQLException {
+
 		this.st = this.laConnexion.createStatement();
 		ResultSet rs = this.st.executeQuery("Select roles from PERSONNE where pseudos = " + pseudo);
 		rs.next();
 		return rs.getString(1);
 	}
-
-
-
 
 
 }

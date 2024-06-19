@@ -2,12 +2,17 @@ package main.java.com.cdal;
 
 import java.util.Random;
 
+import main.java.com.cdal.Equipe;
+import main.java.com.cdal.Pays;
 
 public class Athlete implements Comparable<Athlete>, Participant {
     /**
      * Nom de l'athlète
      */
     private String nom;
+
+    private Boolean enEquipe;
+
     /**
      * Prénom de l'athlète
      */
@@ -16,7 +21,7 @@ public class Athlete implements Comparable<Athlete>, Participant {
     /**
      * Sexe de l'athlète ("H" ou "F"). Ce champ est final car il ne doit pas être modifié après l'initialisation.
      */
-    private final String sexe;
+    private final char sexe;
 
     /**
      * Nationalité de l'athlète. Ce champ est final car il ne doit pas être modifié après l'initialisation.
@@ -55,7 +60,8 @@ public class Athlete implements Comparable<Athlete>, Participant {
      * @param endurance   Entier indiquant la valeur d'endurance d'un athlète.
      * @param ep          l'épreuve à laquelle l'athlète participe.
      */
-    public Athlete(String nom, String prenom, String sexe, Pays nationalite, int force, int agilite, int endurance, Epreuve ep) {
+
+    public Athlete(String nom, String prenom, char sexe, Pays nationalite, int force, int agilite, int endurance, Boolean enEquipe ,Epreuve ep) {
         this.nom = nom;
         this.prenom = prenom;
         this.sexe = sexe;
@@ -63,7 +69,20 @@ public class Athlete implements Comparable<Athlete>, Participant {
         this.force = force;
         this.agilite = agilite;
         this.endurance = endurance;
+        this.enEquipe = enEquipe;
         this.ep = ep;
+    }
+
+
+    public Athlete(String nom, String prenom, char sexe, Pays nationalite, int force, int agilite, int endurance, boolean enEquipe) {
+        this.nom = nom;
+        this.prenom = prenom;
+        this.sexe = sexe;
+        this.nationalite = nationalite;
+        this.force = force;
+        this.agilite = agilite;
+        this.endurance = endurance;
+        this.enEquipe = enEquipe;
     }
 
     /**
@@ -119,7 +138,7 @@ public class Athlete implements Comparable<Athlete>, Participant {
      *
      * @return Le sexe de l'athlète.
      */
-    public String getSexe() {
+    public char getSexe() {
         return this.sexe;
     }
 
@@ -190,6 +209,11 @@ public class Athlete implements Comparable<Athlete>, Participant {
         return this.ep;
     }
 
+
+    public Equipe getEquipe(){
+        Requete re = new Requete();
+    }
+
     /**
      * Simule la participation d'un athlète à une épreuve
      *
@@ -242,4 +266,5 @@ public class Athlete implements Comparable<Athlete>, Participant {
     public int compareTo(Athlete ath) {
         return (this.force + this.agilite + this.endurance) - (ath.getForce() + ath.getAgilite() + ath.getEndurance());
     }
-}
+}}
+

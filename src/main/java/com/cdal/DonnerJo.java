@@ -11,6 +11,7 @@ import main.java.com.cdal.Equipe;
 import main.java.com.cdal.Pays;
 
 import java.io.FileNotFoundException;
+import java.sql.SQLException;
 
 
 
@@ -23,7 +24,7 @@ public class DonnerJo {
 
 
 
-    public DonnerJo(File file)throws FileNotFoundException{
+    public DonnerJo(File file)throws FileNotFoundException,SQLException, ClassNotFoundException{
         Scanner scan = new Scanner(file);
         sport.add(new VolleyBall());
         sport.add(new Escrime());
@@ -42,11 +43,15 @@ public class DonnerJo {
             String line = scan.nextLine();
             String [] l = line.split(",");
 
-            
+            Boolean sp = true;
             Sport s;
             for (Sport sports : sport)
                 {if (l[4]==sports.getNom()){
-                    s = sports;}}
+                    s = sports;
+                    sp = false;}}
+            if (sp) {
+               s = new Sport(l[4], 0, 0, 0); 
+            }
             
             Boolean pa = true;
             Pays p;
@@ -71,7 +76,10 @@ public class DonnerJo {
                 e = new Epreuve(l[5],s);
                 epreuves.add(e);
             }
-            Athlete a = new Athlete(l[0], l[1], l[2],p,Integer.valueOf(l[7]), Integer.valueOf(l[9]), Integer.valueOf(l[8]));
+
+
+            Athlete a = new Athlete(l[0], l[1],l[2].charAt(0),p,Integer.valueOf(l[7]), Integer.valueOf(l[9]), Integer.valueOf(l[8]),(l[6]=="T"),e);
+            
             boolean at = true;
             for (Athlete ath : athletes){
                 if (ath.equals(a)){
@@ -95,14 +103,29 @@ public class DonnerJo {
                     }
                 }
                 if (eq){
-                    equip = new Equipe(l[5],p);
-                    equip.ajouteAthlete(a);
+
+                    equip = new Equipe(l[5],e, p);
+                   equip.ajouteAthlete(a);
                     equipes.add(equip);
                 }
             }
 
         }
         Requete re = new Requete();
+
+        for (Pays pa : pays){
+            re.ajoutePays(pa);
+        }
+        for (Sport s : sport){
+            re.ajouteSport(s);
+        }
+        for (Epreuve e : epreuves){
+            re.ajouteEpreuve(e);
+        }
+        for (Athlete a : athletes){
+            if 
+        }
+
         
         
 
