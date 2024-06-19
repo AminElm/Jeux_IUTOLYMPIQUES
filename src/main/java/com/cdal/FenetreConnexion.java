@@ -15,6 +15,7 @@ import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -22,16 +23,54 @@ import javafx.scene.text.Font;
 public class FenetreConnexion extends BorderPane {
 
     private Main app;
+    private Button infoButton;
 
     public FenetreConnexion(Main app) {
         super();
         this.app = app;
-        ImageView topImageView = new ImageView(new Image("file:test.png", 100, 100, false, false));
-        topImageView.setPreserveRatio(true);
-        this.setTop(topImageView);
+        this.setTop(enTete());
 
         // Ajout de la HBox centrale au BorderPane
         this.setCenter(center());
+    }
+
+    private StackPane enTete(){
+        StackPane headerStackPane = new StackPane();
+        headerStackPane.setPadding(new Insets(15, 12, 15, 12));
+        headerStackPane.setStyle("-fx-background-color: white;");
+
+        ImageView imageEnTete = new ImageView(new Image("file:img/iutjo.png"));
+        imageEnTete.setFitHeight(50);
+        imageEnTete.setPreserveRatio(true);
+
+        Label titre = new Label("Connexion");
+        titre.setFont(new Font("System Bold", 24));
+        titre.setTextFill(Color.BLACK);
+
+        Button logoutButton = new Button();
+        ImageView logoutImage = new ImageView(new Image("file:img/logout.png"));
+        logoutImage.setFitHeight(30);
+        logoutImage.setPreserveRatio(true);
+        logoutButton.setGraphic(logoutImage);
+        logoutButton.setStyle("-fx-background-radius: 50%; -fx-padding: 8;");
+
+        infoButton = new Button();
+        ImageView infoImage = new ImageView(new Image("file:img/info.png"));
+        infoImage.setFitHeight(30);
+        infoImage.setPreserveRatio(true);
+        infoButton.setGraphic(infoImage);
+        infoButton.setStyle("-fx-background-radius: 50%; -fx-padding: 8;");
+
+        HBox buttonsHBox = new HBox(10, logoutButton, infoButton);
+        buttonsHBox.setAlignment(Pos.CENTER_RIGHT);
+
+        StackPane.setAlignment(imageEnTete, Pos.CENTER_LEFT);
+        StackPane.setAlignment(titre, Pos.CENTER);
+        StackPane.setAlignment(buttonsHBox, Pos.CENTER_RIGHT);
+
+        headerStackPane.getChildren().addAll(imageEnTete, titre, buttonsHBox);
+
+        return headerStackPane;
     }
 
     public HBox center() {

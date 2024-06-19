@@ -1,3 +1,5 @@
+package main.java.com.cdal;
+
 import java.sql.*;
 
 public class ConnexionMySQL {
