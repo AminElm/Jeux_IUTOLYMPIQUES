@@ -106,10 +106,12 @@ public class Epreuve {
         }
         return classement;
     }
+    
     @Override
     public String toString() {
-        return "Epreuve [participants=" + participants + ", nom=" + nom + ", discipline=" + sportEpreuve + "]";
+        return nom.toString();
     }
+    
     @Override 
     public boolean equals(Object obj) { 
         if (this == obj) return true; 
