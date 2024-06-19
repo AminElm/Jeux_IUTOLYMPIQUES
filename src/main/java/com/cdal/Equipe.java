@@ -5,7 +5,6 @@ import java.util.Collections;
 import java.util.List;
 
 public class Equipe implements Participant{
-    
     /**
     * Nom de l'équipe
     */

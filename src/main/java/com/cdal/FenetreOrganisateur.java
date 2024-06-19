@@ -43,10 +43,10 @@ public class FenetreOrganisateur extends BorderPane{
         HBox headerHBox = new HBox();
         headerHBox.setPadding(new Insets(15, 12, 15, 12));
         headerHBox.setSpacing(10);
-        headerHBox.setStyle("-fx-background-color: #005da4;");
+        headerHBox.setStyle("-fx-background-color: white;");
 
-        ImageView imageEnTete = new ImageView(new Image("file:header.png"));
-        imageEnTete.setFitHeight(50);
+        ImageView imageEnTete = new ImageView(new Image("file:img/test.png"));
+        imageEnTete.setFitHeight(70);
         imageEnTete.setPreserveRatio(true);
 
         Label titre = new Label("Organisateur d'Épreuves");
