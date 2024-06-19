@@ -84,28 +84,6 @@ public class Athlete implements Comparable<Athlete>, Participant {
         this.endurance = endurance;
         this.enEquipe = enEquipe;
     }
-
-    /**
-     * Constructeur de la classe Athlète.
-     *
-     * @param nom         Chaîne de caractère indiquant le nom d'un athlète.
-     * @param prenom      Chaîne de caractère indiquant le prénom d'un athlète.
-     * @param sexe        Chaîne de caractère indiquant le sexe d'un athlète.
-     * @param nationalite Chaîne de caractère indiquant la nationalité d'un athlète.
-     * @param force       Entier indiquant la valeur de force d'un athlète.
-     * @param agilite     Entier indiquant la valeur d'agilité d'un athlète.
-     * @param endurance   Entier indiquant la valeur d'endurance d'un athlète.
-     */
-    public Athlete(String nom, String prenom, String sexe, Pays nationalite, int force, int agilite, int endurance) {
-        this.nom = nom;
-        this.prenom = prenom;
-        this.sexe = sexe;
-        this.nationalite = nationalite;
-        this.force = force;
-        this.agilite = agilite;
-        this.endurance = endurance;
-    }
-
     /**
      * Retourne le nom de l'athlète.
      *
