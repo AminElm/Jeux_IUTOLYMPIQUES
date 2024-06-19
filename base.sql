@@ -76,3 +76,6 @@ CREATE TABLE PERSONNE{
   roles varchar(30),
   PRIMARY KEY (pseuos)
 }
+
+
+insert into PAYS(idP,nomP) values ();
