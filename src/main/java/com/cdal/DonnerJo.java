@@ -103,14 +103,16 @@ public class DonnerJo {
                     }
                 }
                 if (eq){
+
                     equip = new Equipe(l[5],e, p);
-                    equip.ajouteAthlete(a);
+                   equip.ajouteAthlete(a);
                     equipes.add(equip);
                 }
             }
 
         }
         Requete re = new Requete();
+
         for (Pays pa : pays){
             re.ajoutePays(pa);
         }

@@ -3,6 +3,7 @@ package main.java.com.cdal;
 import java.sql.*;
 import java.util.ArrayList;
 
+
 import java.util.List;
 import java.util.ArrayList;
 import main.java.com.cdal.Athlete;
@@ -11,11 +12,13 @@ import main.java.com.cdal.Equipe;
 import main.java.com.cdal.Pays;
 import main.java.com.cdal.Sport;
 
+
 public class Requete {
 	ConnexionMySQL laConnexion;
 	Statement st;
-
-	public Requete() throws SQLException, ClassNotFoundException {
+  
+  
+public Requete() throws SQLException, ClassNotFoundException {
 		this.laConnexion = new ConnexionMySQL();
 		this.laConnexion.connecter();
 	}
@@ -139,12 +142,14 @@ public class Requete {
 		return rs.getInt(1);
 	}
 
+
 	public int getidEpreuveParEquipe(int idEq) throws SQLException {
 		st = laConnexion.createStatement();
 		ResultSet rs = st.executeQuery("select idEp from PARTICIPE_Eq where idEq =" + String.valueOf(idEq) + ";");
 		rs.next();
 		return rs.getInt(1);
 	}
+
 
 
 
@@ -283,6 +288,7 @@ public class Requete {
 	}
 
 	public int mdpPersonne(String pseudo) throws SQLException {
+
 		this.st = this.laConnexion.createStatement();
 		ResultSet rs = this.st.executeQuery("Select mdp from PERSONNE where pseudos = " + pseudo);
 		rs.next();
@@ -290,10 +296,12 @@ public class Requete {
 	}
 
 	public String rolePersonne(String pseudo) throws SQLException {
+
 		this.st = this.laConnexion.createStatement();
 		ResultSet rs = this.st.executeQuery("Select roles from PERSONNE where pseudos = " + pseudo);
 		rs.next();
 		return rs.getString(1);
 	}
+
 
 }

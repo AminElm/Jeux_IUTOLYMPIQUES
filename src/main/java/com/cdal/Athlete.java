@@ -5,13 +5,14 @@ import java.util.Random;
 import main.java.com.cdal.Equipe;
 import main.java.com.cdal.Pays;
 
-
 public class Athlete implements Comparable<Athlete>, Participant {
     /**
      * Nom de l'athlète
      */
     private String nom;
+
     private Boolean enEquipe;
+
     /**
      * Prénom de l'athlète
      */
@@ -59,11 +60,8 @@ public class Athlete implements Comparable<Athlete>, Participant {
      * @param endurance   Entier indiquant la valeur d'endurance d'un athlète.
      * @param ep          l'épreuve à laquelle l'athlète participe.
      */
-<<<<<<< HEAD
-    public Athlete(String nom, String prenom, String sexe, Pays nationalite, int force, int agilite, int endurance, Epreuve ep) {
-=======
+
     public Athlete(String nom, String prenom, char sexe, Pays nationalite, int force, int agilite, int endurance, Boolean enEquipe ,Epreuve ep) {
->>>>>>> dd9dbad (changement de Sport, Athlete, la base et donnee JO)
         this.nom = nom;
         this.prenom = prenom;
         this.sexe = sexe;
@@ -211,6 +209,7 @@ public class Athlete implements Comparable<Athlete>, Participant {
         return this.ep;
     }
 
+
     public Equipe getEquipe(){
         Requete re = new Requete();
     }
@@ -268,3 +267,4 @@ public class Athlete implements Comparable<Athlete>, Participant {
         return (this.force + this.agilite + this.endurance) - (ath.getForce() + ath.getAgilite() + ath.getEndurance());
     }
 }}
+
