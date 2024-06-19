@@ -3,62 +3,58 @@ package main.java.com.cdal;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.Region;
+import java.sql.SQLException;
+import java.util.List;
 
-public class ControleurFenetreOrga{
+public class ControleurFenetreOrga {
 
     private FenetreOrganisateur view;
+    private Requete requete;
 
-    public ControleurFenetreOrga(FenetreOrganisateur view){
+    public ControleurFenetreOrga(FenetreOrganisateur view) {
         this.view = view;
+        try {
+            this.requete = new Requete();
+            remplirComboBoxEpreuves();
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
         initControleur();
     }
 
-    private void initControleur(){
+    private void initControleur() {
         view.getLancerEp().setOnAction(e -> lancerEpreuve());
         view.getBtnEnregistrer().setOnAction(e -> enregistrerEpreuve());
         view.getInfoButton().setOnAction(e -> popUpInfo());
     }
 
-    private void lancerEpreuve(){
-        String nomEpreuve = view.getTfEpreuve().getText();
-        String sport = view.getChoixSport().getValue();
-        if (nomEpreuve != null && !nomEpreuve.isEmpty() && sport != null){
-            Sport sportEpreuve = getNomSport(sport);
-            Epreuve epreuve = new Epreuve(nomEpreuve, sportEpreuve);
-            // lancement d'epreuve à ajouter
-            System.out.println("L'épreuve " + nomEpreuve + " a été lancée.");
-        }
+    private void remplirComboBoxEpreuves() throws SQLException {
+        List<Epreuve> epreuves = requete.ToutLesEpreuves();
+        view.getChoixEpreuve().getItems().addAll(epreuves);
     }
-    private void enregistrerEpreuve(){
-        String nomEpreuve = view.getTfEpreuve().getText();
+
+    private void lancerEpreuve() {
+        Epreuve epreuve = view.getChoixEpreuve().getValue();
         String sport = view.getChoixSport().getValue();
-        if (nomEpreuve != null && !nomEpreuve.isEmpty() && sport != null){
-            Sport sportEpreuve = getNomSport(sport);
-            Epreuve epreuve = new Epreuve(nomEpreuve, sportEpreuve);
-            view.getEpreuves().add(epreuve);
-            System.out.println("L'épreuve " + nomEpreuve + " a été enregistrée.");
-            view.getTfEpreuve().clear();
-            view.getChoixSport().setValue(null);
-        }
-    }
-    private Sport getNomSport(String sportName){
-        switch (sportName){
-            case "Athlétisme":
-                return new Athletisme();
-            case "Escrime":
-                return new Escrime();
-            case "VolleyBall":
-                return new VolleyBall();
-            case "Natation":
-                return new Natation();
-            case "Handball":
-                return new Handball();
-            default:
-                return null;
+        if (epreuve != null && sport != null) {
+            // Logique pour lancer l'épreuve
+            System.out.println("L'épreuve " + epreuve.getNom() + " a été lancée.");
         }
     }
 
-    private void popUpInfo(){
+    private void enregistrerEpreuve() {
+        Epreuve epreuve = view.getChoixEpreuve().getValue();
+        String sport = view.getChoixSport().getValue();
+        if (epreuve != null && sport != null) {
+            // Logique pour enregistrer l'épreuve
+            view.getEpreuves().add(epreuve);
+            System.out.println("L'épreuve " + epreuve.getNom() + " a été enregistrée.");
+            view.getChoixEpreuve().setValue(null);
+            view.getChoixSport().setValue(null);
+        }
+    }
+
+    private void popUpInfo() {
         Alert alert = new Alert(AlertType.INFORMATION);
         alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
         alert.setResizable(true);
