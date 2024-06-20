@@ -49,15 +49,19 @@ public class FenetreOrganisateur extends BorderPane {
         logoutImage.setFitHeight(30);
         logoutImage.setPreserveRatio(true);
         logoutButton.setGraphic(logoutImage);
-        logoutButton.setStyle("-fx-background-radius: 50%; -fx-padding: 8;");
         logoutButton.setOnAction(e -> app.afficherConnexion());
+        logoutButton.setStyle("-fx-background-color : black; -fx-background-radius: 50%; -fx-padding: 8;");
+        logoutButton.setOnMouseEntered(e -> logoutButton.setStyle("-fx-background-color: lightgrey; -fx-background-radius: 50%; -fx-padding: 8;"));
+        logoutButton.setOnMouseExited(e -> logoutButton.setStyle("-fx-background-color : black; -fx-background-radius: 50%; -fx-padding: 8;"));
 
         infoButton = new Button();
         ImageView infoImage = new ImageView(new Image("file:img/info.png"));
         infoImage.setFitHeight(30);
         infoImage.setPreserveRatio(true);
         infoButton.setGraphic(infoImage);
-        infoButton.setStyle("-fx-background-radius: 50%; -fx-padding: 8;");
+        infoButton.setStyle("-fx-background-color : black; -fx-background-radius: 50%; -fx-padding: 8;");
+        infoButton.setOnMouseEntered(e -> infoButton.setStyle("-fx-background-radius: 50%; -fx-padding: 8;"));
+        infoButton.setOnMouseExited(e -> infoButton.setStyle("-fx-background-color : black; -fx-background-radius: 50%; -fx-padding: 8;"));
 
         HBox hbBoutons = new HBox(10, logoutButton, infoButton);
         hbBoutons.setAlignment(Pos.CENTER_RIGHT);
@@ -92,8 +96,8 @@ public class FenetreOrganisateur extends BorderPane {
         lancerEp = new Button("Lancer l'épreuve");
         btnEnregistrer = new Button("Enregistrer l'épreuve");
 
-        String styleBtn = "-fx-background-color: #005da4; -fx-text-fill: white; -fx-background-radius: 30; -fx-padding: 10 20; -fx-font-size: 14px;";
-        String hoverBtn = "-fx-background-color: #96b9d0; -fx-text-fill: white; -fx-background-radius: 30; -fx-padding: 10 20; -fx-font-size: 14px;";
+        String styleBtn = "-fx-background-color: black; -fx-text-fill: white; -fx-background-radius: 30; -fx-padding: 10 20; -fx-font-size: 14px;";
+        String hoverBtn = "-fx-background-color: lightgrey; -fx-text-fill: white; -fx-background-radius: 30; -fx-padding: 10 20; -fx-font-size: 14px;";
 
         lancerEp.setStyle(styleBtn);
         btnEnregistrer.setStyle(styleBtn);
