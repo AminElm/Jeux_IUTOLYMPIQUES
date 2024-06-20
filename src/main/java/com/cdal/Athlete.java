@@ -1,9 +1,7 @@
-package main.java.com.cdal;
+
 
 import java.util.Random;
 
-import main.java.com.cdal.Equipe;
-import main.java.com.cdal.Pays;
 
 public class Athlete implements Comparable<Athlete>, Participant {
     /**
@@ -211,7 +209,7 @@ public class Athlete implements Comparable<Athlete>, Participant {
      */
     @Override
     public String toString() {
-        return "L'athlète " + this.nationalite + " " + this.prenom + " " + this.nom + ", de sexe " + this.sexe + " est doté d'une force de " + this.force + ", d'une agilité de " + this.agilite + " et d'une endurance de " + this.endurance + ".";
+        return this.prenom +this.nom +  "de" + this.nationalite;
     }
 
 
@@ -233,7 +231,7 @@ public class Athlete implements Comparable<Athlete>, Participant {
         }
 
         Athlete tmp = (Athlete) objet;
-        return tmp.getNom().equals(this.nom) && tmp.getPrenom().equals(this.prenom);
+        return tmp.getNom().equals(this.nom) && tmp.getPrenom().equals(this.prenom)&& tmp.getNationalite().equals(this.nationalite) && tmp.getSexe() == this.sexe;
     }
 
     /**

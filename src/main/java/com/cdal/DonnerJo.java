@@ -1,4 +1,4 @@
-package main.java.com.cdal;
+
 
 import java.io.File;
 import java.util.ArrayList;
@@ -21,6 +21,11 @@ public class DonnerJo {
 
 
     public DonnerJo(File file)throws FileNotFoundException,SQLException, ClassNotFoundException{
+        this.athletes = new ArrayList<>();
+        this.sport = new ArrayList<>();
+        this.epreuves = new ArrayList<>();
+        this.pays = new ArrayList<>();
+        this.equipes = new ArrayList<>();
         Scanner scan = new Scanner(file);
         sport.add(new VolleyBall());
         sport.add(new Escrime());
@@ -30,11 +35,7 @@ public class DonnerJo {
         if (scan.hasNext()){
             scan.nextLine();
         }
-        this.athletes = new ArrayList<>();
-        this.sport = new ArrayList<>();
-        this.epreuves = new ArrayList<>();
-        this.pays = new ArrayList<>();
-        this.equipes = new ArrayList<>();
+
         while(scan.hasNextLine()){
             String line = scan.nextLine();
             String [] l = line.split(",");
@@ -42,7 +43,7 @@ public class DonnerJo {
             Boolean sp = true;
             Sport s = null;
             for (Sport sports : sport)
-                {if (l[4]==sports.getNom()){
+                {if (l[4].equals(sports.getNom())){
                     s = sports;
                     sp = false;}}
             if (sp) {
@@ -52,7 +53,7 @@ public class DonnerJo {
             Boolean pa = true;
             Pays p = null;
             for(Pays pay : pays){
-                if(l[3] == pay.getNom()){
+                if(l[3].equals(pay.getNom())){
                 pa = false;
                 p = pay;}
             }
@@ -64,17 +65,18 @@ public class DonnerJo {
             Boolean epr = true;
             Epreuve e = null;
             for(Epreuve epreuve : epreuves){
-                if(l[5] == epreuve.getNom()){
+                if(l[5].equals(epreuve.getNom())){
                 epr = false;
                 e = epreuve;}
             }
             if (epr){
-                e = new Epreuve(l[5],s,(l[6]=="T"));
+                e = new Epreuve(l[5],s,(l[6].equals("T")));
                 epreuves.add(e);
             }
 
 
-            Athlete a = new Athlete(l[0], l[1],l[2].charAt(0),p,Integer.valueOf(l[7]), Integer.valueOf(l[9]), Integer.valueOf(l[8]),(l[6]=="T"),e);
+
+            Athlete a = new Athlete(l[0], l[1],l[2].charAt(0),p,Integer.valueOf(l[7]), Integer.valueOf(l[9]), Integer.valueOf(l[8]),(l[6].equals("T")),e);
             
             boolean at = true;
             for (Athlete ath : athletes){
@@ -85,14 +87,16 @@ public class DonnerJo {
             if (at){
                 athletes.add(a);
             }
-            e.ajouteParticipant(a);
+            
+
+
             p.ajouterParticipant(a);
 
-            if (l[6]=="T"){
+            if (l[6].equals("T")){
                 Equipe equip;
                 boolean eq = true;
                 for (Equipe equi : equipes){
-                    if (equi.getNom().equals(l[5])){
+                    if (equi.getNom().equals(l[5])&&equi.getPays().equals(p)){
                         equi.ajouteAthlete(a);
                         eq = false;
                         equip = equi;
@@ -103,11 +107,20 @@ public class DonnerJo {
                     equip = new Equipe(l[5],e, p);
                    equip.ajouteAthlete(a);
                     equipes.add(equip);
+                    e.ajouteParticipant(equip);
                 }
-            }
-
+            }else{
+                
+                if (!e.getparticipants().contains(a)){
+                e.ajouteParticipant(a);}}
         }
+
+
+        
         Requete re = new Requete();
+
+
+        
 
         for (Pays pa : pays){
             re.ajoutePays(pa);
@@ -117,6 +130,7 @@ public class DonnerJo {
         }
         for (Equipe eq : equipes){
             re.ajouteEquipe(eq);}
+
 
         for (Athlete a : athletes){
             if (a.getEnEquipe()){
@@ -137,11 +151,11 @@ public class DonnerJo {
                 else{
                     for (Participant a : e.getparticipants()){
                         Athlete ath = (Athlete) a;
+                        
                         re.ajouteParticipA(e, ath);
                     }
                 }
-                re.ajouteParticipA(e, null);}
         
     
     }
-}
+}}

@@ -1,4 +1,4 @@
-package main.java.com.cdal;
+
 /**
  * Cette classe représente le sport de la natation
 */

@@ -1,4 +1,4 @@
-package main.java.com.cdal;
+
 /**
  * Cette classe représente le sport du volleyball
 */
@@ -7,7 +7,7 @@ public class VolleyBall  extends Sport{
     private static final double COEFF_AGILITE = 0.3;
     private static final double COEFF_ENDURANCE = 0.5;
 
-    private static final String nom = "VolleyBall";
+    private static final String nom = "Volley-Ball";
 
 
 

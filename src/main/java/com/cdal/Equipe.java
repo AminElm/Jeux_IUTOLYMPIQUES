@@ -1,4 +1,4 @@
-package main.java.com.cdal;
+
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -43,6 +43,10 @@ public class Equipe implements Participant{
     @Override
     public String getNom() {
         return this.nomEquipe;
+    }
+
+    public Pays getPays(){
+        return this.pays;
     }
 
     /**
@@ -155,7 +159,7 @@ public class Equipe implements Participant{
     */
    @Override
    public String toString() {
-       return "" + this.nomEquipe;
+       return "" + this.nomEquipe + " (" + this.pays.getNom() + ")";
    }
 
    /**

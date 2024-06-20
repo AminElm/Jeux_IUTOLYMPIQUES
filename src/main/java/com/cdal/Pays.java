@@ -1,4 +1,4 @@
-package main.java.com.cdal;
+
 
 import java.util.List;
 import java.util.ArrayList;
@@ -61,7 +61,7 @@ public class Pays {
 
     @Override
     public String toString(){
-        return "Le pays " + this.nom + " possède un total de " + this.lesParticipants.size() + " participants et de "  + this.nbAthletesPays + " athlètes ";
+        return "Le pays " + this.nom;
     }
 
     /**

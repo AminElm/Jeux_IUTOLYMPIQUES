@@ -1,16 +1,10 @@
-package main.java.com.cdal;
-
 import java.sql.*;
 import java.util.ArrayList;
 
 
 import java.util.List;
 import java.util.ArrayList;
-import main.java.com.cdal.Athlete;
-import main.java.com.cdal.Epreuve;
-import main.java.com.cdal.Equipe;
-import main.java.com.cdal.Pays;
-import main.java.com.cdal.Sport;
+
 
 
 public class Requete {
@@ -37,9 +31,9 @@ public Requete() throws SQLException, ClassNotFoundException {
 		int idP = this.getidPays(p);
 		int idEq = this.getidEquipe(e);
 		PreparedStatement sn = laConnexion.prepareStatement(
-				"insert into ATHLETE (idA, idP, idEq,idEp prenomA, nomA, sexe, endurence, forces, agilite) values ("
-						+ String.valueOf(idA) + "," + String.valueOf(idP) + "," + String.valueOf(idEq) + ",NULL,"
-						+ prenom + "," + nom + "," + sexe + "," + String.valueOf(endurence) + ","
+				"insert into ATHLETE (idA, idP, idEq,prenomA, nomA, sexe, endurence, forces, agilite) values ("
+						+ String.valueOf(idA) + "," + String.valueOf(idP) + "," + String.valueOf(idEq) + ",'"
+						+ prenom + "','" + nom + "','" + sexe + "'," + String.valueOf(endurence) + ","
 						+ String.valueOf(forces) + "," + String.valueOf(agilite) + ");");
 		sn.executeUpdate();
 	}
@@ -55,9 +49,9 @@ public Requete() throws SQLException, ClassNotFoundException {
 		int agilite = a.getAgilite();
 		int idP = this.getidPays(p);
 		PreparedStatement sn = laConnexion.prepareStatement(
-				"insert into ATHLETE (idA, idP, idEq, idEp, prenomA, nomA, sexe, endurence, forces, agilite) values ("
-						+ String.valueOf(idA) + "," + String.valueOf(idP) + ",NULL, NULL," + prenom + "," + nom + ","
-						+ sexe + "," + String.valueOf(endurence) + "," + String.valueOf(forces) + ","
+				"insert into ATHLETE (idA, idP, idEq, prenomA, nomA, sexe, endurence, forces, agilite) values ("
+						+ String.valueOf(idA) + "," + String.valueOf(idP) + ",NULL,'" + prenom + "','" + nom + "','"
+						+ sexe + "'," + String.valueOf(endurence) + "," + String.valueOf(forces) + ","
 						+ String.valueOf(agilite) + ");");
 
 		sn.executeUpdate();
@@ -67,8 +61,9 @@ public Requete() throws SQLException, ClassNotFoundException {
 		int idP = this.getNbPays() + 1;
 		String nomP = p.getNom();
 		PreparedStatement sn = laConnexion.prepareStatement(
-				"insert into PAYS(idP,nomP) values (" + String.valueOf(idP) + "," + nomP + ");");
+				"insert into PAYS(idP,nomP) values (" + String.valueOf(idP) + ",'" + nomP + "');");
 		sn.executeUpdate();
+
 	}
 
 	public void ajouteSport(Sport s) throws SQLException {
@@ -79,9 +74,8 @@ public Requete() throws SQLException, ClassNotFoundException {
 		double coeffEndurance = s.getCoeffEndurance();
 		PreparedStatement sn = laConnexion.prepareStatement(
 				"insert into SPORT(idS,nomS,coeffForce,coeffAgilite,coeffEndurance) values (" + String.valueOf(idS)
-						+ "," +
-						nomS + String.valueOf(coeffForce) + "," + String.valueOf(coeffAgilite) + ","
-						+ String.valueOf(coeffEndurance) + "," + ");");
+						+ ",'" +nomS +"',"+ String.valueOf(coeffForce) + "," + String.valueOf(coeffAgilite) + ","
+						+ String.valueOf(coeffEndurance) +");");
 		sn.executeUpdate();
 	}
 
@@ -90,16 +84,17 @@ public Requete() throws SQLException, ClassNotFoundException {
 		String nomEp = e.getNom();
 		int idS = this.getidSport(e.getSportEpreuve());
 		PreparedStatement sn = laConnexion.prepareStatement(
-				"insert into EPREUVE(idEp,nomEp,idS) values (" + String.valueOf(idEp) + "," + nomEp + ","
-						+ String.valueOf(idS) + ");");
+
+								"insert into EPREUVE(idEp,nomEp,idS) values (" + String.valueOf(idEp) + ",'" + nomEp + "',"+ String.valueOf(idS) + ");");
 		sn.executeUpdate();
 	}
 
 	public void ajouteEquipe(Equipe e) throws SQLException {
 		int idEq = this.getNbEquipe() + 1;
+		int idP = this.getidPays(e.getPays());
 		String nomEq = e.getNom();
 		PreparedStatement sn = laConnexion.prepareStatement(
-				"insert into Equipe(idEq,nomEq) values (" + String.valueOf(idEq) + "," + nomEq + ");");
+				"insert into EQUIPE(idEq,idP,nomEq) values (" + String.valueOf(idEq) + "," + String.valueOf(idP) + ",'" + nomEq + "');");
 		sn.executeUpdate();
 	}
 
@@ -124,21 +119,22 @@ public Requete() throws SQLException, ClassNotFoundException {
 
 	public int getidPays(Pays p) throws SQLException {
 		st = laConnexion.createStatement();
-		ResultSet rs = st.executeQuery("select idP from PAYS where nomP =" + p.getNom() + ";");
+		ResultSet rs = st.executeQuery("select idP from PAYS where nomP ='" + p.getNom() + "';");
 		rs.next();
 		return rs.getInt(1);
 	}
 
 	public int getidEquipe(Equipe e) throws SQLException {
 		st = laConnexion.createStatement();
-		ResultSet rs = st.executeQuery("select idEq from EQUIPE where nomEq =" + e.getNom() + ";");
+		ResultSet rs = st.executeQuery("select idEq from EQUIPE where nomEq ='" + e.getNom() + "' and idP ="+String.valueOf(this.getidPays(e.getPays()))+";");
 		rs.next();
 		return rs.getInt(1);
 	}
 
 	public int getidSport(Sport s) throws SQLException {
+		System.out.println(s.getNom());
 		st = laConnexion.createStatement();
-		ResultSet rs = st.executeQuery("select idS from Sport where nomS =" + s.getNom() + ";");
+		ResultSet rs = st.executeQuery("select idS from SPORT where nomS ='" + s.getNom() + "';");
 		rs.next();
 		return rs.getInt(1);
 	}
@@ -146,14 +142,14 @@ public Requete() throws SQLException, ClassNotFoundException {
 	public int getidAtlhete(Athlete a) throws SQLException {
 		st = laConnexion.createStatement();
 		ResultSet rs = st.executeQuery(
-				"select idA from ATHLETE where nomA =" + a.getNom() + "and prenomA = " + a.getPrenom() + ";");
+				"select idA from ATHLETE where nomA ='" + a.getNom() + "'and prenomA = '" + a.getPrenom() + "' and idP ="+String.valueOf(getidPays(a.getNationalite()))+";");
 		rs.next();
 		return rs.getInt(1);
 	}
 
 	public int getidEpreuve(Epreuve e) throws SQLException {
 		st = laConnexion.createStatement();
-		ResultSet rs = st.executeQuery("select idEp from EPREUVE where nomEp =" + e.getNom() + ";");
+		ResultSet rs = st.executeQuery("select idEp from EPREUVE where nomEp ='" + e.getNom() + "';");
 		rs.next();
 		return rs.getInt(1);
 	}
@@ -282,19 +278,19 @@ public Requete() throws SQLException, ClassNotFoundException {
 
 	public void ajouteVisiteur(String pseudos, String mdp) throws SQLException {
 		PreparedStatement sn = laConnexion.prepareStatement(
-				"insert into PERSONNE (pseudos, mdp, roles) values (" + pseudos + "," + mdp + ",'visit');");
+				"insert into PERSONNE (pseudos, mdp, roles) values ('" + pseudos + "','" + mdp + "','visit');");
 		sn.executeUpdate();
 	}
 
 	public void ajouteAdmin(String pseudos, String mdp) throws SQLException {
 		PreparedStatement sn = laConnexion.prepareStatement(
-				"insert into PERSONNE (pseudos, mdp,roles) values (" + pseudos + "," + mdp + ",'admin');");
+				"insert into PERSONNE (pseudos, mdp,roles) values ('" + pseudos + "','" + mdp + "','admin');");
 		sn.executeUpdate();
 	}
 
 	public void ajouteOrga(String pseudos, String mdp) throws SQLException {
 		PreparedStatement sn = laConnexion.prepareStatement(
-				"insert into PERSONNE (pseudos, mdp,roles) values (" + pseudos + "," + mdp + ",'orga');");
+				"insert into PERSONNE (pseudos, mdp,roles) values ('" + pseudos + "','" + mdp + "','orga');");
 		sn.executeUpdate();
 	}
 

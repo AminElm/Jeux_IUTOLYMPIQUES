@@ -1,4 +1,3 @@
-package main.java.com.cdal;
 
 import java.util.ArrayList;
 import java.util.HashMap;
