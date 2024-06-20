@@ -44,6 +44,8 @@ public class FenetreAdministrateur extends BorderPane {
      */    
     private Button boutonMaison;
 
+    private Button bouttonLogout;
+
     /**
      * le bouton pour ajouter un athlete
      */    
@@ -119,18 +121,22 @@ public class FenetreAdministrateur extends BorderPane {
         
         ImageView homeImage = new ImageView("file:img/home.png");
         ImageView infoImage = new ImageView("file:img/info.png");
+        ImageView logoutImage = new ImageView("file:img/logout.png");
         homeImage.setFitWidth(30);
         homeImage.setFitHeight(30);
         infoImage.setFitWidth(30);
         infoImage.setFitHeight(30);
+        logoutImage.setFitWidth(30);
+        logoutImage.setFitHeight(30);
 
         this.boutonMaison = new Button("",homeImage);
         this.boutonInfo = new Button("",infoImage);
+        this.bouttonLogout = new Button("",logoutImage);
     
         HBox leftBox = new HBox(iutImg);
         leftBox.setAlignment(Pos.CENTER_LEFT);
     
-        HBox rightBox = new HBox(10, boutonMaison, boutonInfo);
+        HBox rightBox = new HBox(10, boutonMaison, boutonInfo,bouttonLogout);
         rightBox.setAlignment(Pos.CENTER_RIGHT);
     
         Region leftSpacer = new Region();
@@ -140,6 +146,7 @@ public class FenetreAdministrateur extends BorderPane {
         HBox.setHgrow(rightSpacer, Priority.ALWAYS);
 
         boutonInfo.setOnAction(new ControleurInfoAccueil(this));
+        bouttonLogout.setOnAction(e -> app.afficherConnexion());
         
     
         banniere.getChildren().addAll(leftBox, leftSpacer, titre, rightSpacer, rightBox);
@@ -149,7 +156,7 @@ public class FenetreAdministrateur extends BorderPane {
 
 
     // Méthode pour ajouter un effet de survol (la base de la methode a été trouver sur un forum)
-    private void ajouterEffetSurvol(Button button) {
+    public void ajouterEffetSurvol(Button button) {
         DropShadow shadow = new DropShadow();
         shadow.setColor(Color.rgb(0, 0, 0, 0.5));
         shadow.setRadius(10);
@@ -157,6 +164,7 @@ public class FenetreAdministrateur extends BorderPane {
 
         button.addEventHandler(MouseEvent.MOUSE_ENTERED, e -> {
             button.setEffect(shadow);
+            
             button.setStyle("-fx-background-color: #444444; -fx-background-radius: 20; -fx-text-fill: white;");
             ScaleTransition st = new ScaleTransition(Duration.millis(200), button);
             st.setToX(1.1);
