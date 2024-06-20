@@ -6,16 +6,20 @@ import javafx.event.EventHandler;
 public class ControleurSupprimerFichier implements EventHandler<ActionEvent> {
 
     private FenetreAdministrateur app;
-    private ControleurChargerFichier controleurChargerFichier;
+    private ControleurChargerFichier fichier;
 
-    public ControleurSupprimerFichier(FenetreAdministrateur app, ControleurChargerFichier controleurChargerFichier) {
+    public ControleurSupprimerFichier(FenetreAdministrateur app) {
         this.app = app;
-        this.controleurChargerFichier = controleurChargerFichier;
+        this.fichier = app.getFichier(); // Récupérez le contrôleur initialisé depuis FenetreAdministrateur
     }
 
     @Override
     public void handle(ActionEvent event) {
-        this.controleurChargerFichier.suppFichier();
+        if (fichier != null) {
+            fichier.suppFichier(); // Assurez-vous que fichier n'est pas null avant d'appeler la méthode
+        }
+        app.setTextFichierCharger("Charger un fichier .CSV");
+        app.activerBoutontSupp(false);
     }
-
 }
+
