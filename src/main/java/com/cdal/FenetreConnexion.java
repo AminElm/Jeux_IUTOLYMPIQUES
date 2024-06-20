@@ -1,5 +1,9 @@
 package main.java.com.cdal;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
@@ -27,13 +31,24 @@ public class FenetreConnexion extends BorderPane {
     private PasswordField passwordField;
     private Button infoButton;
     private Button logoutButton;
+    private CheckBox stayConnectedCheckBox;
 
     public FenetreConnexion(Main app) {
         super();
         this.app = app;
-        this.usernameField = new TextField();
-        this.passwordField = new PasswordField();
-
+        Scanner idPrec;
+        try {
+            idPrec = new Scanner(new File("src/main/java/com/cdal/idPrec.txt"));
+            String pseudo = idPrec.nextLine();
+            String mdp = idPrec.nextLine();
+            this.usernameField = new TextField(pseudo);
+            this.passwordField = new PasswordField();
+            this.passwordField.setText(mdp);
+            this.stayConnectedCheckBox = new CheckBox();
+            idPrec.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
         this.setTop(enTete());
         this.setCenter(center());
     }
@@ -100,7 +115,8 @@ public class FenetreConnexion extends BorderPane {
         passwordField.setMaxWidth(238);
 
         HBox buttonHBox = new HBox(5);
-        CheckBox stayConnectedCheckBox = new CheckBox("rester connecté");
+        stayConnectedCheckBox.setText("rester connecté");
+        stayConnectedCheckBox.setSelected(true);
         Button loginButton = new Button("Se connecter");
         ControleurConnexion controleurConnexion = new ControleurConnexion(this);
         loginButton.setOnAction(controleurConnexion);
@@ -140,5 +156,8 @@ public class FenetreConnexion extends BorderPane {
         return this.app;
     }
 
+    public CheckBox getStayConnectedCheckBox() {
+        return this.stayConnectedCheckBox;
+    }
     
 }

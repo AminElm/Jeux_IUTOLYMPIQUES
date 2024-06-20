@@ -2,6 +2,8 @@ package main.java.com.cdal;
 
 import javafx.event.EventHandler;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.sql.SQLException;
 
 import javafx.event.ActionEvent ;
@@ -42,6 +44,23 @@ public class ControleurConnexion implements EventHandler<ActionEvent>{
                 }
                 else if(appli.getPasswordField().hashCode() == requete.mdpPersonne("'"+appli.getUsernameField()+"'")){
                     String role = requete.rolePersonne("'"+appli.getUsernameField()+"'");
+                    try {
+                        FileWriter writer = new FileWriter("src/main/java/com/cdal/idPrec.txt");
+                        if(appli.getStayConnectedCheckBox().isSelected()){
+                            System.out.println("ici");
+                            writer.write(appli.getUsernameField()+"\n");
+                            writer.write(appli.getPasswordField()+"\n");
+                            writer.close();
+                        }
+                        else{
+                            writer.write("\n");
+                            writer.write("\n");
+                            writer.close();
+                        }
+                        System.out.println("Successfully wrote text to file.");
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                     switch (role) {
                         case "visit":
                             
@@ -50,15 +69,14 @@ public class ControleurConnexion implements EventHandler<ActionEvent>{
                             appli.getApp().afficherOrganisateur();
                             break;
                         case "admin":
-                            
+                            appli.getApp().afficherAdministrateur();
                             break;
                         default:
                             break;
                     }
                 }
                 else{
-                    // A Faire : Se rendre sur la page d'acceuil
-                    System.out.println("connexion");
+                    System.out.println("probleme");
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
