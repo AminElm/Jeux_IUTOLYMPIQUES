@@ -8,44 +8,41 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
-import javafx.scene.layout.StackPane;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
-public class FenetreInscription extends BorderPane {
+public class FenetreInscription extends BorderPane{
 
-    private Main app;
-    private TextField usernameField;
-    private PasswordField passwordField;
-    private PasswordField passwordField2;
-    private Button infoButton;
-    private Button logoutButton;
+    private Main application;
+    private TextField champUtilisateur;
+    private PasswordField champMotDePasse;
+    private PasswordField champConfirmationMotDePasse;
+    private Button boutonInfo;
 
-
-    public FenetreInscription(Main app) {
+    public FenetreInscription(Main application){
         super();
-        this.app = app;
-        this.usernameField = new TextField();
-        this.passwordField = new PasswordField();
-        this.passwordField2 = new PasswordField();
+        this.application = application;
+        this.champUtilisateur = new TextField();
+        this.champMotDePasse = new PasswordField();
+        this.champConfirmationMotDePasse = new PasswordField();
 
-        this.setTop(enTete());
-
-        // Ajout de la HBox centrale au BorderPane
-        this.setCenter(center());
+        this.setTop(creerEnTete());
+        this.setCenter(creerCentre());
+        this.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
     }
 
-    private StackPane enTete() {
-        StackPane spEntete = new StackPane();
-        spEntete.setPadding(new Insets(15, 12, 15, 12));
-        spEntete.setStyle("-fx-background-color: white;");
+    private StackPane creerEnTete(){
+        StackPane panneauEntete = new StackPane();
+        panneauEntete.setPadding(new Insets(15, 12, 15, 12));
+        panneauEntete.setStyle("-fx-background-color: #f0f0f0;");
 
         ImageView imageEnTete = new ImageView(new Image("file:img/iutjo.png"));
         imageEnTete.setFitHeight(50);
@@ -55,98 +52,101 @@ public class FenetreInscription extends BorderPane {
         titre.setFont(new Font("System Bold", 24));
         titre.setTextFill(Color.BLACK);
 
-        logoutButton = new Button();
-        ImageView logoutImage = new ImageView(new Image("file:img/logout.png"));
-        logoutImage.setFitHeight(30);
-        logoutImage.setPreserveRatio(true);
-        logoutButton.setGraphic(logoutImage);
-        logoutButton.setOnAction(e -> app.afficherConnexion());
-        logoutButton.setStyle("-fx-background-color : black; -fx-background-radius: 50%; -fx-padding: 8;");
-        logoutButton.setOnMouseEntered(e -> logoutButton.setStyle("-fx-background-color: lightgrey; -fx-background-radius: 50%; -fx-padding: 8;"));
-        logoutButton.setOnMouseExited(e -> logoutButton.setStyle("-fx-background-color : black; -fx-background-radius: 50%; -fx-padding: 8;"));
+        boutonInfo = new Button();
+        ImageView imageInfo = new ImageView(new Image("file:img/info.png"));
+        imageInfo.setFitHeight(30);
+        imageInfo.setPreserveRatio(true);
+        boutonInfo.setGraphic(imageInfo);
+        boutonInfo.setStyle("-fx-background-color : black; -fx-background-radius: 50%; -fx-padding: 8;");
+        boutonInfo.setOnMouseEntered(e -> boutonInfo.setStyle("-fx-background-radius: 50%; -fx-padding: 8;"));
+        boutonInfo.setOnMouseExited(e -> boutonInfo.setStyle("-fx-background-color : black; -fx-background-radius: 50%; -fx-padding: 8;"));
 
-        infoButton = new Button();
-        ImageView infoImage = new ImageView(new Image("file:img/info.png"));
-        infoImage.setFitHeight(30);
-        infoImage.setPreserveRatio(true);
-        infoButton.setGraphic(infoImage);
-        infoButton.setStyle("-fx-background-color : black; -fx-background-radius: 50%; -fx-padding: 8;");
-        infoButton.setOnMouseEntered(e -> infoButton.setStyle("-fx-background-radius: 50%; -fx-padding: 8;"));
-        infoButton.setOnMouseExited(e -> infoButton.setStyle("-fx-background-color : black; -fx-background-radius: 50%; -fx-padding: 8;"));
-
-        HBox hbBoutons = new HBox(10, logoutButton, infoButton);
+        HBox hbBoutons = new HBox(10, boutonInfo);
         hbBoutons.setAlignment(Pos.CENTER_RIGHT);
         StackPane.setAlignment(imageEnTete, Pos.CENTER_LEFT);
         StackPane.setAlignment(titre, Pos.CENTER);
         StackPane.setAlignment(hbBoutons, Pos.CENTER_RIGHT);
-        spEntete.getChildren().addAll(imageEnTete, titre, hbBoutons);
+        panneauEntete.getChildren().addAll(imageEnTete, titre, hbBoutons);
 
-        return spEntete;
+        return panneauEntete;
     }
 
-    public HBox center() {
+    public HBox creerCentre(){
         // Section du centre avec HBox
-        HBox centerHBox = new HBox(10);
-        centerHBox.setPadding(new Insets(10, 0, 0, 10));
-        centerHBox.setAlignment(Pos.CENTER);
+        HBox centreHBox = new HBox(10);
+        centreHBox.setPadding(new Insets(10, 0, 0, 10));
+        centreHBox.setAlignment(Pos.CENTER);
+
+        // VBox pour l'image et le titre
+        VBox imageVBox = new VBox(10);
+        imageVBox.setAlignment(Pos.CENTER);
+        Label labelTitreImage = new Label("Bienvenue !");
+        labelTitreImage.setFont(new Font("System Bold", 18));
+        labelTitreImage.setTextFill(Color.BLACK);
+
+        ImageView vueImageCote = new ImageView(new Image("file:img/user.png"));
+        vueImageCote.setFitHeight(200);
+        vueImageCote.setFitWidth(200);
+        vueImageCote.setPreserveRatio(true);
+
+        imageVBox.getChildren().addAll(labelTitreImage, vueImageCote);
 
         // VBox pour les éléments d'inscription
-        VBox registerVBox = new VBox(10);
-        registerVBox.setPadding(new Insets(0, 0, 0, 50));
-        Label titleLabel = new Label("Inscrivez-vous");
-        titleLabel.setFont(new Font("System Bold", 18));
-        titleLabel.setAlignment(Pos.CENTER);
+        VBox inscriptionVBox = new VBox(10);
+        inscriptionVBox.setAlignment(Pos.CENTER);
+        inscriptionVBox.setPadding(new Insets(20, 10, 20, 10));
+        inscriptionVBox.setBackground(new Background(new BackgroundFill(Color.web("#f0f0f0"), new CornerRadii(10), Insets.EMPTY)));
+        inscriptionVBox.setStyle("-fx-border-color: lightgrey; -fx-border-width: 1; -fx-border-radius: 10;");
+        inscriptionVBox.setMinSize(300, 300);
+        inscriptionVBox.setMaxSize(300, 300);
 
-        usernameField.setPromptText("nom d'utilisateur");
-        usernameField.setMinWidth(238);
-        usernameField.setMaxWidth(238);
+        Label labelTitreInscription = new Label("Inscrivez-vous");
+        labelTitreInscription.setFont(new Font("System Bold", 18));
+        labelTitreInscription.setAlignment(Pos.CENTER);
 
-        passwordField.setPromptText("mot de passe");
-        passwordField.setMinWidth(238);
-        passwordField.setMaxWidth(238);
+        champUtilisateur.setPromptText("nom d'utilisateur");
+        champUtilisateur.setMaxWidth(238);
+        champUtilisateur.setStyle("-fx-background-color: white; -fx-text-fill: black; -fx-border-color: lightgrey; -fx-border-radius: 5; -fx-padding: 10;");
 
-        passwordField2.setPromptText("confirmez le mot de passe");
-        passwordField2.setMinWidth(238);
-        passwordField2.setMaxWidth(238);
+        champMotDePasse.setPromptText("mot de passe");
+        champMotDePasse.setMaxWidth(238);
+        champMotDePasse.setStyle("-fx-background-color: white; -fx-text-fill: black; -fx-border-color: lightgrey; -fx-border-radius: 5; -fx-padding: 10;");
 
-        Button registerButton = new Button("S'inscrire");
+        champConfirmationMotDePasse.setPromptText("confirmez le mot de passe");
+        champConfirmationMotDePasse.setMaxWidth(238);
+        champConfirmationMotDePasse.setStyle("-fx-background-color: white; -fx-text-fill: black; -fx-border-color: lightgrey; -fx-border-radius: 5; -fx-padding: 10;");
+
+        Button boutonInscription = new Button("S'inscrire");
+        boutonInscription.setStyle("-fx-background-color: black; -fx-text-fill: white; -fx-background-radius: 5;");
         ControleurInscription controleurInscription = new ControleurInscription(this);
-        registerButton.setOnAction(controleurInscription);
-        registerButton.setAlignment(Pos.CENTER_RIGHT);
+        boutonInscription.setOnAction(controleurInscription);
+        boutonInscription.setAlignment(Pos.CENTER_RIGHT);
 
-        Label createAccountLabel = new Label("J'ai déjà un compte");
-        createAccountLabel.setTextFill(Color.web("#0000009b"));
-        createAccountLabel.setOnMouseClicked(e -> app.afficherConnexion());
-        Utils.setCursorOnHover(createAccountLabel, Cursor.HAND);
+        Label labelCreerCompte = new Label("J'ai déjà un compte");
+        labelCreerCompte.setTextFill(Color.web("#0000009b"));
+        labelCreerCompte.setOnMouseClicked(e -> application.afficherConnexion());
+        Utils.setCursorOnHover(labelCreerCompte, Cursor.HAND);
 
-        // Button organiserButton = new Button("Organisateur");
-        // organiserButton.setOnAction(e -> app.afficherOrganisateur());
-
-        registerVBox.getChildren().addAll(titleLabel, usernameField, passwordField, passwordField2, registerButton, createAccountLabel);
-        registerVBox.setAlignment(Pos.CENTER);
-
-        // ImageView à côté de la VBox
-        ImageView sideImageView = new ImageView(new Image("file:src/main/java/com/cdal/test.png"));
-        sideImageView.setFitHeight(200);
-        sideImageView.setFitWidth(200);
-        sideImageView.setPreserveRatio(true);
+        inscriptionVBox.getChildren().addAll(labelTitreInscription, champUtilisateur, champMotDePasse, champConfirmationMotDePasse, boutonInscription, labelCreerCompte);
+        inscriptionVBox.setAlignment(Pos.CENTER);
 
         // Ajout de la VBox et de l'ImageView à la HBox centrale
-        centerHBox.getChildren().addAll(registerVBox, sideImageView);
-        centerHBox.setBackground(new Background(new BackgroundFill(Color.LIGHTCYAN, CornerRadii.EMPTY, Insets.EMPTY)));
+        centreHBox.getChildren().addAll(imageVBox, inscriptionVBox);
+        centreHBox.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
+        centreHBox.setSpacing(30);
 
-        return centerHBox;
+        return centreHBox;
     }
 
-    public String getUsernameField(){
-        return this.usernameField.getText();
+    public String getChampUtilisateur(){
+        return this.champUtilisateur.getText();
     }
 
-    public String getPasswordField(){
-        return this.passwordField.getText();
+    public String getChampMotDePasse(){
+        return this.champMotDePasse.getText();
     }
 
-    public String getPasswordField2(){
-        return this.passwordField2.getText();
-    } 
+    public String getChampConfirmationMotDePasse(){
+        return this.champConfirmationMotDePasse.getText();
+    }
 }

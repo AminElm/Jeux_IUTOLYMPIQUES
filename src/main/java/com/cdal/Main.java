@@ -4,16 +4,16 @@ import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
-public class Main extends Application {
+public class Main extends Application{
 
     private Scene scene;
 
-    public static void main(String[] args) {
+    public static void main(String[] args){
         launch(args);
     }
 
     @Override
-    public void start(Stage stage) {
+    public void start(Stage stage){
         Pane root = new FenetreConnexion(this);
         this.scene = new Scene(root, 900, 700);
         stage.setScene(scene);
@@ -21,17 +21,17 @@ public class Main extends Application {
         stage.show();
     }
 
-    public void afficherConnexion() {
+    public void afficherConnexion(){
         Pane root = new FenetreConnexion(this);
         scene.setRoot(root);
     }
 
-    public void afficherInscription() {
+    public void afficherInscription(){
         Pane root = new FenetreInscription(this);
         scene.setRoot(root);
     }
 
-    public void afficherOrganisateur() {
+    public void afficherOrganisateur(){
         FenetreOrganisateur fenetreOrganisateur = new FenetreOrganisateur(this);
         new ControleurFenetreOrga(fenetreOrganisateur);
         scene.setRoot(fenetreOrganisateur);

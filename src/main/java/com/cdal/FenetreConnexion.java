@@ -24,39 +24,39 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
-public class FenetreConnexion extends BorderPane {
+public class FenetreConnexion extends BorderPane{
 
-    private Main app;
-    private TextField usernameField;
-    private PasswordField passwordField;
-    private Button infoButton;
-    private Button logoutButton;
-    private CheckBox stayConnectedCheckBox;
+    private Main application;
+    private TextField champUtilisateur;
+    private PasswordField champMotDePasse;
+    private Button boutonInfo;
+    private CheckBox resterConnecteCheckBox;
 
-    public FenetreConnexion(Main app) {
+    public FenetreConnexion(Main application){
         super();
-        this.app = app;
+        this.application = application;
         Scanner idPrec;
-        try {
+        try{
             idPrec = new Scanner(new File("src/main/java/com/cdal/idPrec.txt"));
             String pseudo = idPrec.nextLine();
             String mdp = idPrec.nextLine();
-            this.usernameField = new TextField(pseudo);
-            this.passwordField = new PasswordField();
-            this.passwordField.setText(mdp);
-            this.stayConnectedCheckBox = new CheckBox();
+            this.champUtilisateur = new TextField(pseudo);
+            this.champMotDePasse = new PasswordField();
+            this.champMotDePasse.setText(mdp);
+            this.resterConnecteCheckBox = new CheckBox();
             idPrec.close();
-        } catch (FileNotFoundException e) {
+        } catch (FileNotFoundException e){
             e.printStackTrace();
         }
-        this.setTop(enTete());
-        this.setCenter(center());
+        this.setTop(creerEnTete());
+        this.setCenter(creerCentre());
+        this.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
     }
 
-    private StackPane enTete() {
-        StackPane spEntete = new StackPane();
-        spEntete.setPadding(new Insets(15, 12, 15, 12));
-        spEntete.setStyle("-fx-background-color: white;");
+    private StackPane creerEnTete(){
+        StackPane panneauEntete = new StackPane();
+        panneauEntete.setPadding(new Insets(15, 12, 15, 12));
+        panneauEntete.setStyle("-fx-background-color: #f0f0f0;");
 
         ImageView imageEnTete = new ImageView(new Image("file:img/iutjo.png"));
         imageEnTete.setFitHeight(50);
@@ -66,98 +66,106 @@ public class FenetreConnexion extends BorderPane {
         titre.setFont(new Font("System Bold", 24));
         titre.setTextFill(Color.BLACK);
 
-        logoutButton = new Button();
-        ImageView logoutImage = new ImageView(new Image("file:img/logout.png"));
-        logoutImage.setFitHeight(30);
-        logoutImage.setPreserveRatio(true);
-        logoutButton.setGraphic(logoutImage);
-        logoutButton.setOnAction(e -> app.afficherConnexion());
-        logoutButton.setStyle("-fx-background-color : black; -fx-background-radius: 50%; -fx-padding: 8;");
-        logoutButton.setOnMouseEntered(e -> logoutButton.setStyle("-fx-background-color: lightgrey; -fx-background-radius: 50%; -fx-padding: 8;"));
-        logoutButton.setOnMouseExited(e -> logoutButton.setStyle("-fx-background-color : black; -fx-background-radius: 50%; -fx-padding: 8;"));
+        boutonInfo = new Button();
+        ImageView imageInfo = new ImageView(new Image("file:img/info.png"));
+        imageInfo.setFitHeight(30);
+        imageInfo.setPreserveRatio(true);
+        boutonInfo.setGraphic(imageInfo);
+        boutonInfo.setStyle("-fx-background-color : black; -fx-background-radius: 50%; -fx-padding: 8;");
+        boutonInfo.setOnMouseEntered(e -> boutonInfo.setStyle("-fx-background-radius: 50%; -fx-padding: 8;"));
+        boutonInfo.setOnMouseExited(e -> boutonInfo.setStyle("-fx-background-color : black; -fx-background-radius: 50%; -fx-padding: 8;"));
 
-        infoButton = new Button();
-        ImageView infoImage = new ImageView(new Image("file:img/info.png"));
-        infoImage.setFitHeight(30);
-        infoImage.setPreserveRatio(true);
-        infoButton.setGraphic(infoImage);
-        infoButton.setStyle("-fx-background-color : black; -fx-background-radius: 50%; -fx-padding: 8;");
-        infoButton.setOnMouseEntered(e -> infoButton.setStyle("-fx-background-radius: 50%; -fx-padding: 8;"));
-        infoButton.setOnMouseExited(e -> infoButton.setStyle("-fx-background-color : black; -fx-background-radius: 50%; -fx-padding: 8;"));
-
-        HBox hbBoutons = new HBox(10, logoutButton, infoButton);
-        hbBoutons.setAlignment(Pos.CENTER_RIGHT);
+        HBox hBoxBoutons = new HBox(10, boutonInfo);
+        hBoxBoutons.setAlignment(Pos.CENTER_RIGHT);
         StackPane.setAlignment(imageEnTete, Pos.CENTER_LEFT);
         StackPane.setAlignment(titre, Pos.CENTER);
-        StackPane.setAlignment(hbBoutons, Pos.CENTER_RIGHT);
-        spEntete.getChildren().addAll(imageEnTete, titre, hbBoutons);
+        StackPane.setAlignment(hBoxBoutons, Pos.CENTER_RIGHT);
+        panneauEntete.getChildren().addAll(imageEnTete, titre, hBoxBoutons);
 
-        return spEntete;
+        return panneauEntete;
     }
 
-    public HBox center() {
+    public HBox creerCentre(){
         // Section du centre avec HBox
-        HBox centerHBox = new HBox(10);
-        centerHBox.setPadding(new Insets(10, 0, 0, 10));
-        centerHBox.setAlignment(Pos.CENTER);
+        HBox centreHBox = new HBox(10);
+        centreHBox.setPadding(new Insets(10, 0, 0, 10));
+        centreHBox.setAlignment(Pos.CENTER);
+
+        // VBox pour l'image et le titre
+        VBox imageVBox = new VBox(10);
+        imageVBox.setAlignment(Pos.CENTER);
+        Label labelTitreImage = new Label("Bienvenue !");
+        labelTitreImage.setFont(new Font("System Bold", 18));
+        labelTitreImage.setTextFill(Color.BLACK);
+
+        ImageView vueImageCote = new ImageView(new Image("file:img/user.png"));
+        vueImageCote.setFitHeight(200);
+        vueImageCote.setFitWidth(200);
+        vueImageCote.setPreserveRatio(true);
+
+        imageVBox.getChildren().addAll(labelTitreImage, vueImageCote);
 
         // VBox pour les éléments de connexion
-        VBox loginVBox = new VBox(10);
-        loginVBox.setPadding(new Insets(0, 0, 0, 50));
-        Label titleLabel = new Label("Connectez-vous");
-        titleLabel.setFont(new Font("System Bold", 18));
-        titleLabel.setAlignment(Pos.CENTER);
+        VBox connexionVBox = new VBox(10);
+        connexionVBox.setAlignment(Pos.CENTER);
+        connexionVBox.setPadding(new Insets(10, 15, 10, 15));
+        connexionVBox.setBackground(new Background(new BackgroundFill(Color.web("#f0f0f0"), new CornerRadii(10), Insets.EMPTY)));
+        connexionVBox.setStyle("-fx-border-color: lightgrey; -fx-border-width: 1; -fx-border-radius: 10;");
+        connexionVBox.setMinSize(300, 300);
+        connexionVBox.setMaxSize(300, 300);
+        
+        Label labelTitreConnexion = new Label("Connectez-vous");
+        labelTitreConnexion.setFont(new Font("System Bold", 18));
+        labelTitreConnexion.setAlignment(Pos.CENTER);
 
-        usernameField.setPromptText("nom d'utilisateur");
-        usernameField.setMaxWidth(238);
+        champUtilisateur.setPromptText("nom d'utilisateur");
+        champUtilisateur.setMaxWidth(238);
+        champUtilisateur.setStyle("-fx-background-color: white; -fx-text-fill: black; -fx-border-color: lightgrey; -fx-border-radius: 5; -fx-padding: 10;");
 
-        passwordField.setPromptText("mot de passe");
-        passwordField.setMaxWidth(238);
+        champMotDePasse.setPromptText("mot de passe");
+        champMotDePasse.setMaxWidth(238);
+        champMotDePasse.setStyle("-fx-background-color: white; -fx-text-fill: black; -fx-border-color: lightgrey; -fx-border-radius: 5; -fx-padding: 10;");
 
-        HBox buttonHBox = new HBox(5);
-        stayConnectedCheckBox.setText("rester connecté");
-        stayConnectedCheckBox.setSelected(true);
-        Button loginButton = new Button("Se connecter");
+        HBox hBoxBoutons = new HBox(5);
+        resterConnecteCheckBox.setText("Rester connecté");
+        resterConnecteCheckBox.setTextFill(Color.BLACK);
+        resterConnecteCheckBox.setSelected(true);
+        Button boutonConnexion = new Button("Se connecter");
+        boutonConnexion.setStyle("-fx-background-color: black; -fx-text-fill: white; -fx-background-radius: 5;");
         ControleurConnexion controleurConnexion = new ControleurConnexion(this);
-        loginButton.setOnAction(controleurConnexion);
-        buttonHBox.getChildren().addAll(stayConnectedCheckBox, loginButton);
+        boutonConnexion.setOnAction(controleurConnexion);
+        hBoxBoutons.getChildren().addAll(resterConnecteCheckBox, boutonConnexion);
+        hBoxBoutons.setAlignment(Pos.CENTER);
 
-        Label createAccountLabel = new Label("Créer un compte");
-        createAccountLabel.setTextFill(Color.web("#0000009b"));
-        createAccountLabel.setOnMouseClicked(e -> app.afficherInscription());
-        Utils.setCursorOnHover(createAccountLabel, Cursor.HAND);
+        Label labelCreerCompte = new Label("Créer un compte");
+        labelCreerCompte.setTextFill(Color.web("#0000009b"));
+        labelCreerCompte.setOnMouseClicked(e -> application.afficherInscription());
+        Utils.setCursorOnHover(labelCreerCompte, Cursor.HAND);
 
-        loginVBox.getChildren().addAll(titleLabel, usernameField, passwordField, buttonHBox, createAccountLabel);
-        loginVBox.setAlignment(Pos.CENTER);
-
-        // ImageView à côté de la VBox
-        ImageView sideImageView = new ImageView(new Image("file:src/main/java/com/cdal/test.png"));
-        sideImageView.setFitHeight(200);
-        sideImageView.setFitWidth(200);
-        sideImageView.setPreserveRatio(true);
+        connexionVBox.getChildren().addAll(labelTitreConnexion, champUtilisateur, champMotDePasse, hBoxBoutons, labelCreerCompte);
+        connexionVBox.setAlignment(Pos.CENTER);
 
         // Ajout de la VBox et de l'ImageView à la HBox centrale
-        centerHBox.getChildren().addAll(loginVBox, sideImageView);
-        centerHBox.setBackground(new Background(new BackgroundFill(Color.LIGHTCYAN, CornerRadii.EMPTY, Insets.EMPTY)));
-        centerHBox.setSpacing(30);
+        centreHBox.getChildren().addAll(imageVBox, connexionVBox);
+        centreHBox.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
+        centreHBox.setSpacing(30);
 
-        return centerHBox;
+        return centreHBox;
     }
 
-    public String getUsernameField(){
-        return this.usernameField.getText();
+    public String getChampUtilisateur(){
+        return this.champUtilisateur.getText();
     }
 
-    public String getPasswordField(){
-        return this.passwordField.getText();
+    public String getChampMotDePasse(){
+        return this.champMotDePasse.getText();
     }
 
-    public Main getApp() {
-        return this.app;
+    public Main getApplication(){
+        return this.application;
     }
 
-    public CheckBox getStayConnectedCheckBox() {
-        return this.stayConnectedCheckBox;
+    public CheckBox getResterConnecteCheckBox(){
+        return this.resterConnecteCheckBox;
     }
-    
 }

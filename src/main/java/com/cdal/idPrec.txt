@@ -1,2 +1,2 @@
-testorga
-orga
+testadm
+adm
