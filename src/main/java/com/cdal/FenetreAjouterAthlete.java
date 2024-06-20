@@ -8,21 +8,15 @@ import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
+import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
 
 public class FenetreAjouterAthlete extends BorderPane {
         /**
@@ -36,92 +30,128 @@ public class FenetreAjouterAthlete extends BorderPane {
     /**
      * le bouton Accueil / Maison
      */    
-    private Button boutonDeconnexion;
+    private Button boutonMaison;
 
-    private Main application;
 
-    /**
+    private Main app;
+
+        /**
      * boutton pour cree l'athlete
      */ 
     private Button creeAthlete;
 
+    private Label labelNom;
+    private TextField TfNom;
+    private Label labelPrenom;
+    private TextField TfPrenom ;
+    private Label labelNationalite;
+    private TextField TfNationalite;
+    private TextField TfForce;
+    private TextField TfAgilite;
+    private TextField TfEndurance;
+    private ToggleGroup Group;
+
+
     public FenetreAjouterAthlete(Main app){
         super();
-        this.application = app;
+        this.app = app;
 
-        this.setTop(creerEnTete());
+        this.setTop(titre());
         this.setCenter(modeAjouterAthlete());
-        this.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
     }
 
 
     
-    private StackPane creerEnTete(){
-        StackPane panneauEntete = new StackPane();
-        panneauEntete.setPadding(new Insets(15, 12, 15, 12));
-        panneauEntete.setStyle("-fx-background-color: #f0f0f0;");
+    private HBox titre() {
+        HBox banniere = new HBox();
+        banniere.setMinHeight(80);
+        banniere.setAlignment(Pos.CENTER);
+        banniere.setPadding(new Insets(20, 10, 20, 10));
+        banniere.setStyle("-fx-border-color: transparent transparent black transparent; -fx-border-width: 0 0 1 0;");
 
-        ImageView imageEnTete = new ImageView(new Image("file:img/iutjo.png"));
-        imageEnTete.setFitHeight(50);
-        imageEnTete.setPreserveRatio(true);
+    
+        ImageView iutImg = new ImageView("file:img/iutjo.png");
+        iutImg.setFitWidth(180);
+        iutImg.setFitHeight(47);
+;
+    
+        titre = new Label("   Ajouter un athlète");
+        titre.setStyle("-fx-font-size: 50px; -fx-text-fill: black;");
+        titre.setPadding(new Insets(0, 80, 0, 0));
 
-        Label labelTitre = new Label("Création d'athlète");
-        labelTitre.setFont(new Font("System Bold", 24));
-        labelTitre.setTextFill(Color.BLACK);
+        
+        ImageView homeImage = new ImageView("file:img/home.png");
+        ImageView infoImage = new ImageView("file:img/info.png");
+        homeImage.setFitWidth(30);
+        homeImage.setFitHeight(30);
+        infoImage.setFitWidth(30);
+        infoImage.setFitHeight(30);
 
-        boutonDeconnexion = new Button();
-        ImageView imageDeconnexion = new ImageView(new Image("file:img/logout.png"));
-        imageDeconnexion.setFitHeight(30);
-        imageDeconnexion.setPreserveRatio(true);
-        boutonDeconnexion.setGraphic(imageDeconnexion);
-        boutonDeconnexion.setOnAction(e -> application.afficherConnexion());
-        boutonDeconnexion.setStyle("-fx-background-color : black; -fx-background-radius: 50%; -fx-padding: 8;");
-        boutonDeconnexion.setOnMouseEntered(e -> boutonDeconnexion.setStyle("-fx-background-color: lightgrey; -fx-background-radius: 50%; -fx-padding: 8;"));
-        boutonDeconnexion.setOnMouseExited(e -> boutonDeconnexion.setStyle("-fx-background-color : black; -fx-background-radius: 50%; -fx-padding: 8;"));
+        this.boutonMaison = new Button("",homeImage);
+        this.boutonInfo = new Button("",infoImage);
+    
+        HBox leftBox = new HBox(iutImg);
+        leftBox.setAlignment(Pos.CENTER_LEFT);
+    
+        HBox rightBox = new HBox(10, boutonMaison, boutonInfo);
+        rightBox.setAlignment(Pos.CENTER_RIGHT);
+    
+        Region leftSpacer = new Region();
+        HBox.setHgrow(leftSpacer, Priority.ALWAYS);
+    
+        Region rightSpacer = new Region();
+        HBox.setHgrow(rightSpacer, Priority.ALWAYS);
 
-        boutonInfo = new Button();
-        ImageView imageInfo = new ImageView(new Image("file:img/info.png"));
-        imageInfo.setFitHeight(30);
-        imageInfo.setPreserveRatio(true);
-        boutonInfo.setOnAction(e -> application.popUpInfoAdmin());
-        boutonInfo.setGraphic(imageInfo);
-        boutonInfo.setStyle("-fx-background-color : black; -fx-background-radius: 50%; -fx-padding: 8;");
-        boutonInfo.setOnMouseEntered(e -> boutonInfo.setStyle("-fx-background-radius: 50%; -fx-padding: 8;"));
-        boutonInfo.setOnMouseExited(e -> boutonInfo.setStyle("-fx-background-color : black; -fx-background-radius: 50%; -fx-padding: 8;"));
-        boutonInfo.setOnAction(e -> application.popUpInfoAthlete());
-
-        HBox hBoxBoutons = new HBox(10, boutonDeconnexion, boutonInfo);
-        hBoxBoutons.setAlignment(Pos.CENTER_RIGHT);
-        StackPane.setAlignment(imageEnTete, Pos.CENTER_LEFT);
-        StackPane.setAlignment(labelTitre, Pos.CENTER);
-        StackPane.setAlignment(hBoxBoutons, Pos.CENTER_RIGHT);
-        panneauEntete.getChildren().addAll(imageEnTete, labelTitre, hBoxBoutons);
-
-        return panneauEntete;
+        boutonMaison.setOnAction(new ControleurRetourAccueilAdmin(this));
+    
+        banniere.getChildren().addAll(leftBox, leftSpacer, titre, rightSpacer, rightBox);
+    
+        return banniere;
     }
 
+    public Athlete getAthlete() {
+        String nom = this.TfNom.getText();
+        String prenom = this.TfPrenom.getText();
+        String nationalite = this.TfNationalite.getText();
+        char sexe = ((RadioButton) Group.getSelectedToggle()).getText().charAt(0); 
+        int force = Integer.parseInt(this.TfForce.getText());
+        int agilite = Integer.parseInt(this.TfAgilite.getText());
+        int endurance = Integer.parseInt(this.TfEndurance.getText());
+    
+        return new Athlete(nom, prenom, sexe, new Pays(nationalite), force, agilite, endurance,false);
+    }
 
+    public void viderFiche(){
+        this.TfNom.setText("");
+        this.TfPrenom.setText("");
+        this.TfNationalite.setText("");
+        this.Group.selectToggle(null); 
+        this.TfAgilite.setText("");
+        this.TfEndurance.setText("");
+    }
+    
 
     public GridPane modeAjouterAthlete(){
+        this.boutonInfo.setDisable(true);
 
         GridPane grid = new GridPane();
         grid.setHgap(20);
         grid.setVgap(20);
-        grid.setPadding(new Insets(30,0,0,30));
+        grid.setPadding(new Insets(50,0,0,80));
 
-        Label labelNom = new Label("Nom:");
-        TextField TfNom = new TextField();
+        labelNom = new Label("Nom:");
+        TfNom = new TextField();
         grid.add(labelNom, 0, 0); 
         grid.add(TfNom, 1, 0); 
 
-        Label labelPrenom = new Label("Prénom:");
-        TextField TfPrenom = new TextField();
+        labelPrenom = new Label("Prénom:");
+        TfPrenom = new TextField();
         grid.add(labelPrenom, 0, 1); 
         grid.add(TfPrenom, 1, 1); 
 
         RadioButton radioButtonMasculin = new RadioButton("Homme");
         RadioButton radioButtonFeminin = new RadioButton("Femme");
-        ToggleGroup Group = new ToggleGroup();
+        Group = new ToggleGroup();
         radioButtonMasculin.setToggleGroup(Group);
         radioButtonFeminin.setToggleGroup(Group);
         VBox vbox = new VBox(10);
@@ -130,13 +160,13 @@ public class FenetreAjouterAthlete extends BorderPane {
         vbox.setPadding(new Insets(10,0,10,10));
         grid.add(titledPane, 0, 2,2,1);
 
-        Label labelNationalite = new Label("Nationalite:");
-        TextField TfNationalite = new TextField();
+        labelNationalite = new Label("Nationalite:");
+        TfNationalite = new TextField();
         grid.add(labelNationalite, 0, 3); 
         grid.add(TfNationalite, 1, 3); 
 
         Label labelForce = new Label("Force:");
-        TextField TfForce = new TextField();
+        TfForce = new TextField();
         TfForce.textProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue.matches("\\d*")) {
                 TfForce.setText(newValue.replaceAll("[^\\d]", ""));
@@ -145,7 +175,7 @@ public class FenetreAjouterAthlete extends BorderPane {
         grid.add(TfForce, 1, 4);
 
         Label labelAgilite = new Label("Agilite:");
-        TextField TfAgilite = new TextField();
+        TfAgilite = new TextField();
         TfAgilite.textProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue.matches("\\d*")) {
                 TfAgilite.setText(newValue.replaceAll("[^\\d]", ""));
@@ -154,7 +184,7 @@ public class FenetreAjouterAthlete extends BorderPane {
         grid.add(TfAgilite, 1, 5);
 
         Label labelEndurance = new Label("Endurance:");
-        TextField TfEndurance = new TextField();
+        TfEndurance = new TextField();
         TfEndurance.textProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue.matches("\\d*")) {
                 TfEndurance.setText(newValue.replaceAll("[^\\d]", ""));
@@ -168,9 +198,71 @@ public class FenetreAjouterAthlete extends BorderPane {
         this.creeAthlete = new Button("Ajouter l'athlète",valide);
         grid.add(creeAthlete, 0, 7);
         creeAthlete.setStyle("-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.3), 10, 0, 0, 0);");
+        creeAthlete.setOnAction(new ControleurAjouterAthlete(this));
+
         return grid;    
 
     }
+
+    public String getTfNom() {
+        return TfNom.getText();
+    }
+    
+    public String getTfPrenom() {
+        return TfPrenom.getText();
+    }
+    
+    public String getTfNationalite() {
+        return TfNationalite.getText();
+    }
+    
+    public String getTfForce() {
+        return TfForce.getText();
+    }
+    
+    public String getTfAgilite() {
+        return TfAgilite.getText();
+    }
+    
+    public String getTfEndurance() {
+        return TfEndurance.getText();
+    }
+    
+    public Toggle getRbSexe() {
+        return Group.getSelectedToggle();
+    }
+
+    
+
+
+
+
+    public Label getTitre() {
+        return titre;
+    }
+
+
+
+    public Button getBoutonInfo() {
+        return boutonInfo;
+    }
+
+
+
+    public Button getBoutonMaison() {
+        return boutonMaison;
+    }
+
+
+
+    public Main getApp() {
+        return app;
+    }
+
+
+
+   
+
 
     /**
     pop up retour à l'accueil
@@ -181,19 +273,38 @@ public class FenetreAjouterAthlete extends BorderPane {
         return alert;
     }
 
-    public Label getTitre() {
-        return titre;
+    public Alert popNomVide() {
+        return new Alert(Alert.AlertType.INFORMATION, "Le nom  est vide !");
+        
     }
 
-    public Button getboutonDeconnexion() {
-        return boutonDeconnexion;
+    public Alert popPrenomVide() {
+        return new Alert(Alert.AlertType.INFORMATION, "Le prenom vide !");
+        
     }
 
-    public Main getApp() {
-        return application;
+    public Alert popSexeVide() {
+        return new Alert(Alert.AlertType.INFORMATION, "Veuillez indiquer le sexe !");
+        
     }
 
-    public Button getCreeAthlete() {
-        return creeAthlete;
-    }    
+    public Alert popNationaliteVide() {
+        return new Alert(Alert.AlertType.INFORMATION, "La nationalité est vide !");
+        
+    }
+
+    public Alert popForceVide() {
+        return new Alert(Alert.AlertType.INFORMATION, "La force est vide !");
+        
+    }
+
+    public Alert popAgiliteVide() {
+        return new Alert(Alert.AlertType.INFORMATION, "L'agilité est vide !");
+        
+    }
+
+    public Alert popEnduranceVide() {
+        return new Alert(Alert.AlertType.INFORMATION, "l'endurance est vide !");
+        
+    }
 }
