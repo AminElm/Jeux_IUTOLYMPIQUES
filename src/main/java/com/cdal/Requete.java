@@ -313,7 +313,11 @@ public Requete() throws SQLException, ClassNotFoundException {
 
 
 
-	public void participe(double score) throws SQLException {
+	public void participe(Athlete a, Epreuve e, double score) throws SQLException {
+
+		int idA = this.getidAtlhete(a);
+		int idEp = this.getidEpreuve(e);
+		
 		PreparedStatement sn = laConnexion.prepareStatement(
 				"update PARTICIPE_A set score = " + String.valueOf(score) + " where idA = " + String.valueOf(idA) + " and idEp = " + String.valueOf(idEp) + ";");
 		sn.executeUpdate();
