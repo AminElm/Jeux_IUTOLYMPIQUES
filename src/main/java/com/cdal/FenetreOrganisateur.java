@@ -15,27 +15,27 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.util.Duration;
 
-public class FenetreOrganisateur extends BorderPane{
+public class FenetreOrganisateur extends BorderPane {
 
     private Main application;
     private ComboBox<Epreuve> comboBoxEpreuve;
     private ComboBox<String> comboBoxSport;
     private Button boutonLancerEpreuve;
     private Button boutonEnregistrer;
-    private TableView<Epreuve> tableEpreuve;
-    private ObservableList<Epreuve> listeEpreuves;
+    private TableView<ControleurFenetreOrga.AthleteTemp> tableAthlete;
+    private ObservableList<ControleurFenetreOrga.AthleteTemp> listeAthletes;
     private Button boutonInfo;
     private Button boutonDeconnexion;
 
-    public FenetreOrganisateur(Main application){
+    public FenetreOrganisateur(Main application) {
         this.application = application;
-        this.listeEpreuves = FXCollections.observableArrayList();
+        this.listeAthletes = FXCollections.observableArrayList();
         this.setTop(creerEnTete());
         this.setCenter(creerContenu());
         this.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
     }
 
-    private StackPane creerEnTete(){
+    private StackPane creerEnTete() {
         StackPane panneauEntete = new StackPane();
         panneauEntete.setPadding(new Insets(15, 12, 15, 12));
         panneauEntete.setStyle("-fx-background-color: #f0f0f0;");
@@ -77,7 +77,7 @@ public class FenetreOrganisateur extends BorderPane{
         return panneauEntete;
     }
 
-    private VBox creerContenu(){
+    private VBox creerContenu() {
         VBox contenu = new VBox(20);
         contenu.setPadding(new Insets(20, 20, 20, 20));
         contenu.setAlignment(Pos.TOP_CENTER);
@@ -111,7 +111,7 @@ public class FenetreOrganisateur extends BorderPane{
         ombre.setRadius(10);
         ombre.setSpread(0.3);
 
-        boutonLancerEpreuve.setOnMouseEntered(e ->{
+        boutonLancerEpreuve.setOnMouseEntered(e -> {
             boutonLancerEpreuve.setStyle(styleHoverBouton);
             ScaleTransition transition = new ScaleTransition(Duration.millis(200), boutonLancerEpreuve);
             transition.setToX(1.1);
@@ -119,7 +119,7 @@ public class FenetreOrganisateur extends BorderPane{
             transition.play();
             boutonLancerEpreuve.setEffect(ombre);
         });
-        boutonLancerEpreuve.setOnMouseExited(e ->{
+        boutonLancerEpreuve.setOnMouseExited(e -> {
             boutonLancerEpreuve.setStyle(styleBouton);
             ScaleTransition transition = new ScaleTransition(Duration.millis(200), boutonLancerEpreuve);
             transition.setToX(1.0);
@@ -128,7 +128,7 @@ public class FenetreOrganisateur extends BorderPane{
             boutonLancerEpreuve.setEffect(null);
         });
 
-        boutonEnregistrer.setOnMouseEntered(e ->{
+        boutonEnregistrer.setOnMouseEntered(e -> {
             boutonEnregistrer.setStyle(styleHoverBouton);
             ScaleTransition transition = new ScaleTransition(Duration.millis(200), boutonEnregistrer);
             transition.setToX(1.1);
@@ -136,7 +136,7 @@ public class FenetreOrganisateur extends BorderPane{
             transition.play();
             boutonEnregistrer.setEffect(ombre);
         });
-        boutonEnregistrer.setOnMouseExited(e ->{
+        boutonEnregistrer.setOnMouseExited(e -> {
             boutonEnregistrer.setStyle(styleBouton);
             ScaleTransition transition = new ScaleTransition(Duration.millis(200), boutonEnregistrer);
             transition.setToX(1.0);
@@ -157,74 +157,93 @@ public class FenetreOrganisateur extends BorderPane{
         hBoxFormulaire.setAlignment(Pos.CENTER);
         hBoxFormulaire.getChildren().addAll(formulaire);
 
-        tableEpreuve = new TableView<>(listeEpreuves);
-        tableEpreuve.setPrefHeight(200);
-        TableColumn<Epreuve, String> colonneEpreuve = new TableColumn<>("Nom de l'épreuve");
-        colonneEpreuve.setCellValueFactory(new PropertyValueFactory<>("nom"));
-        colonneEpreuve.setPrefWidth(150);
-        colonneEpreuve.setMinWidth(100);
-        TableColumn<Epreuve, String> colonneSport = new TableColumn<>("Sport");
-        colonneSport.setCellValueFactory(new PropertyValueFactory<>("sportEpreuve"));
-        colonneSport.setPrefWidth(150);
-        colonneSport.setMinWidth(100);
-        TableColumn<Epreuve, Void> colonneAction = new TableColumn<>("Action");
+        tableAthlete = new TableView<>(listeAthletes);
+        tableAthlete.setPrefHeight(500);
+        VBox.setVgrow(tableAthlete, Priority.ALWAYS);
+
+        TableColumn<ControleurFenetreOrga.AthleteTemp, String> colonnePays = new TableColumn<>("Pays");
+        colonnePays.setCellValueFactory(new PropertyValueFactory<>("nationalite"));
+        colonnePays.setPrefWidth(150);
+        colonnePays.setMinWidth(100);
+
+        TableColumn<ControleurFenetreOrga.AthleteTemp, String> colonneNom = new TableColumn<>("Nom");
+        colonneNom.setCellValueFactory(new PropertyValueFactory<>("nom"));
+        colonneNom.setPrefWidth(150);
+        colonneNom.setMinWidth(100);
+
+        TableColumn<ControleurFenetreOrga.AthleteTemp, String> colonnePrenom = new TableColumn<>("Prénom");
+        colonnePrenom.setCellValueFactory(new PropertyValueFactory<>("prenom"));
+        colonnePrenom.setPrefWidth(150);
+        colonnePrenom.setMinWidth(100);
+
+        TableColumn<ControleurFenetreOrga.AthleteTemp, Double> colonneScore = new TableColumn<>("Score");
+        colonneScore.setCellValueFactory(new PropertyValueFactory<>("score"));
+        colonneScore.setPrefWidth(150);
+        colonneScore.setMinWidth(100);
+
+        TableColumn<ControleurFenetreOrga.AthleteTemp, Integer> colonnePlace = new TableColumn<>("Place");
+        colonnePlace.setCellValueFactory(new PropertyValueFactory<>("place"));
+        colonnePlace.setPrefWidth(150);
+        colonnePlace.setMinWidth(100);
+
+        TableColumn<ControleurFenetreOrga.AthleteTemp, Void> colonneAction = new TableColumn<>("Action");
         colonneAction.setPrefWidth(100);
         colonneAction.setMinWidth(80);
-        colonneAction.setCellFactory(param -> new TableCell<>(){
+        colonneAction.setCellFactory(param -> new TableCell<>() {
             private final Button boutonSupprimer = new Button();
             private final ImageView imageView = new ImageView(new Image("file:img/delete.png", 16, 16, true, true));
 
             {
                 boutonSupprimer.setGraphic(imageView);
                 boutonSupprimer.setStyle("-fx-background-color: transparent;");
-                boutonSupprimer.setOnAction(event ->{
-                    Epreuve epreuve = getTableView().getItems().get(getIndex());
-                    getTableView().getItems().remove(epreuve);
+                boutonSupprimer.setOnAction(event -> {
+                    ControleurFenetreOrga.AthleteTemp athlete = getTableView().getItems().get(getIndex());
+                    getTableView().getItems().remove(athlete);
                 });
             }
 
             @Override
-            protected void updateItem(Void item, boolean empty){
+            protected void updateItem(Void item, boolean empty) {
                 super.updateItem(item, empty);
-                if (empty){
+                if (empty) {
                     setGraphic(null);
-                } else{
+                } else {
                     setGraphic(boutonSupprimer);
                 }
             }
         });
 
-        tableEpreuve.getColumns().addAll(colonneEpreuve, colonneSport, colonneAction);
-        contenu.getChildren().addAll(hBoxFormulaire, tableEpreuve);
+        tableAthlete.getColumns().addAll(colonnePays, colonneNom, colonnePrenom, colonneScore, colonnePlace, colonneAction);
+        contenu.getChildren().addAll(hBoxFormulaire, tableAthlete);
 
         return contenu;
     }
 
-    public ComboBox<Epreuve> getComboBoxEpreuve(){
+    public ComboBox<Epreuve> getComboBoxEpreuve() {
         return comboBoxEpreuve;
     }
 
-    public ComboBox<String> getComboBoxSport(){
+    public ComboBox<String> getComboBoxSport() {
         return comboBoxSport;
     }
 
-    public Button getBoutonLancerEpreuve(){
+    public Button getBoutonLancerEpreuve() {
         return boutonLancerEpreuve;
     }
 
-    public Button getBoutonEnregistrer(){
+    public Button getBoutonEnregistrer() {
         return boutonEnregistrer;
     }
 
-    public TableView<Epreuve> getTableEpreuve(){
-        return tableEpreuve;
+    public TableView<ControleurFenetreOrga.AthleteTemp> getTableAthlete() {
+        return tableAthlete;
     }
 
-    public ObservableList<Epreuve> getListeEpreuves(){
-        return listeEpreuves;
+    public ObservableList<ControleurFenetreOrga.AthleteTemp> getListeAthletes() {
+        return listeAthletes;
     }
 
-    public Button getBoutonInfo(){
+    public Button getBoutonInfo() {
         return boutonInfo;
     }
 }

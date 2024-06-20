@@ -4,12 +4,13 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.Region;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class ControleurFenetreOrga {
 
     private FenetreOrganisateur view;
-    private Main application;
     private Requete requete;
 
     public ControleurFenetreOrga(FenetreOrganisateur view) {
@@ -24,9 +25,15 @@ public class ControleurFenetreOrga {
     }
 
     private void initControleur() {
-        view.getBoutonLancerEpreuve().setOnAction(e -> lancerEpreuve());
+        view.getBoutonLancerEpreuve().setOnAction(e -> {
+            try {
+                lancerEpreuve();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        });
         view.getBoutonEnregistrer().setOnAction(e -> enregistrerEpreuve());
-        view.getBoutonInfo().setOnAction(e -> application.popUpInfoOrga());
+        view.getBoutonInfo().setOnAction(e -> afficherInfo());
     }
 
     private void remplirComboBoxEpreuves() throws SQLException {
@@ -34,12 +41,28 @@ public class ControleurFenetreOrga {
         view.getComboBoxEpreuve().getItems().addAll(epreuves);
     }
 
-    private void lancerEpreuve() {
+    private void remplirTableAthletes(Epreuve epreuve) throws SQLException {
+        if (epreuve != null) {
+            List<Athlete> athletes = requete.touAthletesParEpreuve(epreuve);
+            Resultat resultat = new Resultat(new ArrayList<>(athletes), epreuve);
+
+            view.getListeAthletes().clear();
+            int place = 1;
+            for (Map.Entry<Participant, Integer> entry : resultat.getScores().entrySet()) {
+                Participant participant = entry.getKey();
+                double score = entry.getValue();
+                AthleteTemp athleteTemp = new AthleteTemp((Athlete) participant, score, place++);
+                view.getListeAthletes().add(athleteTemp);
+            }
+        }
+    }
+
+    private void lancerEpreuve() throws SQLException {
         Epreuve epreuve = view.getComboBoxEpreuve().getValue();
         String sport = view.getComboBoxSport().getValue();
         if (epreuve != null && sport != null) {
-            // Logique pour lancer l'épreuve
             System.out.println("L'épreuve " + epreuve.getNom() + " a été lancée.");
+            remplirTableAthletes(epreuve);
         }
     }
 
@@ -47,12 +70,54 @@ public class ControleurFenetreOrga {
         Epreuve epreuve = view.getComboBoxEpreuve().getValue();
         String sport = view.getComboBoxSport().getValue();
         if (epreuve != null && sport != null) {
-            // Logique pour enregistrer l'épreuve
-            view.getListeEpreuves().add(epreuve);
             System.out.println("L'épreuve " + epreuve.getNom() + " a été enregistrée.");
             view.getComboBoxEpreuve().setValue(null);
             view.getComboBoxSport().setValue(null);
         }
     }
 
+    private void afficherInfo() {
+        Alert alert = new Alert(AlertType.INFORMATION);
+        alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+        alert.setResizable(true);
+        alert.setTitle("Information");
+        alert.setHeaderText("Fonctionnalités de l'Organisateur");
+        alert.setContentText("Sur cette page, vous pouvez:\n\n" +
+                "- Lancer une épreuve : Cette action consiste à calculer le score des participants et créer le classement pour l'épreuve donnée.\n" +
+                "- Enregistrer une épreuve : Cette action consiste à sauvegarder l'épreuve dans le tableau.");
+        alert.showAndWait();
+    }
+
+    // Classe temporaire pour afficher les résultats dans la table
+    public static class AthleteTemp {
+        private final Athlete athlete;
+        private final double score;
+        private final int place;
+
+        public AthleteTemp(Athlete athlete, double score, int place) {
+            this.athlete = athlete;
+            this.score = score;
+            this.place = place;
+        }
+
+        public String getNom() {
+            return athlete.getNom();
+        }
+
+        public String getPrenom() {
+            return athlete.getPrenom();
+        }
+
+        public String getNationalite() {
+            return athlete.getNationalite().getNom();
+        }
+
+        public double getScore() {
+            return score;
+        }
+
+        public int getPlace() {
+            return place;
+        }
+    }
 }

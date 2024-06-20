@@ -311,8 +311,6 @@ public Requete() throws SQLException, ClassNotFoundException {
 		return equipes;
 	}
 
-
-
 	public void participe(Athlete a, Epreuve e, double score) throws SQLException {
 
 		int idA = this.getidAtlhete(a);

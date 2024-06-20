@@ -1,15 +1,8 @@
 package main.java.com.cdal;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
-import java.util.LinkedHashMap;
-
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Resultat {
-
 
     private Map<Participant, Integer> scores;
     private Epreuve epreuve;
@@ -20,6 +13,7 @@ public class Resultat {
         for (Participant participant : participants) {
             this.scores.put(participant, (int) participant.participer(epreuve));
         }
+        trierResultatsParScore();
     }
 
     public Participant meilleurParticipant() {
@@ -64,7 +58,6 @@ public class Resultat {
     public String participantExiste(String nom) {
         for (Participant participant : scores.keySet()) {
             if (participant.getNom().equalsIgnoreCase(nom)) {
-
                 return "Le participant " + nom + " est bien dans la liste des résultats";
             }
         }
@@ -72,7 +65,6 @@ public class Resultat {
     }
 
     public void supprimerParticipant(String nomParticipant) {
-
         List<Participant> participantsToRemove = new ArrayList<>();
         for (Participant participant : scores.keySet()) {
             if (participant.getNom().equalsIgnoreCase(nomParticipant)) {
@@ -92,7 +84,14 @@ public class Resultat {
             sortedScores.put(entry.getKey(), entry.getValue());
         }
         scores = sortedScores;
+    }
 
+    public Map<Participant, Integer> getScores() {
+        return scores;
+    }
+
+    public Epreuve getEpreuve() {
+        return epreuve;
     }
 
     @Override
@@ -104,4 +103,3 @@ public class Resultat {
         return result.toString();
     }
 }
-
