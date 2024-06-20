@@ -313,16 +313,30 @@ public Requete() throws SQLException, ClassNotFoundException {
 
 
 
-	public void participe(Athlete a, Epreuve e, double score) throws SQLException {
+	public void participeAthlete(Athlete a, Epreuve e, double score) throws SQLException {
 
 		int idA = this.getidAtlhete(a);
 		int idEp = this.getidEpreuve(e);
-		
+
 		PreparedStatement sn = laConnexion.prepareStatement(
 				"update PARTICIPE_A set score = " + String.valueOf(score) + " where idA = " + String.valueOf(idA) + " and idEp = " + String.valueOf(idEp) + ";");
-		sn.executeUpdate();
+		sn.executeUpdate();}
+
+	public void participeEquipe(Equipe eq, Epreuve e, double score) throws SQLException {
+		
+		int idEq = this.getidEquipe(eq);
+		int idEp = this.getidEpreuve(e);
+
+		PreparedStatement sn = laConnexion.prepareStatement(
+				"update PARTICIPE_Eq set score = " + String.valueOf(score) + " where idEq = " + String.valueOf(idEq) + " and idEp = " + String.valueOf(idEp) + ";");
+		sn.executeUpdate();}
 	
-	}
+		
+
+
+
+
+
 	public Sport getSport(int idS) throws SQLException {
 		st = laConnexion.createStatement();
 		ResultSet rs = st.executeQuery("select nomS, coeffForce, coeffAgilite, coeffEndurance from SPORT where idS =" + String.valueOf(idS) + ";");
@@ -344,6 +358,73 @@ public Requete() throws SQLException, ClassNotFoundException {
 		Sport s = this.getSport(rs.getInt(2));
 		return new Epreuve(rs.getString(1), s);
 	}
+	
+	public double getScoreAthlete(Athlete a, Epreuve e) throws SQLException {
+		int idA = this.getidAtlhete(a);
+		int idEp = this.getidEpreuve(e);
+		st = laConnexion.createStatement();
+		ResultSet rs = st.executeQuery("select score from PARTICIPE_A where idA = " + String.valueOf(idA) + " and idEp = " + String.valueOf(idEp) + ";");
+		rs.next();
+		return rs.getDouble(1);
+	}
+
+	public double getScoreEquipe(Equipe eq, Epreuve e) throws SQLException {
+		int idEq = this.getidEquipe(eq);
+		int idEp = this.getidEpreuve(e);
+		st = laConnexion.createStatement();
+		ResultSet rs = st.executeQuery("select score from PARTICIPE_Eq where idEq = " + String.valueOf(idEq) + " and idEp = " + String.valueOf(idEp) + ";");
+		rs.next();
+		return rs.getDouble(1);
+	}
+	
+	public void supprimeSport(Sport s) throws SQLException {
+		int idS = this.getidSport(s);
+		PreparedStatement sn = laConnexion.prepareStatement("delete from SPORT where idS = " + String.valueOf(idS) + ";");
+		sn.executeUpdate();
+	}
+
+	public void supprimePays(Pays p) throws SQLException {
+		int idP = this.getidPays(p);
+		PreparedStatement sn = laConnexion.prepareStatement("delete from PAYS where idP = " + String.valueOf(idP) + ";");
+		sn.executeUpdate();
+	}
+
+	public void supprimeAthlete(Athlete a) throws SQLException {
+		int idA = this.getidAtlhete(a);
+		PreparedStatement sn = laConnexion.prepareStatement("delete from ATHLETE where idA = " + String.valueOf(idA) + ";");
+		sn.executeUpdate();
+	}
+
+	public void supprimeEquipe(Equipe e) throws SQLException {
+		int idEq = this.getidEquipe(e);
+		PreparedStatement sn = laConnexion.prepareStatement("delete from EQUIPE where idEq = " + String.valueOf(idEq) + ";");
+		sn.executeUpdate();
+	}
+
+	public void supprimeEpreuve(Epreuve e) throws SQLException {
+		int idEp = this.getidEpreuve(e);
+		PreparedStatement sn = laConnexion.prepareStatement("delete from EPREUVE where idEp = " + String.valueOf(idEp) + ";");
+		sn.executeUpdate();
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 	public void ajouteVisiteur(String pseudos, String mdp) throws SQLException {
 		PreparedStatement sn = laConnexion.prepareStatement(
