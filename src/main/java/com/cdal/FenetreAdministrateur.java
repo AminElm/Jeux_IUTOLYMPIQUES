@@ -83,10 +83,10 @@ public class FenetreAdministrateur extends BorderPane {
      * controleur pour charger un fichier
      */ 
     private ControleurChargerFichier fichier;
- 
 
-
-
+    public ControleurChargerFichier getFichier() {
+        return fichier;
+    }
 
 
 
@@ -96,6 +96,7 @@ public class FenetreAdministrateur extends BorderPane {
 
         this.setTop(titre());
         this.setCenter(modeAccueil());
+        this.fichier = new ControleurChargerFichier(this);
     }
 
 
@@ -139,6 +140,7 @@ public class FenetreAdministrateur extends BorderPane {
         HBox.setHgrow(rightSpacer, Priority.ALWAYS);
 
         boutonInfo.setOnAction(new ControleurInfoAccueil(this));
+        
     
         banniere.getChildren().addAll(leftBox, leftSpacer, titre, rightSpacer, rightBox);
     
@@ -200,7 +202,7 @@ public VBox modeAccueil() {
     croix.setFitHeight(20);
     this.bouttonCroix = new Button("", croix);
     grid.add(bouttonCroix, 2, 1);
-    bouttonCroix.setOnAction(new ControleurSupprimerFichier(this, fichier));
+    bouttonCroix.setOnAction(new ControleurSupprimerFichier(this));
     bouttonCroix.setStyle("-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.3), 10, 0, 0, 0);");
     this.bouttonCroix.setDisable(true);
 
@@ -208,12 +210,13 @@ public VBox modeAccueil() {
     boutonAjouterAthlete.setPadding(new Insets(12, 40, 12, 40));
     boutonAjouterAthlete.setStyle(" -fx-background-radius: 20; -fx-background-color: black; -fx-text-fill: white;");
     ajouterEffetSurvol(boutonAjouterAthlete);
-    boutonAjouterAthlete.setOnAction(new ControleurAccederFenetreAjouterAthlete(this));
+    boutonAjouterAthlete.setOnAction(e -> app.afficherFentreAjouterAthlete());
 
     boutonAjouterEpreuve = new Button("Ajouter une épreuve");
     boutonAjouterEpreuve.setPadding(new Insets(12, 33, 12, 33));
     boutonAjouterEpreuve.setStyle(" -fx-background-radius: 20; -fx-background-color: black; -fx-text-fill: white; ");
     ajouterEffetSurvol(boutonAjouterEpreuve);
+    boutonAjouterEpreuve.setOnAction(e -> app.afficherFentreAjouterEpreuve());
 
     boutonSuppAthlete = new Button("Supprimer un athlète");
     boutonSuppAthlete.setPadding(new Insets(12, 30, 12, 30));
@@ -277,3 +280,5 @@ public VBox modeAccueil() {
 
     
 }
+
+
