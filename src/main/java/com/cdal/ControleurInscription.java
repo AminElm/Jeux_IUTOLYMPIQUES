@@ -25,22 +25,22 @@ public class ControleurInscription implements EventHandler<ActionEvent>{
     
     @Override
     public void handle(ActionEvent event){
-        if(appli.getUsernameField().length() == 0){
+        if(appli.getChampUtilisateur().length() == 0){
             popNomUtilVide().showAndWait();
         } else
             try {
-                if(requete.personneExiste("'"+appli.getUsernameField()+"'")){
+                if(requete.personneExiste("'"+appli.getChampUtilisateur()+"'")){
                     popPseudoDejaUtilise().showAndWait();
                 }
-                else if(!(appli.getPasswordField().equals(appli.getPasswordField2()))){
+                else if(!(appli.getChampMotDePasse().equals(appli.getChampConfirmationMotDePasse()))){
                     popMdpDiff().showAndWait();
                 }
-                else if(appli.getPasswordField().length() < 6){
+                else if(appli.getChampMotDePasse().length() < 6){
                     popMdpToShort().showAndWait();
                 }
                 else{
                     try {
-                        requete.ajouteVisiteur("'"+appli.getUsernameField()+"'", "'"+appli.getPasswordField().hashCode()+"'");
+                        requete.ajouteVisiteur("'"+appli.getChampUtilisateur()+"'", "'"+appli.getChampMotDePasse().hashCode()+"'");
                     } catch (SQLException e) {
                         e.printStackTrace();
                     }

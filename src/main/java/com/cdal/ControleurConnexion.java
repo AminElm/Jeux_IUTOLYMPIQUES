@@ -29,27 +29,27 @@ public class ControleurConnexion implements EventHandler<ActionEvent>{
     
     @Override
     public void handle(ActionEvent event){
-        if(appli.getUsernameField().length() == 0){
+        if(appli.getChampUtilisateur().length() == 0){
             popNomUtilVide().showAndWait();
         }
-        else if(appli.getPasswordField().length() == 0){
+        else if(appli.getChampMotDePasse().length() == 0){
             popMdpUtilVide().showAndWait();
         } else
             try {
-                if(!(requete.personneExiste("'"+appli.getUsernameField()+"'"))){
+                if(!(requete.personneExiste("'"+appli.getChampUtilisateur()+"'"))){
                    popNomUtilIntrouvable().showAndWait();
                 }
-                else if(appli.getPasswordField().hashCode() != requete.mdpPersonne("'"+appli.getUsernameField()+"'")){
+                else if(appli.getChampMotDePasse().hashCode() != requete.mdpPersonne("'"+appli.getChampUtilisateur()+"'")){
                     popMdpIncorrect().showAndWait();
                 }
-                else if(appli.getPasswordField().hashCode() == requete.mdpPersonne("'"+appli.getUsernameField()+"'")){
-                    String role = requete.rolePersonne("'"+appli.getUsernameField()+"'");
+                else if(appli.getChampMotDePasse().hashCode() == requete.mdpPersonne("'"+appli.getChampUtilisateur()+"'")){
+                    String role = requete.rolePersonne("'"+appli.getChampUtilisateur()+"'");
                     try {
                         FileWriter writer = new FileWriter("src/main/java/com/cdal/idPrec.txt");
-                        if(appli.getStayConnectedCheckBox().isSelected()){
+                        if(appli.getResterConnecteCheckBox().isSelected()){
                             System.out.println("ici");
-                            writer.write(appli.getUsernameField()+"\n");
-                            writer.write(appli.getPasswordField()+"\n");
+                            writer.write(appli.getChampUtilisateur()+"\n");
+                            writer.write(appli.getChampMotDePasse()+"\n");
                             writer.close();
                         }
                         else{
@@ -66,10 +66,10 @@ public class ControleurConnexion implements EventHandler<ActionEvent>{
                             
                             break;
                         case "orga":
-                            appli.getApp().afficherOrganisateur();
+                            appli.getApplication().afficherOrganisateur();
                             break;
                         case "admin":
-                            appli.getApp().afficherAdministrateur();
+                            appli.getApplication().afficherAdministrateur();
                             break;
                         default:
                             break;

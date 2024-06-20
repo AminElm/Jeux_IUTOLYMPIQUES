@@ -1,24 +1,19 @@
+package main.java.com.cdal;
+
 import java.sql.*;
 import java.util.ArrayList;
-
-
 import java.util.List;
 import java.util.ArrayList;
-
-
 
 public class Requete {
 	ConnexionMySQL laConnexion;
 	Statement st;
-  
   
 public Requete() throws SQLException, ClassNotFoundException {
 		this.laConnexion = new ConnexionMySQL();
 		this.laConnexion.connecter();
 	}
 
-
-	
 	public void ajouteAthletAvecEquipe(Athlete a, Equipe e) throws SQLException {
 		int idA = this.getNbAthlete() + 1;
 		Pays p = a.getNationalite();
@@ -114,9 +109,6 @@ public Requete() throws SQLException, ClassNotFoundException {
 		sn.executeUpdate();
 	}
 
-
-
-
 	public int getidPays(Pays p) throws SQLException {
 		st = laConnexion.createStatement();
 		ResultSet rs = st.executeQuery("select idP from PAYS where nomP ='" + p.getNom() + "';");
@@ -154,16 +146,12 @@ public Requete() throws SQLException, ClassNotFoundException {
 		return rs.getInt(1);
 	}
 
-
 	public int getidEpreuveParEquipe(int idEq) throws SQLException {
 		st = laConnexion.createStatement();
 		ResultSet rs = st.executeQuery("select idEp from PARTICIPE_Eq where idEq =" + String.valueOf(idEq) + ";");
 		rs.next();
 		return rs.getInt(1);
 	}
-
-
-
 
 	public int getNbPays() throws SQLException {
 		st = laConnexion.createStatement();
@@ -199,8 +187,6 @@ public Requete() throws SQLException, ClassNotFoundException {
 		rs.next();
 		return rs.getInt(1);
 	}
-
-
 
 	public List<Epreuve> ToutLesEpreuves() throws SQLException {
         List<Epreuve> epreuves = new ArrayList<>();
@@ -245,8 +231,6 @@ public Requete() throws SQLException, ClassNotFoundException {
 		return equipes;
 	}
 
-
-
 	public Sport getSport(int idS) throws SQLException {
 		st = laConnexion.createStatement();
 		ResultSet rs = st.executeQuery("select nomS, coeffForce, coeffAgilite, coeffEndurance from SPORT where idS =" + String.valueOf(idS) + ";");
@@ -268,13 +252,6 @@ public Requete() throws SQLException, ClassNotFoundException {
 		Sport s = this.getSport(rs.getInt(2));
 		return new Epreuve(rs.getString(1), s);
 	}
-
-
-
-
-
-
-
 
 	public void ajouteVisiteur(String pseudos, String mdp) throws SQLException {
 		PreparedStatement sn = laConnexion.prepareStatement(

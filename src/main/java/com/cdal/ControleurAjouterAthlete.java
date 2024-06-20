@@ -13,7 +13,7 @@ public class ControleurAjouterAthlete implements EventHandler<ActionEvent> {
 
     @Override
     public void handle(ActionEvent event) {
-        app.getApp().afficherFentreAjouterAthlete();
+        app.getApplication().afficherFentreAjouterAthlete();
     }
 
     

@@ -17,7 +17,7 @@ public class ControleurChargerFichier implements EventHandler<ActionEvent> {
     public void suppFichier() {
         this.selectedFile = null;
         app.setTextFichierCharger("Charger un fichier .CSV");
-        app.activerBoutontSupp(false);
+        app.activerBoutonSuppression(false);
 
     }
 
@@ -33,7 +33,7 @@ public class ControleurChargerFichier implements EventHandler<ActionEvent> {
             System.out.println("Fichier sélectionné : " + selectedFile.getAbsolutePath());
             app.setTextFichierCharger(selectedFile.getName());
         }
-        app.activerBoutontSupp(true);
+        app.activerBoutonSuppression(true);
     }
 
 }

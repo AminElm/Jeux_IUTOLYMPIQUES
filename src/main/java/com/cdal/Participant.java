@@ -1,4 +1,5 @@
 package main.java.com.cdal;
+
 /**
  * Cette interface représente un participant aux JO
  * pouvant être une équipe ou un athlète

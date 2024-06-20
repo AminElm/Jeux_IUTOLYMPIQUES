@@ -121,6 +121,7 @@ public class FenetreAdministrateur extends BorderPane{
         ImageView imageInfo = new ImageView(new Image("file:img/info.png"));
         imageInfo.setFitHeight(30);
         imageInfo.setPreserveRatio(true);
+        boutonInfo.setOnAction(e -> application.popUpInfoAdmin());
         boutonInfo.setGraphic(imageInfo);
         boutonInfo.setStyle("-fx-background-color : black; -fx-background-radius: 50%; -fx-padding: 8;");
         boutonInfo.setOnMouseEntered(e -> boutonInfo.setStyle("-fx-background-radius: 50%; -fx-padding: 8;"));
@@ -230,13 +231,4 @@ public class FenetreAdministrateur extends BorderPane{
         this.boutonSupprimerFichier.setDisable(!activer);
     }
 
-    /**
-    pop info sur la page accueil
-    */
-    public Alert popUpInfoAccueil(){
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setContentText("Ici, vous pouvez contrôler la base de données en ajoutant ou supprimant des athlètes ou joueurs mais aussi charger votre fichier .CSV.");
-        alert.getDialogPane().setPrefSize(500,200);
-        return alert;
-    }
 }

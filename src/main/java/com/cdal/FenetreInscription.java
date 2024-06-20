@@ -60,6 +60,7 @@ public class FenetreInscription extends BorderPane{
         boutonInfo.setStyle("-fx-background-color : black; -fx-background-radius: 50%; -fx-padding: 8;");
         boutonInfo.setOnMouseEntered(e -> boutonInfo.setStyle("-fx-background-radius: 50%; -fx-padding: 8;"));
         boutonInfo.setOnMouseExited(e -> boutonInfo.setStyle("-fx-background-color : black; -fx-background-radius: 50%; -fx-padding: 8;"));
+        boutonInfo.setOnAction(e -> application.popUpInfoInscription());
 
         HBox hbBoutons = new HBox(10, boutonInfo);
         hbBoutons.setAlignment(Pos.CENTER_RIGHT);
