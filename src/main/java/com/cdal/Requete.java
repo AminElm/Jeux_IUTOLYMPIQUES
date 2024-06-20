@@ -3,6 +3,9 @@ package main.java.com.cdal;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.print.DocFlavor.STRING;
+
 import java.util.ArrayList;
 
 public class Requete {
@@ -230,6 +233,32 @@ public Requete() throws SQLException, ClassNotFoundException {
 		}
 		return equipes;
 	}
+
+	public List<Athlete> touAthletes() throws SQLException {
+        List<Athlete> athletes = new ArrayList<>();
+        Statement st = laConnexion.createStatement();
+        ResultSet rs = st.executeQuery("SELECT * FROM ATHLETE;");
+        while (rs.next()) {
+			int idP = rs.getInt("idP");
+			int idEq = rs.getInt("idEq");
+			String prenom = rs.getString("prenomA");
+			String nom = rs.getString("nomA");
+			char sexe = rs.getString("sexe").charAt(0);
+			int force = rs.getInt("forces");
+			int agilite = rs.getInt("agilite");
+			int endurance = rs.getInt("endurence");
+			boolean enEquipe = idEq != 0;
+			Pays pays = getPays(idP);
+
+
+            Athlete ath = new Athlete(nom, prenom, sexe, pays, force, agilite, endurance, enEquipe);
+            athletes.add(ath);
+        }
+        return athletes;
+    }
+
+
+
 
 	public Sport getSport(int idS) throws SQLException {
 		st = laConnexion.createStatement();
