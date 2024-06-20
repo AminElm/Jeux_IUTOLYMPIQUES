@@ -257,16 +257,75 @@ public Requete() throws SQLException, ClassNotFoundException {
         return athletes;
     }
 
+	public List<Sport> ToutLesSports() throws SQLException {
+		List<Sport> sports = new ArrayList<>();
+		st = laConnexion.createStatement();
+		ResultSet rs = st.executeQuery("select * from SPORT;");
+		while (rs.next()) {
+			String nomS = rs.getString(2);
+			double coeffForce = rs.getDouble(3);
+			double coeffAgilite = rs.getDouble(4);
+			double coeffEndurance = rs.getDouble(5);
+			sports.add(new Sport(nomS, coeffForce, coeffAgilite, coeffEndurance));
+		}
+		return sports;
+	
+	}
+
+	public List<Athlete> touAthletesParEpreuve(Epreuve e) throws SQLException {
+        List<Athlete> athletes = new ArrayList<>();
+        Statement st = laConnexion.createStatement();
+		int idEp = this.getidEpreuve(e);
+        ResultSet rs = st.executeQuery("SELECT idP,idEq,PrenomA,nomA,sexe,forces,agilite,endurence FROM ATHLETE natural join PARTICIPE_A where idEp = "+ String.valueOf(idEp)+" ;");
+        while (rs.next()) {
+			int idP = rs.getInt("idP");
+			int idEq = rs.getInt("idEq");
+			String prenom = rs.getString("prenomA");
+			String nom = rs.getString("nomA");
+			char sexe = rs.getString("sexe").charAt(0);
+			int force = rs.getInt("forces");
+			int agilite = rs.getInt("agilite");
+			int endurance = rs.getInt("endurence");
+			boolean enEquipe = idEq != 0;
+			Pays pays = getPays(idP);
+
+
+            Athlete ath = new Athlete(nom, prenom, sexe, pays, force, agilite, endurance, enEquipe);
+            athletes.add(ath);
+        }
+        return athletes;
+    }
+
+	public List<Equipe> ToutLesEquipesParEpreuve(Epreuve e) throws SQLException {
+		List<Equipe> equipes = new ArrayList<>();
+		st = laConnexion.createStatement();
+		int idEp = this.getidEpreuve(e);
+		ResultSet rs = st.executeQuery("SELECT idEq,idP,nomEq FROM EQUIPE natural join PARTICIPE_Eq where idEp = "+ String.valueOf(idEp)+" ;");
+		while (rs.next()) {
+			int idP = rs.getInt(2);
+			String nomEq = rs.getString(3);
+			Pays p = this.getPays(idP);
+			Epreuve ep = this.getEpreuve(idEp);
+			equipes.add(new Equipe(nomEq, ep, p));
+		}
+		return equipes;
+	}
 
 
 
+	public void participe(double score) throws SQLException {
+		PreparedStatement sn = laConnexion.prepareStatement(
+				"update PARTICIPE_A set score = " + String.valueOf(score) + " where idA = " + String.valueOf(idA) + " and idEp = " + String.valueOf(idEp) + ";");
+		sn.executeUpdate();
+	
+	}
 	public Sport getSport(int idS) throws SQLException {
 		st = laConnexion.createStatement();
 		ResultSet rs = st.executeQuery("select nomS, coeffForce, coeffAgilite, coeffEndurance from SPORT where idS =" + String.valueOf(idS) + ";");
 		rs.next();
 		return new Sport(rs.getString(1), rs.getDouble(2), rs.getDouble(3), rs.getDouble(4));
 	}
-	
+
 	public Pays getPays(int idP) throws SQLException {
 		st = laConnexion.createStatement();
 		ResultSet rs = st.executeQuery("select nomP from PAYS where idP =" + String.valueOf(idP) + ";");
