@@ -45,14 +45,17 @@ public class FenetreAjouterEpreuve extends BorderPane {
     private ComboBox<Sport> comboSport;
     private CheckBox checkBoxSport;
 
+    private FenetreAdministrateur appAdm;
+
 
 
     public FenetreAjouterEpreuve(Main app){
         super();
         this.app = app;
-
+        this.appAdm= new FenetreAdministrateur(app);
         this.setTop(titre());
         this.setCenter(modeAjouterEpreuve());
+        
     }
 
 
@@ -127,7 +130,7 @@ public class FenetreAjouterEpreuve extends BorderPane {
 
     public GridPane modeAjouterEpreuve(){
         this.boutonInfo.setDisable(true);
-
+        
         GridPane grid = new GridPane();
         grid.setHgap(20);
         grid.setVgap(20);
@@ -156,9 +159,11 @@ public class FenetreAjouterEpreuve extends BorderPane {
         valide.setFitWidth(20);
         valide.setFitHeight(20);
         this.creeSport = new Button("Ajouter l'épreuve",valide);
+        creeSport.setStyle(" -fx-background-radius: 20; -fx-background-color: black; -fx-text-fill: white;");
+        this.appAdm.ajouterEffetSurvol(creeSport);
+
         grid.add(creeSport, 0, 4);
         creeSport.setOnAction(new ControleurAjouterEpreuve(this));
-        creeSport.setStyle("-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.3), 10, 0, 0, 0);");
         
 
         return grid;    
