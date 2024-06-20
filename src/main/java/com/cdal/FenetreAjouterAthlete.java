@@ -1,9 +1,12 @@
 package main.java.com.cdal;
+import java.util.Optional;
+
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
@@ -45,7 +48,7 @@ public class FenetreAjouterAthlete extends BorderPane {
     private Label labelPrenom;
     private TextField TfPrenom ;
     private Label labelNationalite;
-    private TextField TfNationalite;
+    private ComboBox<Pays> comboNationalite;
     private TextField TfForce;
     private TextField TfAgilite;
     private TextField TfEndurance;
@@ -102,7 +105,11 @@ public class FenetreAjouterAthlete extends BorderPane {
         Region rightSpacer = new Region();
         HBox.setHgrow(rightSpacer, Priority.ALWAYS);
 
-        boutonMaison.setOnAction(new ControleurRetourAccueilAdmin(this));
+        boutonMaison.setOnAction(e -> {
+            Optional<ButtonType> result = popUpRetourAccueil().showAndWait();
+            if (result.isPresent() && result.get().equals(ButtonType.YES)) {
+            app.afficherAdministrateur();
+            }});
     
         banniere.getChildren().addAll(leftBox, leftSpacer, titre, rightSpacer, rightBox);
     
@@ -112,22 +119,23 @@ public class FenetreAjouterAthlete extends BorderPane {
     public Athlete getAthlete() {
         String nom = this.TfNom.getText();
         String prenom = this.TfPrenom.getText();
-        String nationalite = this.TfNationalite.getText();
+        Pays nationalite = this.comboNationalite.getValue();
         char sexe = ((RadioButton) Group.getSelectedToggle()).getText().charAt(0); 
         int force = Integer.parseInt(this.TfForce.getText());
         int agilite = Integer.parseInt(this.TfAgilite.getText());
         int endurance = Integer.parseInt(this.TfEndurance.getText());
     
-        return new Athlete(nom, prenom, sexe, new Pays(nationalite), force, agilite, endurance,false);
+        return new Athlete(nom, prenom, sexe, nationalite, force, agilite, endurance,false);
     }
 
     public void viderFiche(){
         this.TfNom.setText("");
         this.TfPrenom.setText("");
-        this.TfNationalite.setText("");
+        this.comboNationalite.setValue(null); 
         this.Group.selectToggle(null); 
         this.TfAgilite.setText("");
         this.TfEndurance.setText("");
+        this.TfForce.setText("");
     }
     
 
@@ -161,9 +169,10 @@ public class FenetreAjouterAthlete extends BorderPane {
         grid.add(titledPane, 0, 2,2,1);
 
         labelNationalite = new Label("Nationalite:");
-        TfNationalite = new TextField();
+        comboNationalite = new ComboBox<>();
+        comboNationalite.setPadding(new Insets(0,0,0,125));
         grid.add(labelNationalite, 0, 3); 
-        grid.add(TfNationalite, 1, 3); 
+        grid.add(comboNationalite, 1, 3); 
 
         Label labelForce = new Label("Force:");
         TfForce = new TextField();
@@ -204,6 +213,11 @@ public class FenetreAjouterAthlete extends BorderPane {
 
     }
 
+
+    public ComboBox<Pays> getComboBoxNationalite(){
+        return comboNationalite;
+    }
+
     public String getTfNom() {
         return TfNom.getText();
     }
@@ -212,9 +226,6 @@ public class FenetreAjouterAthlete extends BorderPane {
         return TfPrenom.getText();
     }
     
-    public String getTfNationalite() {
-        return TfNationalite.getText();
-    }
     
     public String getTfForce() {
         return TfForce.getText();
@@ -304,7 +315,13 @@ public class FenetreAjouterAthlete extends BorderPane {
     }
 
     public Alert popEnduranceVide() {
-        return new Alert(Alert.AlertType.INFORMATION, "l'endurance est vide !");
+        return new Alert(Alert.AlertType.INFORMATION, "L'endurance est vide !");
         
+    }
+
+    public Alert popAthleteAjouter() {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION, "L'athlète à bien été ajouté !");
+        viderFiche();
+        return alert;        
     }
 }
