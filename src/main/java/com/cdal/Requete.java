@@ -311,14 +311,7 @@ public Requete() throws SQLException, ClassNotFoundException {
 		return equipes;
 	}
 
-<<<<<<< HEAD
-	public void participe(Athlete a, Epreuve e, double score) throws SQLException {
-=======
-
-
 	public void participeAthlete(Athlete a, Epreuve e, double score) throws SQLException {
->>>>>>> refs/remotes/origin/main
-
 		int idA = this.getidAtlhete(a);
 		int idEp = this.getidEpreuve(e);
 
@@ -334,12 +327,6 @@ public Requete() throws SQLException, ClassNotFoundException {
 		PreparedStatement sn = laConnexion.prepareStatement(
 				"update PARTICIPE_Eq set score = " + String.valueOf(score) + " where idEq = " + String.valueOf(idEq) + " and idEp = " + String.valueOf(idEp) + ";");
 		sn.executeUpdate();}
-	
-		
-
-
-
-
 
 	public Sport getSport(int idS) throws SQLException {
 		st = laConnexion.createStatement();
@@ -411,25 +398,6 @@ public Requete() throws SQLException, ClassNotFoundException {
 		sn.executeUpdate();
 	}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 	public void ajouteVisiteur(String pseudos, String mdp) throws SQLException {
 		PreparedStatement sn = laConnexion.prepareStatement(
 				"insert into PERSONNE (pseudos, mdp, roles) values ('" + pseudos + "','" + mdp + "','visit');");
@@ -469,6 +437,4 @@ public Requete() throws SQLException, ClassNotFoundException {
 		rs.next();
 		return rs.getString(1);
 	}
-
-
 }

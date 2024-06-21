@@ -218,13 +218,13 @@ public VBox modeAccueil() {
     boutonAjouterAthlete.setPadding(new Insets(12, 40, 12, 40));
     boutonAjouterAthlete.setStyle(" -fx-background-radius: 20; -fx-background-color: black; -fx-text-fill: white;");
     ajouterEffetSurvol(boutonAjouterAthlete);
-    boutonAjouterAthlete.setOnAction(e -> app.afficherFentreAjouterAthlete());
+    boutonAjouterAthlete.setOnAction(e -> app.afficherFenetreAjouterAthlete());
 
     boutonAjouterEpreuve = new Button("Ajouter une épreuve");
     boutonAjouterEpreuve.setPadding(new Insets(12, 33, 12, 33));
     boutonAjouterEpreuve.setStyle(" -fx-background-radius: 20; -fx-background-color: black; -fx-text-fill: white; ");
     ajouterEffetSurvol(boutonAjouterEpreuve);
-    boutonAjouterEpreuve.setOnAction(e -> app.afficherFentreAjouterEpreuve());
+    boutonAjouterEpreuve.setOnAction(e -> app.afficherFenetreAjouterEpreuve());
 
     boutonSuppAthlete = new Button("Supprimer un athlète");
     boutonSuppAthlete.setPadding(new Insets(12, 30, 12, 30));

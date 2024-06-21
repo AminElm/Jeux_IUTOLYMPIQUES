@@ -45,9 +45,14 @@ public class Main extends Application{
         scene.setRoot(fenetreadministrateur);
     }
 
-    public void afficherFentreAjouterAthlete(){
+    public void afficherFenetreAjouterAthlete(){
         FenetreAjouterAthlete afficherFentreAjouterAthlete = new FenetreAjouterAthlete(this);
         scene.setRoot(afficherFentreAjouterAthlete);
+    }
+
+    public void afficherFenetreAjouterEpreuve(){
+        FenetreAjouterEpreuve afficherFentreAjouterEpreuve = new FenetreAjouterEpreuve(this);
+        scene.setRoot(afficherFentreAjouterEpreuve);
     }
 
     public void popUpInfoOrga() {
