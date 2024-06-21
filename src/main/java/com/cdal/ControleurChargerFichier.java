@@ -30,6 +30,11 @@ public class ControleurChargerFichier implements EventHandler<ActionEvent> {
             System.out.println("Fichier sélectionné : " + selectedFile.getAbsolutePath());
             app.setTextFichierCharger(selectedFile.getName());
             app.activerBoutontSupp(true);
+                        try {
+                DonnerJo donnerJo = new DonnerJo(selectedFile);
+            } catch (FileNotFoundException | ClassNotFoundException | SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 }
