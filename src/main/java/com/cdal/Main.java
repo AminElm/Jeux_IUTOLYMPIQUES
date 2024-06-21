@@ -55,9 +55,14 @@ public class Main extends Application{
         scene.setRoot(afficherFentreAjouterEpreuve);
     }
 
-    public void afficherFenetreSupprimerEpreuve(){
+   public void afficherFenetreSupprimerAthlete(){
         FenetreSupprimerAthlete afficherFentreSupprimerAthlete = new FenetreSupprimerAthlete(this);
         scene.setRoot(afficherFentreSupprimerAthlete);
+    }
+
+    public void afficherFenetreSupprimerEpreuve(){
+        FenetreSupprimerEpreuve afficherFentreSupprimerEpreuve = new FenetreSupprimerEpreuve(this);
+        scene.setRoot(afficherFentreSupprimerEpreuve);
     }
 
     
