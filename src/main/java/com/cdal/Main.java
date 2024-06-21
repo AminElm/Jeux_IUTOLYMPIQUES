@@ -55,6 +55,13 @@ public class Main extends Application{
         scene.setRoot(afficherFentreAjouterEpreuve);
     }
 
+    public void afficherFenetreSupprimerEpreuve(){
+        FenetreSupprimerAthlete afficherFentreSupprimerAthlete = new FenetreSupprimerAthlete(this);
+        scene.setRoot(afficherFentreSupprimerAthlete);
+    }
+
+    
+
     public void popUpInfoOrga() {
         Alert alert = new Alert(AlertType.INFORMATION);
         alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
