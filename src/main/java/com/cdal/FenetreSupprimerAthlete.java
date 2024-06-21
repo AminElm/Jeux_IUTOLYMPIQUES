@@ -256,7 +256,7 @@ public class FenetreSupprimerAthlete extends BorderPane {
     }
 
     public Alert popIdVide() {
-        return new Alert(Alert.AlertType.INFORMATION, "L'identifiant est vide !");
+        return new Alert(Alert.AlertType.INFORMATION, "Veuillez choisir un athlète !");
         
     }
 
