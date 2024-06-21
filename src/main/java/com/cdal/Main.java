@@ -47,6 +47,7 @@ public class Main extends Application{
 
     public void afficherVisiteur(){
         FenetreVisiteur fenetreVisiteur = new FenetreVisiteur(this);
+        new ControleurFenetreVisit(fenetreVisiteur);
         scene.setRoot(fenetreVisiteur);
     }
 
