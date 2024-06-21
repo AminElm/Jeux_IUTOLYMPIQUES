@@ -45,6 +45,7 @@ public class ControleurSupprimerAthlete implements EventHandler<ActionEvent> {
             if (result.isPresent() && result.get().equals(ButtonType.YES)) {
                 requete.supprimeAthlete(app.getComboBoxAthlete().getValue());
                 app.popAthleteSupprimer().showAndWait();
+                app.getComboBoxAthlete().getItems().clear();
                 remplirComboBoxAthlete();
             }
             } catch (SQLException e) {
