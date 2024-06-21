@@ -400,7 +400,7 @@ public Requete() throws SQLException, ClassNotFoundException {
 
 	public void ajouteVisiteur(String pseudos, String mdp) throws SQLException {
 		PreparedStatement sn = laConnexion.prepareStatement(
-				"insert into PERSONNE (pseudos, mdp, roles) values ('" + pseudos + "','" + mdp + "','visit');");
+				"insert into PERSONNE (pseudos, mdp, roles) values (" + pseudos + "," + mdp + ",'visit');");
 		sn.executeUpdate();
 	}
 
