@@ -1,0 +1,76 @@
+package test.java.com.cdal;
+
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
+import javafx.stage.Stage;
+import main.java.com.cdal.FenetreConnexion;
+import main.java.com.cdal.Main;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.testfx.framework.junit5.ApplicationTest;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+class FenetreConnexionTest extends ApplicationTest {
+
+    private FenetreConnexion fenetreConnexion;
+    private Main app;
+
+    @Override
+    public void start(Stage stage) {
+        app = new Main();
+        fenetreConnexion = new FenetreConnexion(app);
+        Scene scene = new Scene(fenetreConnexion, 800, 600);
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    @BeforeEach
+    void setUp() {
+    }
+
+    @Test
+    void testInitialisation() {
+        assertNotNull(fenetreConnexion);
+        assertNotNull(fenetreConnexion.getApplication());
+    }
+
+    @Test
+    void testConnexionFields() {
+        TextField champUtilisateur = lookup("#champUtilisateur").query();
+        PasswordField champMotDePasse = lookup("#champMotDePasse").query();
+        CheckBox resterConnecteCheckBox = lookup("#resterConnecteCheckBox").query();
+
+        assertNotNull(champUtilisateur);
+        assertNotNull(champMotDePasse);
+        assertNotNull(resterConnecteCheckBox);
+
+        clickOn(champUtilisateur).write("testUser");
+        clickOn(champMotDePasse).write("testPassword");
+        clickOn(resterConnecteCheckBox);
+
+        assertEquals("testUser", champUtilisateur.getText());
+        assertEquals("testPassword", champMotDePasse.getText());
+        assertTrue(resterConnecteCheckBox.isSelected());
+    }
+
+    @Test
+    void testBoutonConnexion() {
+        Button boutonConnexion = lookup("#boutonConnexion").queryButton();
+        assertNotNull(boutonConnexion);
+
+        clickOn(boutonConnexion);
+    }
+
+    @Test
+    void testBoutonInfo() {
+        Button boutonInfo = lookup("#boutonInfo").queryButton();
+        assertNotNull(boutonInfo);
+
+        clickOn(boutonInfo);
+
+    }
+}

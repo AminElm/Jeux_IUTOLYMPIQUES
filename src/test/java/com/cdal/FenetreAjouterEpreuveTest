@@ -1,0 +1,85 @@
+package test.java.com.cdal;
+
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.TextField;
+import javafx.stage.Stage;
+import main.java.com.cdal.FenetreAjouterEpreuve;
+import main.java.com.cdal.Main;
+import main.java.com.cdal.Sport;
+import main.java.com.cdal.Athletisme;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.testfx.framework.junit5.ApplicationTest;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+public class FenetreAjouterEpreuveTest extends ApplicationTest {
+
+    private FenetreAjouterEpreuve fenetreAjouterEpreuve;
+    private Main app;
+
+    @Override
+    public void start(Stage stage) {
+        app = new Main();
+        fenetreAjouterEpreuve = new FenetreAjouterEpreuve(app);
+        Scene scene = new Scene(fenetreAjouterEpreuve, 800, 600);
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    @BeforeEach
+    void setUp() {
+    }
+
+    @Test
+    void testInitialisation() {
+        assertNotNull(fenetreAjouterEpreuve);
+        assertNotNull(fenetreAjouterEpreuve.getApp());
+    }
+
+    @Test
+    void testAjouterEpreuveFields() {
+        TextField tfNomEpreuve = lookup("#TfNomEpreuve").query();
+        ComboBox<Sport> comboSport = lookup("#comboSport").queryComboBox();
+        CheckBox checkBoxSport = lookup("#checkBoxSport").query();
+
+        assertNotNull(tfNomEpreuve);
+        assertNotNull(comboSport);
+        assertNotNull(checkBoxSport);
+
+        clickOn(tfNomEpreuve).write("100m Sprint");
+        clickOn(comboSport).clickOn("Athletisme");
+        clickOn(checkBoxSport);
+
+        assertEquals("100m Sprint", tfNomEpreuve.getText());
+        assertEquals("Athletisme", comboSport.getValue().getNom());
+        assertTrue(checkBoxSport.isSelected());
+    }
+
+    @Test
+    void testBoutonAjouterEpreuve() {
+        Button boutonAjouter = lookup("#creeSport").queryButton();
+        assertNotNull(boutonAjouter);
+
+        clickOn(boutonAjouter);
+    }
+
+    @Test
+    void testBoutonMaison() {
+        Button boutonMaison = lookup("#boutonMaison").queryButton();
+        assertNotNull(boutonMaison);
+
+        clickOn(boutonMaison);
+    }
+
+    @Test
+    void testPopUpInfoAccueil() {
+        Button boutonInfo = lookup("#boutonInfo").queryButton();
+        assertNotNull(boutonInfo);
+
+        clickOn(boutonInfo);
+    }
+}

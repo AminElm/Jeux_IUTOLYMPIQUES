@@ -1,0 +1,114 @@
+package test.java.com.cdal;
+
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
+import javafx.scene.control.ComboBox;
+import javafx.stage.Stage;
+import main.java.com.cdal.FenetreAjouterAthlete;
+import main.java.com.cdal.Main;
+import main.java.com.cdal.Pays;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.testfx.framework.junit5.ApplicationTest;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+public class FenetreAjouterAthleteTest extends ApplicationTest {
+
+    private FenetreAjouterAthlete fenetreAjouterAthlete;
+    private Main app;
+
+    @Override
+    public void start(Stage stage) {
+        app = new Main();
+        fenetreAjouterAthlete = new FenetreAjouterAthlete(app);
+        Scene scene = new Scene(fenetreAjouterAthlete, 800, 600);
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    @BeforeEach
+    void setUp() {
+        // Setup can be done in the start method for JavaFX application context
+    }
+
+    @Test
+    void testInitialisation() {
+        assertNotNull(fenetreAjouterAthlete);
+        assertNotNull(fenetreAjouterAthlete.getApp());
+    }
+
+    @Test
+    void testAjouterAthleteFields() {
+        TextField tfNom = lookup("#TfNom").query();
+        TextField tfPrenom = lookup("#TfPrenom").query();
+        TextField tfForce = lookup("#TfForce").query();
+        TextField tfAgilite = lookup("#TfAgilite").query();
+        TextField tfEndurance = lookup("#TfEndurance").query();
+        ComboBox<Pays> comboNationalite = lookup("#comboNationalite").queryComboBox();
+
+        assertNotNull(tfNom);
+        assertNotNull(tfPrenom);
+        assertNotNull(tfForce);
+        assertNotNull(tfAgilite);
+        assertNotNull(tfEndurance);
+        assertNotNull(comboNationalite);
+
+        // Simulate entering data
+        clickOn(tfNom).write("Dupont");
+        clickOn(tfPrenom).write("Jean");
+        clickOn(tfForce).write("10");
+        clickOn(tfAgilite).write("8");
+        clickOn(tfEndurance).write("7");
+
+        // Verify the entered data
+        assertEquals("Dupont", tfNom.getText());
+        assertEquals("Jean", tfPrenom.getText());
+        assertEquals("10", tfForce.getText());
+        assertEquals("8", tfAgilite.getText());
+        assertEquals("7", tfEndurance.getText());
+    }
+
+    @Test
+    void testBoutonAjouterAthlete() {
+        Button boutonAjouter = lookup("#creeAthlete").queryButton();
+        assertNotNull(boutonAjouter);
+
+        // Simulate clicking the button
+        clickOn(boutonAjouter);
+
+        // Verify the alert dialog is shown
+        // This can be done using a combination of TestFX and JavaFX dialogs
+        // Example:
+        // verifyThat(".alert", isVisible());
+    }
+
+    @Test
+    void testBoutonMaison() {
+        Button boutonMaison = lookup("#boutonMaison").queryButton();
+        assertNotNull(boutonMaison);
+
+        // Simulate clicking the button
+        clickOn(boutonMaison);
+
+        // Verify the confirmation dialog is shown
+        // This can be done using a combination of TestFX and JavaFX dialogs
+        // Example:
+        // verifyThat(".alert", isVisible());
+    }
+
+    @Test
+    void testPopUpInfoAccueil() {
+        Button boutonInfo = lookup("#boutonInfo").queryButton();
+        assertNotNull(boutonInfo);
+
+        // Simulate clicking the button
+        clickOn(boutonInfo);
+
+        // Verify the alert dialog is shown
+        // This can be done using a combination of TestFX and JavaFX dialogs
+        // Example:
+        // verifyThat(".alert", isVisible());
+    }
+}

@@ -1,0 +1,37 @@
+package test.java.com.cdal;
+
+import main.java.com.cdal.Natation;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+public class NatationTest {
+
+    private Natation natation;
+
+    @BeforeEach
+    void setUp() {
+        natation = new Natation();
+    }
+
+    @Test
+    void testGetNom() {
+        assertEquals("Natation", natation.getNom());
+    }
+
+    @Test
+    void testGetCoeffForce() {
+        assertEquals(0.2, natation.getCoeffForce());
+    }
+
+    @Test
+    void testGetCoeffAgilite() {
+        assertEquals(0.2, natation.getCoeffAgilite());
+    }
+
+    @Test
+    void testGetCoeffEndurance() {
+        assertEquals(0.6, natation.getCoeffEndurance());
+    }
+}

@@ -1,0 +1,85 @@
+package test.java.com.cdal;
+
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
+import javafx.stage.Stage;
+import main.java.com.cdal.FenetreInscription;
+import main.java.com.cdal.Main;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.testfx.framework.junit5.ApplicationTest;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+public class FenetreInscriptionTest extends ApplicationTest {
+
+    private FenetreInscription fenetreInscription;
+    private Main app;
+
+    @Override
+    public void start(Stage stage) {
+        app = new Main();
+        fenetreInscription = new FenetreInscription(app);
+        Scene scene = new Scene(fenetreInscription, 800, 600);
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    @BeforeEach
+    void setUp() {
+    }
+
+    @Test
+    void testInitialisation() {
+        assertNotNull(fenetreInscription);
+        assertNotNull(fenetreInscription.getChampUtilisateur());
+        assertNotNull(fenetreInscription.getChampMotDePasse());
+        assertNotNull(fenetreInscription.getChampConfirmationMotDePasse());
+    }
+
+    @Test
+    void testInscriptionFields() {
+        TextField champUtilisateur = lookup("#champUtilisateur").query();
+        PasswordField champMotDePasse = lookup("#champMotDePasse").query();
+        PasswordField champConfirmationMotDePasse = lookup("#champConfirmationMotDePasse").query();
+
+        assertNotNull(champUtilisateur);
+        assertNotNull(champMotDePasse);
+        assertNotNull(champConfirmationMotDePasse);
+
+        clickOn(champUtilisateur).write("testUser");
+        clickOn(champMotDePasse).write("testPassword");
+        clickOn(champConfirmationMotDePasse).write("testPassword");
+
+        assertEquals("testUser", champUtilisateur.getText());
+        assertEquals("testPassword", champMotDePasse.getText());
+        assertEquals("testPassword", champConfirmationMotDePasse.getText());
+    }
+
+    @Test
+    void testBoutonInscription() {
+        Button boutonInscription = lookup("#boutonInscription").queryButton();
+        assertNotNull(boutonInscription);
+
+        clickOn(boutonInscription);
+    }
+
+    @Test
+    void testBoutonInfo() {
+        Button boutonInfo = lookup("#boutonInfo").queryButton();
+        assertNotNull(boutonInfo);
+
+        clickOn(boutonInfo);
+    }
+
+    @Test
+    void testLabelCreerCompte() {
+        Label labelCreerCompte = lookup("#labelCreerCompte").query();
+        assertNotNull(labelCreerCompte);
+
+        clickOn(labelCreerCompte);
+    }
+}

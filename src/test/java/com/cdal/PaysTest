@@ -1,0 +1,60 @@
+package test.java.com.cdal;
+
+import main.java.com.cdal.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+public class PaysTest {
+
+    private Pays pays;
+    private Athlete athlete;
+    private Equipe equipe;
+
+    @BeforeEach
+    void setUp() {
+        pays = new Pays("France");
+        Epreuve epreuve = new Epreuve("100m", new Athletisme(), false);
+        athlete = new Athlete("Dupont", "Jean", 'M', pays, 10, 8, 7, false, epreuve);
+        equipe = new Equipe("Les Bleus", epreuve, pays);
+    }
+
+    @Test
+    void testGetNom() {
+        assertEquals("France", pays.getNom());
+    }
+
+    @Test
+    void testGetParticipants() {
+        assertTrue(pays.getParticipants().isEmpty());
+    }
+
+    @Test
+    void testAjouterParticipant() {
+        pays.ajouterParticipant(athlete);
+        List<Participant> participants = pays.getParticipants();
+        assertEquals(1, participants.size());
+        assertTrue(participants.contains(athlete));
+
+        pays.ajouterParticipant(equipe);
+        assertEquals(2, participants.size());
+        assertTrue(participants.contains(equipe));
+    }
+
+    @Test
+    void testToString() {
+        assertEquals("France", pays.toString());
+    }
+
+    @Test
+    void testEquals() {
+        Pays paysDuplicate = new Pays("France");
+        assertTrue(pays.equals(paysDuplicate));
+
+        Pays paysDifferent = new Pays("Germany");
+        assertFalse(pays.equals(paysDifferent));
+    }
+}

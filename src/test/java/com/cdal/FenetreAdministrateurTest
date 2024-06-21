@@ -1,0 +1,79 @@
+package test.java.com.cdal;
+
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.stage.Stage;
+import main.java.com.cdal.FenetreAdministrateur;
+import main.java.com.cdal.Main;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.testfx.framework.junit5.ApplicationTest;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+public class FenetreAdministrateurTest extends ApplicationTest {
+
+    private FenetreAdministrateur fenetreAdministrateur;
+    private Main app;
+
+    @Override
+    public void start(Stage stage) {
+        app = new Main();
+        fenetreAdministrateur = new FenetreAdministrateur(app);
+        Scene scene = new Scene(fenetreAdministrateur, 800, 600);
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    @BeforeEach
+    void setUp() {}
+
+    @Test
+    void testInitialisation() {
+        assertNotNull(fenetreAdministrateur);
+        assertNotNull(fenetreAdministrateur.getApp());
+        assertNotNull(fenetreAdministrateur.getFichier());
+    }
+
+    @Test
+    void testBoutonDeconnexion() {
+        Button boutonDeconnexion = lookup("#boutonDeconnexion").queryButton();
+        assertNotNull(boutonDeconnexion);
+        clickOn(boutonDeconnexion);
+    }
+
+    @Test
+    void testBoutonAjouterAthlete() {
+        Button boutonAjouterAthlete = lookup("#boutonAjouterAthlete").queryButton();
+        assertNotNull(boutonAjouterAthlete);
+        clickOn(boutonAjouterAthlete);
+    }
+
+    @Test
+    void testBoutonAjouterEpreuve() {
+        Button boutonAjouterEpreuve = lookup("#boutonAjouterEpreuve").queryButton();
+        assertNotNull(boutonAjouterEpreuve);
+        clickOn(boutonAjouterEpreuve);
+    }
+
+    @Test
+    void testBoutonSuppAthlete() {
+        Button boutonSuppAthlete = lookup("#boutonSuppAthlete").queryButton();
+        assertNotNull(boutonSuppAthlete);
+        clickOn(boutonSuppAthlete);
+    }
+
+    @Test
+    void testBoutonSuppEpreuve() {
+        Button boutonSuppEpreuve = lookup("#boutonSuppEpreuve").queryButton();
+        assertNotNull(boutonSuppEpreuve);
+        clickOn(boutonSuppEpreuve);
+    }
+
+    @Test
+    void testPopUpInfoAccueil() {
+        Button boutonInfo = lookup("#boutonInfo").queryButton();
+        assertNotNull(boutonInfo);
+        clickOn(boutonInfo);
+    }
+}
