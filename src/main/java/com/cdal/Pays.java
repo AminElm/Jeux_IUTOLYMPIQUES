@@ -61,7 +61,7 @@ public class Pays {
 
     @Override
     public String toString(){
-        return "Le pays " + this.nom;
+        return this.nom;
     }
 
     /**
