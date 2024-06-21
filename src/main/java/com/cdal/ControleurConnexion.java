@@ -63,7 +63,7 @@ public class ControleurConnexion implements EventHandler<ActionEvent>{
                     }
                     switch (role) {
                         case "visit":
-                            
+                            appli.getApplication().afficherVisiteur();
                             break;
                         case "orga":
                             appli.getApplication().afficherOrganisateur();

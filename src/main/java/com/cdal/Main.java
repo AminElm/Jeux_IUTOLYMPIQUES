@@ -45,6 +45,11 @@ public class Main extends Application{
         scene.setRoot(fenetreadministrateur);
     }
 
+    public void afficherVisiteur(){
+        FenetreVisiteur fenetreVisiteur = new FenetreVisiteur(this);
+        scene.setRoot(fenetreVisiteur);
+    }
+
     public void afficherFenetreAjouterAthlete(){
         FenetreAjouterAthlete afficherFentreAjouterAthlete = new FenetreAjouterAthlete(this);
         scene.setRoot(afficherFentreAjouterAthlete);
