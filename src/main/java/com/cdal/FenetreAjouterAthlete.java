@@ -13,13 +13,17 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
 import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 
 public class FenetreAjouterAthlete extends BorderPane {
         /**
@@ -38,10 +42,16 @@ public class FenetreAjouterAthlete extends BorderPane {
 
     private Main app;
 
-        /**
+    /**
      * boutton pour cree l'athlete
      */ 
     private Button creeAthlete;
+
+    /**
+     * le bouton de déconnexion
+     */
+    private Button boutonDeconnexion;
+
 
     private Label labelNom;
     private TextField TfNom;
@@ -60,62 +70,125 @@ public class FenetreAjouterAthlete extends BorderPane {
         super();
         this.app = app;
         this.appAdm = new FenetreAdministrateur(app);
-        this.setTop(titre());
+        this.setTop(creerEnTete());
         this.setCenter(modeAjouterAthlete());
     }
 
+    private StackPane creerEnTete() {
+        StackPane panneauEntete = new StackPane();
+        panneauEntete.setPadding(new Insets(15, 12, 15, 12));
+        panneauEntete.setStyle("-fx-background-color: #f0f0f0;");
 
-    
-    private HBox titre() {
-        HBox banniere = new HBox();
-        banniere.setMinHeight(80);
-        banniere.setAlignment(Pos.CENTER);
-        banniere.setPadding(new Insets(20, 10, 20, 10));
-        banniere.setStyle("-fx-border-color: transparent transparent black transparent; -fx-border-width: 0 0 1 0;");
+        ImageView imageEnTete = new ImageView(new Image("file:img/iutjo.png"));
+        imageEnTete.setFitHeight(50);
+        imageEnTete.setPreserveRatio(true);
 
-    
-        ImageView iutImg = new ImageView("file:img/iutjo.png");
-        iutImg.setFitWidth(180);
-        iutImg.setFitHeight(47);
-;
-    
-        titre = new Label("   Ajouter un athlète");
-        titre.setStyle("-fx-font-size: 50px; -fx-text-fill: black;");
-        titre.setPadding(new Insets(0, 80, 0, 0));
+        Label titre = new Label("Administrateur");
+        titre.setFont(new Font("System Bold", 24));
+        titre.setTextFill(Color.BLACK);
 
-        
-        ImageView homeImage = new ImageView("file:img/home.png");
-        ImageView infoImage = new ImageView("file:img/info.png");
-        homeImage.setFitWidth(30);
-        homeImage.setFitHeight(30);
-        infoImage.setFitWidth(30);
-        infoImage.setFitHeight(30);
+        boutonDeconnexion = new Button();
+        ImageView imageDeconnexion = new ImageView(new Image("file:img/logout.png"));
+        imageDeconnexion.setFitHeight(30);
+        imageDeconnexion.setPreserveRatio(true);
+        boutonDeconnexion.setGraphic(imageDeconnexion);
+        boutonDeconnexion.setOnAction(e -> app.afficherConnexion());
+        boutonDeconnexion.setStyle("-fx-background-color : black; -fx-background-radius: 50%; -fx-padding: 8;");
+        boutonDeconnexion.setOnMouseEntered(e -> boutonDeconnexion
+                .setStyle("-fx-background-color: lightgrey; -fx-background-radius: 50%; -fx-padding: 8;"));
+        boutonDeconnexion.setOnMouseExited(e -> boutonDeconnexion
+                .setStyle("-fx-background-color : black; -fx-background-radius: 50%; -fx-padding: 8;"));
 
-        this.boutonMaison = new Button("",homeImage);
-        this.boutonInfo = new Button("",infoImage);
-    
-        HBox leftBox = new HBox(iutImg);
-        leftBox.setAlignment(Pos.CENTER_LEFT);
-    
-        HBox rightBox = new HBox(10, boutonMaison, boutonInfo);
-        rightBox.setAlignment(Pos.CENTER_RIGHT);
-    
-        Region leftSpacer = new Region();
-        HBox.setHgrow(leftSpacer, Priority.ALWAYS);
-    
-        Region rightSpacer = new Region();
-        HBox.setHgrow(rightSpacer, Priority.ALWAYS);
+        boutonInfo = new Button();
+        ImageView imageInfo = new ImageView(new Image("file:img/info.png"));
+        imageInfo.setFitHeight(30);
+        imageInfo.setPreserveRatio(true);
+        boutonInfo.setGraphic(imageInfo);
+        boutonInfo.setStyle("-fx-background-color : black; -fx-background-radius: 50%; -fx-padding: 8;");
+        boutonInfo.setOnMouseEntered(e -> boutonInfo
+                .setStyle("-fx-background-color: lightgrey; -fx-background-radius: 50%; -fx-padding: 8;"));
+        boutonInfo.setOnMouseExited(e -> boutonInfo
+                .setStyle("-fx-background-color : black; -fx-background-radius: 50%; -fx-padding: 8;"));
+
+        boutonMaison = new Button();
+        ImageView imageMaison = new ImageView(new Image("file:img/home.png"));
+        imageMaison.setFitHeight(30);
+        imageMaison.setPreserveRatio(true);
+        boutonMaison.setGraphic(imageMaison);
+        boutonMaison.setStyle("-fx-background-color : black; -fx-background-radius: 50%; -fx-padding: 8;");
+        boutonMaison.setOnMouseEntered(e -> boutonMaison
+                .setStyle("-fx-background-color: lightgrey; -fx-background-radius: 50%; -fx-padding: 8;"));
+        boutonMaison.setOnMouseExited(e -> boutonMaison.
+                setStyle("-fx-background-color : black; -fx-background-radius: 50%; -fx-padding: 8;"));
+
+        HBox hbBoutons = new HBox(10,boutonMaison, boutonDeconnexion, boutonInfo);
+        hbBoutons.setAlignment(Pos.CENTER_RIGHT);
+        StackPane.setAlignment(imageEnTete, Pos.CENTER_LEFT);
+        StackPane.setAlignment(titre, Pos.CENTER);
+        StackPane.setAlignment(hbBoutons, Pos.CENTER_RIGHT);
+        panneauEntete.getChildren().addAll(imageEnTete, titre, hbBoutons);
 
         boutonMaison.setOnAction(e -> {
             Optional<ButtonType> result = popUpRetourAccueil().showAndWait();
             if (result.isPresent() && result.get().equals(ButtonType.YES)) {
-            app.afficherAdministrateur();
-            }});
-    
-        banniere.getChildren().addAll(leftBox, leftSpacer, titre, rightSpacer, rightBox);
-    
-        return banniere;
+                app.afficherAdministrateur();
+            }
+        });
+
+        return panneauEntete;
     }
+    
+    
+//     private HBox titre() {
+//         HBox banniere = new HBox();
+//         banniere.setMinHeight(80);
+//         banniere.setAlignment(Pos.CENTER);
+//         banniere.setPadding(new Insets(20, 10, 20, 10));
+//         banniere.setStyle("-fx-border-color: transparent transparent black transparent; -fx-border-width: 0 0 1 0;");
+
+    
+//         ImageView iutImg = new ImageView("file:img/iutjo.png");
+//         iutImg.setFitWidth(180);
+//         iutImg.setFitHeight(47);
+// ;
+    
+//         titre = new Label("   Ajouter un athlète");
+//         titre.setStyle("-fx-font-size: 50px; -fx-text-fill: black;");
+//         titre.setPadding(new Insets(0, 80, 0, 0));
+
+        
+//         ImageView homeImage = new ImageView("file:img/home.png");
+//         ImageView infoImage = new ImageView("file:img/info.png");
+//         homeImage.setFitWidth(30);
+//         homeImage.setFitHeight(30);
+//         infoImage.setFitWidth(30);
+//         infoImage.setFitHeight(30);
+
+//         this.boutonMaison = new Button("",homeImage);
+//         this.boutonInfo = new Button("",infoImage);
+    
+//         HBox leftBox = new HBox(iutImg);
+//         leftBox.setAlignment(Pos.CENTER_LEFT);
+    
+//         HBox rightBox = new HBox(10, boutonMaison, boutonInfo);
+//         rightBox.setAlignment(Pos.CENTER_RIGHT);
+    
+//         Region leftSpacer = new Region();
+//         HBox.setHgrow(leftSpacer, Priority.ALWAYS);
+    
+//         Region rightSpacer = new Region();
+//         HBox.setHgrow(rightSpacer, Priority.ALWAYS);
+
+//         boutonMaison.setOnAction(e -> {
+//             Optional<ButtonType> result = popUpRetourAccueil().showAndWait();
+//             if (result.isPresent() && result.get().equals(ButtonType.YES)) {
+//             app.afficherAdministrateur();
+//             }});
+    
+//         banniere.getChildren().addAll(leftBox, leftSpacer, titre, rightSpacer, rightBox);
+    
+//         return banniere;
+//     }
 
     public Athlete getAthlete() {
         String nom = this.TfNom.getText();
