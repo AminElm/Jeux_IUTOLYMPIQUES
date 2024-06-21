@@ -14,8 +14,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -33,10 +31,7 @@ public class FenetreAdministrateur extends BorderPane {
      */
     private Main app;
 
-    /**
-     * le titre
-     */
-    private Label titre;
+  
 
     /**
      * le bouton info
@@ -47,7 +42,6 @@ public class FenetreAdministrateur extends BorderPane {
      */    
     private Button boutonMaison;
 
-    private Button bouttonLogout;
 
     /**
      * le bouton pour ajouter un athlete
@@ -232,11 +226,14 @@ public VBox modeAccueil() {
     boutonSuppAthlete = new Button("Supprimer un athlète");
     boutonSuppAthlete.setPadding(new Insets(12, 30, 12, 30));
     boutonSuppAthlete.setStyle(" -fx-background-radius: 20; -fx-background-color: black; -fx-text-fill: white; ");
+    boutonSuppAthlete.setOnAction(e -> app.afficherFenetreSupprimerAthlete());
     ajouterEffetSurvol(boutonSuppAthlete);
 
     boutonSuppEpreuve = new Button("Supprimer une épreuve");
     boutonSuppEpreuve.setPadding(new Insets(12, 23, 12, 23));
     boutonSuppEpreuve.setStyle(" -fx-background-radius: 20; -fx-background-color: black; -fx-text-fill: white;");
+    boutonSuppEpreuve.setOnAction(e -> app.afficherFenetreSupprimerEpreuve());
+
     ajouterEffetSurvol(boutonSuppEpreuve);
 
     VBox hboxButton = new VBox(40);
