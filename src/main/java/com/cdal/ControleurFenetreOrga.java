@@ -5,8 +5,8 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.Region;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
 public class ControleurFenetreOrga {
 
@@ -44,23 +44,33 @@ public class ControleurFenetreOrga {
     private void remplirTableAthletes(Epreuve epreuve) throws SQLException {
         if (epreuve != null) {
             List<Athlete> athletes = requete.touAthletesParEpreuve(epreuve);
-            Resultat resultat = new Resultat(new ArrayList<>(athletes), epreuve);
+            List<Athlete> athleteResults = new ArrayList<>();
 
-            view.getListeAthletes().clear();
-            int place = 1;
-            for (Map.Entry<Participant, Integer> entry : resultat.getScores().entrySet()) {
-                Participant participant = entry.getKey();
-                double score = entry.getValue();
-                AthleteTemp athleteTemp = new AthleteTemp((Athlete) participant, score, place++);
-                view.getListeAthletes().add(athleteTemp);
+            // Calcul des scores
+            for (Athlete athlete : athletes) {
+                double score = athlete.participer(epreuve);
+                athlete.setScore(score); // Stockage temporaire du score
+                athleteResults.add(athlete);
             }
+
+            // Tri par score
+            Collections.sort(athleteResults, (a1, a2) -> Double.compare(a2.getScore(), a1.getScore()));
+
+            // Attribution des places
+            int place = 1;
+            for (Athlete athlete : athleteResults) {
+                athlete.setPlace(place++);
+            }
+
+            // Mise à jour de la liste observable
+            view.getListeAthletes().clear();
+            view.getListeAthletes().addAll(athleteResults);
         }
     }
 
     private void lancerEpreuve() throws SQLException {
         Epreuve epreuve = view.getComboBoxEpreuve().getValue();
-        String sport = view.getComboBoxSport().getValue();
-        if (epreuve != null && sport != null) {
+        if (epreuve != null) {
             System.out.println("L'épreuve " + epreuve.getNom() + " a été lancée.");
             remplirTableAthletes(epreuve);
         }
@@ -68,8 +78,7 @@ public class ControleurFenetreOrga {
 
     private void enregistrerEpreuve() {
         Epreuve epreuve = view.getComboBoxEpreuve().getValue();
-        String sport = view.getComboBoxSport().getValue();
-        if (epreuve != null && sport != null) {
+        if (epreuve != null) {
             System.out.println("L'épreuve " + epreuve.getNom() + " a été enregistrée.");
             view.getComboBoxEpreuve().setValue(null);
             view.getComboBoxSport().setValue(null);
@@ -86,38 +95,5 @@ public class ControleurFenetreOrga {
                 "- Lancer une épreuve : Cette action consiste à calculer le score des participants et créer le classement pour l'épreuve donnée.\n" +
                 "- Enregistrer une épreuve : Cette action consiste à sauvegarder l'épreuve dans le tableau.");
         alert.showAndWait();
-    }
-
-    // Classe temporaire pour afficher les résultats dans la table
-    public static class AthleteTemp {
-        private final Athlete athlete;
-        private final double score;
-        private final int place;
-
-        public AthleteTemp(Athlete athlete, double score, int place) {
-            this.athlete = athlete;
-            this.score = score;
-            this.place = place;
-        }
-
-        public String getNom() {
-            return athlete.getNom();
-        }
-
-        public String getPrenom() {
-            return athlete.getPrenom();
-        }
-
-        public String getNationalite() {
-            return athlete.getNationalite().getNom();
-        }
-
-        public double getScore() {
-            return score;
-        }
-
-        public int getPlace() {
-            return place;
-        }
     }
 }

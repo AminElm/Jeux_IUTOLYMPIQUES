@@ -22,8 +22,8 @@ public class FenetreOrganisateur extends BorderPane {
     private ComboBox<String> comboBoxSport;
     private Button boutonLancerEpreuve;
     private Button boutonEnregistrer;
-    private TableView<ControleurFenetreOrga.AthleteTemp> tableAthlete;
-    private ObservableList<ControleurFenetreOrga.AthleteTemp> listeAthletes;
+    private TableView<Athlete> tableAthlete;
+    private ObservableList<Athlete> listeAthletes;
     private Button boutonInfo;
     private Button boutonDeconnexion;
 
@@ -161,59 +161,32 @@ public class FenetreOrganisateur extends BorderPane {
         tableAthlete.setPrefHeight(500);
         VBox.setVgrow(tableAthlete, Priority.ALWAYS);
 
-        TableColumn<ControleurFenetreOrga.AthleteTemp, String> colonnePays = new TableColumn<>("Pays");
+        TableColumn<Athlete, String> colonnePays = new TableColumn<>("Pays");
         colonnePays.setCellValueFactory(new PropertyValueFactory<>("nationalite"));
         colonnePays.setPrefWidth(150);
         colonnePays.setMinWidth(100);
 
-        TableColumn<ControleurFenetreOrga.AthleteTemp, String> colonneNom = new TableColumn<>("Nom");
+        TableColumn<Athlete, String> colonneNom = new TableColumn<>("Nom");
         colonneNom.setCellValueFactory(new PropertyValueFactory<>("nom"));
         colonneNom.setPrefWidth(150);
         colonneNom.setMinWidth(100);
 
-        TableColumn<ControleurFenetreOrga.AthleteTemp, String> colonnePrenom = new TableColumn<>("Prénom");
+        TableColumn<Athlete, String> colonnePrenom = new TableColumn<>("Prénom");
         colonnePrenom.setCellValueFactory(new PropertyValueFactory<>("prenom"));
         colonnePrenom.setPrefWidth(150);
         colonnePrenom.setMinWidth(100);
 
-        TableColumn<ControleurFenetreOrga.AthleteTemp, Double> colonneScore = new TableColumn<>("Score");
+        TableColumn<Athlete, Double> colonneScore = new TableColumn<>("Score");
         colonneScore.setCellValueFactory(new PropertyValueFactory<>("score"));
         colonneScore.setPrefWidth(150);
         colonneScore.setMinWidth(100);
 
-        TableColumn<ControleurFenetreOrga.AthleteTemp, Integer> colonnePlace = new TableColumn<>("Place");
+        TableColumn<Athlete, Integer> colonnePlace = new TableColumn<>("Place");
         colonnePlace.setCellValueFactory(new PropertyValueFactory<>("place"));
         colonnePlace.setPrefWidth(150);
         colonnePlace.setMinWidth(100);
 
-        TableColumn<ControleurFenetreOrga.AthleteTemp, Void> colonneAction = new TableColumn<>("Action");
-        colonneAction.setPrefWidth(100);
-        colonneAction.setMinWidth(80);
-        colonneAction.setCellFactory(param -> new TableCell<>() {
-            private final Button boutonSupprimer = new Button();
-            private final ImageView imageView = new ImageView(new Image("file:img/delete.png", 16, 16, true, true));
-
-            {
-                boutonSupprimer.setGraphic(imageView);
-                boutonSupprimer.setStyle("-fx-background-color: transparent;");
-                boutonSupprimer.setOnAction(event -> {
-                    ControleurFenetreOrga.AthleteTemp athlete = getTableView().getItems().get(getIndex());
-                    getTableView().getItems().remove(athlete);
-                });
-            }
-
-            @Override
-            protected void updateItem(Void item, boolean empty) {
-                super.updateItem(item, empty);
-                if (empty) {
-                    setGraphic(null);
-                } else {
-                    setGraphic(boutonSupprimer);
-                }
-            }
-        });
-
-        tableAthlete.getColumns().addAll(colonnePays, colonneNom, colonnePrenom, colonneScore, colonnePlace, colonneAction);
+        tableAthlete.getColumns().addAll(colonnePays, colonneNom, colonnePrenom, colonneScore, colonnePlace);
         contenu.getChildren().addAll(hBoxFormulaire, tableAthlete);
 
         return contenu;
@@ -235,11 +208,11 @@ public class FenetreOrganisateur extends BorderPane {
         return boutonEnregistrer;
     }
 
-    public TableView<ControleurFenetreOrga.AthleteTemp> getTableAthlete() {
+    public TableView<Athlete> getTableAthlete() {
         return tableAthlete;
     }
 
-    public ObservableList<ControleurFenetreOrga.AthleteTemp> getListeAthletes() {
+    public ObservableList<Athlete> getListeAthletes() {
         return listeAthletes;
     }
 

@@ -71,8 +71,6 @@ public class Main extends Application{
         scene.setRoot(afficherFentreSupprimerEpreuve);
     }
 
-    
-
     public void popUpInfoOrga() {
         Alert alert = new Alert(AlertType.INFORMATION);
         alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
